@@ -36,7 +36,7 @@ const styles = {
     'margin-top': '15px',
   },
   social: {
-    'padding': '15px 0',
+    'padding-bottom': '15px',
     display: 'flex',
     'justify-content': 'space-between',
     'font-size': '25px',

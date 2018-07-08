@@ -6,7 +6,7 @@ import Header from '../Header';
 import SignIn from './SignIn';
 import Content from '../Content';
 
-class Home extends Component {
+class Login extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -29,8 +29,8 @@ const styles = {
   },
 };
 
-export default injectSheet(styles)(Home);
+export default injectSheet(styles)(Login);
 
-Home.propTypes = {
+Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };

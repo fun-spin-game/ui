@@ -37,7 +37,7 @@ class SignUp extends Component {
             <Button type="primary" htmlType="submit">
               Sign Up
             </Button>
-            Or <a href="">Log In</a>
+            Or <a href="">Log In</a> with existed user
           </FormItem>
         </Form>
       </FormContainer>
