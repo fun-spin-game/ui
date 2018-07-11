@@ -8,14 +8,14 @@ const SubMenu = Menu.SubMenu;
 
 class SideMenu extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, className, collapsed, onCollapse } = this.props;
 
     return (
       <Sider
-        className={classes.sider}
+        className={`${classes.sider} ${className}`}
         collapsible
-        collapsed={false}
-        onCollapse={() => {}}
+        collapsed={collapsed}
+        onCollapse={onCollapse}
       >
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1" className={classes.menuFirstItem}>
@@ -57,11 +57,24 @@ const styles = {
   },
   menuFirstItem: {
     'margin-top': '0 !important',
-  }
+  },
+  logo: {
+    width: '150px',
+    height: '31px',
+    background: 'rgba(255,255,255,.2)',
+    margin: '16px',
+  },
 };
 
 export default injectSheet(styles)(SideMenu);
 
+SideMenu.defaultProps = {
+  className: '',
+};
+
 SideMenu.propTypes = {
   classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  collapsed: PropTypes.bool.isRequired,
+  onCollapse: PropTypes.func.isRequired,
 };

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { Layout } from 'antd';
+import { Layout, Icon } from 'antd';
+import Coins from '../common/Coins';
 
 const { Header: HeaderAnt } = Layout;
 
@@ -11,6 +12,18 @@ class Header extends Component {
     return (
       <HeaderAnt className={classes.header}>
         <div className={classes.logo} />
+        <div className={classes.rightBlock}>
+          <span className={classes.balance}>
+            Balance:
+            <span className={classes.balanceAmount}>
+              <Coins /> 250 <a>
+              <Icon type="plus-circle-o" />
+              </a>
+            </span>
+          </span>
+          <span className={classes.userName}>Vadym Bondarenko</span>
+          <Icon type="logout" className={classes.logOut} />
+        </div>
       </HeaderAnt>
     );
   }
@@ -18,15 +31,36 @@ class Header extends Component {
 
 const styles = {
   header: {
-    padding: '0 25px'
+    overflow: 'auto',
+    width: '100%',
+    position: 'fixed',
+    'z-index': 10,
+    color: 'white',
   },
   logo: {
+    float: 'left',
     width: '150px',
     height: '31px',
     background: 'rgba(255,255,255,.2)',
-    margin: '16px 28px 16px 0',
-    float: 'left'
+    margin: '16px',
+    'margin-left': '-25px',
   },
+  logOut: {
+    'font-size': '25px',
+    'cursor': 'pointer',
+    'vertical-align': 'sub',
+    'padding-left': '10px'
+  },
+  rightBlock: {
+    float: 'right'
+  },
+  userName: {
+    'padding-left': '50px',
+  },
+  balanceAmount: {
+    'font-size': '20px',
+    'margin-left': '10px'
+  }
 };
 
 Header.propTypes = {

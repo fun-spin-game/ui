@@ -7,9 +7,9 @@ const { Content: ContentAnt } = Layout;
 
 class Content extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, className } = this.props;
     return (
-      <ContentAnt className={classes.contentWrapper}>
+      <ContentAnt className={`${classes.contentWrapper} ${className}`}>
         <div className={classes.content}>
           {this.props.children}
         </div>
@@ -32,7 +32,12 @@ const styles = {
 
 export default injectSheet(styles)(Content);
 
+Content.defaultProps = {
+  className: '',
+};
+
 Content.propTypes = {
   children: PropTypes.node.isRequired,
   classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
 };

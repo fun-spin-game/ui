@@ -1,102 +1,140 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import Slider from "react-slick";
-import { Layout, Button, Icon } from 'antd';
+import { Layout } from 'antd';
 import Content from '../Content';
 import Header from '../Header';
 import SideMenu from '../SideMenu';
-import { greenColor, lightGreenColor } from '../variables';
-import SliderItem from './SliderItem';
-
+import GameItem from './GameItem';
 
 class Main extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      collapsedSideMenu: true,
+    }
+  }
+  onCollapseSideMenu() {
+    this.setState({ collapsedSideMenu: !this.state.collapsedSideMenu });
+  }
+  getGameItemResponse({ relatedActions, gameUserId }) {
+    return relatedActions.find(relatedAction2 => {
+      return relatedAction2.action === 'GAME_ITEM_RESPONSE' &&
+      relatedAction2.gameUser.id === gameUserId
+    })
+  }
+  isInProgress({ relatedActions }) {
+    return !!relatedActions.find(relatedAction => {
+      return relatedAction.action === 'GAME_ITEM_REQUEST' &&
+      !this.getGameItemResponse({ relatedActions, gameUserId: relatedAction.gameUser.id });
+    });
+  }
+  getAmountOfTries({ relatedActions }) {
+    return relatedActions.filter(relatedAction => {
+      return !!this.getGameItemResponse({ relatedActions, gameUserId: relatedAction.gameUser.id });
+    }).length / 2
+  }
   render() {
     const { classes } = this.props;
-
-    const settings = {
-      arrows: true,
-      infinite: true,
-      speed: 700,
-      slidesToShow: 5,
-      slidesToScroll: 1,
-      draggable: true,
-      swipeToSlide: true,
-      swipe: true,
-      centerMode: true,
-      centerPadding: '60px',
-      focusOnSelect: true
-    };
+    const { collapsedSideMenu } = this.state;
 
     return (
       <Layout className="layout">
-        <Header />
+        <SideMenu
+          className={classes.sideMenu}
+          collapsed={collapsedSideMenu}
+          onCollapse={() => { this.onCollapseSideMenu() }}
+        />
         <Layout>
-          <SideMenu />
-          <Content>
-            <div className={`${classes.content} ${classes.sliderContainer}`}>
-              <Slider {...settings}>
-                {
-                  [
-                    {
-                      prize: 20,
-                      bid: 20,
-                      percentage: 50,
-                    },
-                    {
-                      prize: 100,
-                      bid: 150,
-                      percentage: 75,
-                    },
-                    {
-                      prize: 5,
-                      bid: 2,
-                      percentage: 15,
-                    },
-                    {
-                      prize: 20,
-                      bid: 20,
-                      percentage: 70,
-                    },
-                    {
-                      prize: 100,
-                      bid: 150,
-                      percentage: 90,
-                    },
-                    {
-                      prize: 5,
-                      bid: 2,
-                      percentage: 30,
-                    },
-                    {
-                      prize: 20,
-                      bid: 20,
-                      percentage: 50,
-                    },
-                    {
-                      prize: 100,
-                      bid: 150,
-                      percentage: 10,
-                    },
-                    {
-                      prize: 5,
-                      bid: 2,
-                      percentage: 45,
+          <Header />
+          <Content className={`${classes.content} ${collapsedSideMenu ? 'collapsed-mode': ''}`}>
+            <h1 className={classes.title}>Lots:</h1>
+            <div className={`${classes.gameItems}`}>
+              {
+                [
+                  {
+                    prize: 20,
+                    bid: 20,
+                    percentage: 50,
+                    tries: 7,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 100,
+                    bid: 150,
+                    percentage: 75,
+                    tries: 2,
+                    maxTries: 10,
+                    player: {
+
                     }
-                  ]
-                  .map(({ prize, bid, percentage }, index) => {
-                    return (
-                      <SliderItem key={index} prize={prize} bid={bid} percentage={percentage} />
-                    );
-                  })
-                }
-              </Slider>
-              <div className={classes.playButtonBlock}>
-                <Icon type="caret-up" className={classes.playButtonArrow} />
-                <div className={classes.playButtonContainer}>
-                  <Button type="primary" size="large" className={classes.playButton}>Play!</Button>
-                </div>
-              </div>
+                  },
+                  {
+                    prize: 5,
+                    bid: 2,
+                    percentage: 15,
+                    tries: 6,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 20,
+                    bid: 20,
+                    percentage: 70,
+                    tries: 3,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 100,
+                    bid: 150,
+                    percentage: 90,
+                    tries: 2,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 5,
+                    bid: 2,
+                    percentage: 30,
+                    tries: 0,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 20,
+                    bid: 20,
+                    percentage: 50,
+                    tries: 9,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 100,
+                    bid: 150,
+                    percentage: 10,
+                    tries: 2,
+                    maxTries: 10,
+                  },
+                  {
+                    prize: 5,
+                    bid: 2,
+                    percentage: 45,
+                    tries: 4,
+                    maxTries: 10,
+                  }
+                ]
+                .map(({ prize, bid, percentage, tries, maxTries, player }, index) => {
+                  return (
+                    <GameItem
+                      id={index}
+                      key={index}
+                      prize={prize}
+                      bid={bid}
+                      percentage={percentage}
+                      tries={tries}
+                      maxTries={maxTries}
+                      player={player}
+                    />
+                  );
+                })
+              }
             </div>
           </Content>
         </Layout>
@@ -106,11 +144,11 @@ class Main extends Component {
 }
 
 const styles = {
-  sliderContainer: {
+  gameItems: {
     'padding-top': 50,
-    '& .slick-center .slider-content': {
-      transform: 'scale(1.3)',
-    }
+    display: 'flex',
+    'flex-wrap': 'wrap',
+    'justify-content': 'space-evenly',
   },
   percentage: {
     'margin-bottom': '5px',
@@ -118,26 +156,23 @@ const styles = {
   menuFirstItem: {
     'margin-top': '0 !important',
   },
-  playButtonBlock: {
-    display: 'flex',
-    'justify-content': 'center',
-    'flex-direction': 'column',
-    'margin-top': '5px'
+  content: {
+    'margin-left': 200,
+    'margin-top': 64,
+    transition: 'all .2s',
+    '&.collapsed-mode': {
+      'margin-left': 80,
+    },
   },
-  playButtonArrow: {
-    'font-size': '50px',
-    color: greenColor,
+  sideMenu: {
+    overflow: 'auto',
+    height: '100vh',
+    position: 'fixed',
+    left: 0,
+    top: 64,
   },
-  playButton: {
-    background: greenColor,
-    'border-color': greenColor,
-    '&:hover, &:focus, &:active': {
-      background: lightGreenColor,
-      'border-color': lightGreenColor
-    }
-  },
-  playButtonContainer: {
-    'text-align': 'center'
+  title: {
+    'text-align': 'center',
   }
 };
 

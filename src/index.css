@@ -3,20 +3,3 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
-.slick-arrow {
-  width: 35px;
-  height: 35px;
-}
-.slick-arrow:before {
-  color: #1890ff;
-  font-size: 35px;
-}
-
-.slick-prev {
-  left: -40px;
-}
-
-.slick-next {
-  right: -40px;
-}
