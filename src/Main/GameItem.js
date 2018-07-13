@@ -3,17 +3,27 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
-import { blueColor, greenColor, lightGreenColor } from '../variables';
+import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 
 class GameItem extends Component {
   getColor(value) {
     const hue = ((value) * 120).toString(10);
-    return ["hsl(",hue,",100%,50%)"].join("");
+    return ["hsl(",hue,",85%,50%)"].join("");
   }
 
   render() {
-    const { classes, percentage, prize, bid, maxTries, tries, inProgress, won, lost } = this.props;
+    const {
+      classes,
+      percentage,
+      prize,
+      bid,
+      maxTries,
+      tries,
+      inProgress,
+      won,
+      lost,
+    } = this.props;
 
     const triesPercentage = tries / maxTries * 100;
     return (
@@ -25,24 +35,28 @@ class GameItem extends Component {
             <span className={classes.percentage}>{percentage}% <small>chance</small></span>
             <div>
               <Circle
-                  percent={percentage}
-                  gapDegree={90}
-                  gapPosition="bottom"
-                  strokeWidth="7"
-                  strokeLinecap="round"
-                  strokeColor={this.getColor(percentage / 100)}
-                  trailWidth="7"
-                  trailColor="#f5f5f5"
-                  style={{
-                    width: 150,
-                    height: 150
-                  }}
-                />
+                className={classes.circle}
+                percent={percentage}
+                gapDegree={95}
+                gapPosition="bottom"
+                strokeWidth="7"
+                strokeLinecap="round"
+                strokeColor={this.getColor(percentage / 100)}
+                trailWidth="7"
+                trailColor="#f5f5f5"
+                style={{
+                  width: 150,
+                  height: 150
+                }}
+              />
             </div>
             <span
               className={`prize ${classes.prize} ${won ? 'fadeOutUp animated' : ''}`}
             >
               {prize} <Coins />
+            </span>
+            <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
+              Your risk: {bid} <Coins />
             </span>
             <div className={classes.playButtonContainer}>
               <Button type="primary" className={`play-button ${classes.playButton}`}>Play!</Button>
@@ -52,7 +66,6 @@ class GameItem extends Component {
                <div>{tries}/{maxTries} <span className={`info`}><small>users tried</small></span></div>
                <div>{(inProgress || won || lost) && 'In progress...'}</div>
             </div>
-            <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>Your bid: {bid} <Coins /></span>
           </div>
           {
             (inProgress || won || lost) &&
@@ -101,7 +114,7 @@ const styles = {
       },
     },
     '&.lost': {
-      color: 'red',
+      color: redColor,
     },
   },
   gameItemContent: {
@@ -121,6 +134,7 @@ const styles = {
     top: 70,
     'font-size': '25px',
     'z-index': 1,
+    'white-space': 'nowrap'
   },
   bid: {
     transition: 'all 300ms ease',
@@ -134,14 +148,14 @@ const styles = {
     position: 'absolute',
     left: 0,
     right: 0,
-    top: 145,
+    top: 140,
     'font-size': '14px',
   },
   playButtonContainer: {
     position: 'absolute',
     left: 0,
     right: 0,
-    top: 75,
+    top: 80,
   },
   playButton: {
     visibility: 'hidden',
@@ -171,7 +185,9 @@ const styles = {
     'animation-duration': '.5s',
     'animation-iteration-count': '2',
   },
-  'info': ''
+  'circle': {
+    opacity: 1
+  }
 };
 
 export default injectSheet(styles)(GameItem);
@@ -179,6 +195,7 @@ export default injectSheet(styles)(GameItem);
 GameItem.defaultProps = {
   inProgress: false,
   success: false,
+  binary: true,
 };
 
 GameItem.propTypes = {
@@ -188,8 +205,8 @@ GameItem.propTypes = {
   lost: PropTypes.bool,
   id: PropTypes.number.isRequired,
   percentage: PropTypes.number.isRequired,
-  prize: PropTypes.number.isRequired,
-  bid: PropTypes.number.isRequired,
+  prize: PropTypes.number,
+  bid: PropTypes.number,
   tries: PropTypes.number.isRequired,
   maxTries: PropTypes.number.isRequired,
 };

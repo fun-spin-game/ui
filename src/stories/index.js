@@ -12,6 +12,7 @@ import Login from '../Login';
 import SignUp from '../Login/SignUp';
 import Main from '../Main';
 import GameItem from '../Main/GameItem';
+import Roulette from '../Main/Roulette';
 
 storiesOf('Login', module).add('Not authenticated', () => <Login />);
 storiesOf('SignUp', module).add('default', () => <SignUp />);
@@ -78,3 +79,44 @@ storiesOf('GameItem', module)
     lost={true}
   />
 )});
+
+const resultItems = Array.apply(null, Array(110)).map(() => ({
+  type: Math.random() >= 0.7 ? 'win' : 'lose',
+}));
+const coeficients = Array.apply(null, Array(11)).map(function (x, i) { return i; });
+const coeficientItems = [].concat(
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+  coeficients,
+).sort(() => {
+  return Math.random() > 0.5 ? 1 : -1;
+});
+
+storiesOf('Roulette', module)
+.add('default', () => { return (
+  <Roulette
+    resultItems={resultItems}
+    coeficientItems={coeficientItems}
+    resultGoToIndex={100}
+    coeficientsGoToIndex={100}
+    onClickPlay={() => {}}
+  />
+)})
+.add('inProgress', () => { return (
+  <Roulette
+    resultItems={resultItems}
+    coeficientItems={coeficientItems}
+    resultGoToIndex={100}
+    coeficientsGoToIndex={100}
+    onClickPlay={() => {}}
+    inProgress={true}
+  />
+)})
