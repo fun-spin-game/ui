@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { storiesOf, addDecorator } from '@storybook/react';
+import { boolean, number, withKnobs } from '@storybook/addon-knobs';
 import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,12 +8,14 @@ import "animate.css/animate.css";
 import "../index.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-import { storiesOf } from '@storybook/react';
+
 import Login from '../Login';
 import SignUp from '../Login/SignUp';
 import Main from '../Main';
 import GameItem from '../Main/GameItem';
 import Roulette from '../Main/Roulette';
+
+addDecorator(withKnobs);
 
 storiesOf('Login', module).add('Not authenticated', () => <Login />);
 storiesOf('SignUp', module).add('default', () => <SignUp />);
@@ -80,43 +83,15 @@ storiesOf('GameItem', module)
   />
 )});
 
-const resultItems = Array.apply(null, Array(110)).map(() => ({
-  type: Math.random() >= 0.7 ? 'win' : 'lose',
-}));
-const coeficients = Array.apply(null, Array(11)).map(function (x, i) { return i; });
-const coeficientItems = [].concat(
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-  coeficients,
-).sort(() => {
-  return Math.random() > 0.5 ? 1 : -1;
-});
 
-storiesOf('Roulette', module)
-.add('default', () => { return (
+storiesOf('Roulette', module).add('default', () => { return (
   <Roulette
-    resultItems={resultItems}
-    coeficientItems={coeficientItems}
-    resultGoToIndex={100}
-    coeficientsGoToIndex={100}
+    prize={100}
+    bid={100}
+    result={boolean('win', true)}
+    coeficient={number('coeficient', 0.1)}
+    chancePercentage={70}
     onClickPlay={() => {}}
-  />
-)})
-.add('inProgress', () => { return (
-  <Roulette
-    resultItems={resultItems}
-    coeficientItems={coeficientItems}
-    resultGoToIndex={100}
-    coeficientsGoToIndex={100}
-    onClickPlay={() => {}}
-    inProgress={true}
+    inProgress={boolean('inProgress', false)}
   />
 )})
