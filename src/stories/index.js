@@ -17,24 +17,110 @@ import Roulette from '../Main/Roulette';
 
 addDecorator(withKnobs);
 
+const GAMES = [
+  {
+    id: 1,
+    prize: 20,
+    bid: 20,
+    percentage: 50,
+    maxAttempts: 10,
+  },
+  {
+    prize: 100,
+    bid: 150,
+    percentage: 75,
+    maxAttempts: 10,
+    player: {
+
+    }
+  },
+  {
+    prize: 5,
+    bid: 2,
+    percentage: 15,
+    maxAttempts: 10,
+  },
+  {
+    prize: 20,
+    bid: 20,
+    percentage: 70,
+    maxAttempts: 10,
+  },
+  {
+    prize: 100,
+    bid: 150,
+    percentage: 90,
+    maxAttempts: 10,
+  },
+  {
+    prize: 5,
+    bid: 2,
+    percentage: 30,
+    maxAttempts: 10,
+  },
+  {
+    prize: 20,
+    bid: 20,
+    percentage: 50,
+    maxAttempts: 10,
+  },
+  {
+    prize: 100,
+    bid: 150,
+    percentage: 10,
+    maxAttempts: 10,
+  },
+  {
+    prize: 5,
+    bid: 2,
+    percentage: 45,
+    maxAttempts: 10,
+  }
+];
+
+const GAMES_ACTIONS = [
+  {
+    id: 1,
+    action: 'GAME_SPIN_REQUEST',
+    gameUser: {
+      id: 1,
+      user: {
+        avatarLink: 'http://ololo.com',
+      },
+    },
+    payload: {
+      gameId: 1,
+    }
+  },
+  {
+    action: 'GAME_SPIN_RESPONSE',
+    gameUser: {
+      id: 1,
+      user: {
+        avatarLink: 'http://ololo.com',
+      },
+    },
+    payload: {
+      gameId: 1,
+      requestGameActionId: 1,
+    }
+  },
+];
+
 storiesOf('Login', module).add('Not authenticated', () => <Login />);
 storiesOf('SignUp', module).add('default', () => <SignUp />);
-storiesOf('Main', module).add('default', () => { return (
+storiesOf('Main', module)
+.add('default', () => { return (
   <Main
-    relatedActions={[
-      {
-        action: 'GAME_ITEM_REQUEST',
-        gameUser: {
-          id: 1,
-          user: {
-            avatarLink: 'http://ololo.com',
-          },
-        },
-        payload: {
-          gameItemId: 1,
-        }
-      }
-    ]}
+    games={GAMES}
+    actions={GAMES_ACTIONS}
+  />
+)})
+.add('withActiveGame', () => { return (
+  <Main
+    games={GAMES}
+    actions={GAMES_ACTIONS}
+    activeGameId={1}
   />
 )});
 storiesOf('GameItem', module)
@@ -45,7 +131,7 @@ storiesOf('GameItem', module)
     prize={100}
     bid={10}
     tries={2}
-    maxTries={10}
+    maxAttempts={10}
     inProgress={false}
   />
 )})
@@ -56,7 +142,7 @@ storiesOf('GameItem', module)
     prize={100}
     bid={10}
     tries={2}
-    maxTries={10}
+    maxAttempts={10}
     inProgress={true}
   />
 )})
@@ -67,7 +153,7 @@ storiesOf('GameItem', module)
     prize={100}
     bid={10}
     tries={2}
-    maxTries={10}
+    maxAttempts={10}
     won={true}
   />
 )})
@@ -78,7 +164,7 @@ storiesOf('GameItem', module)
     prize={100}
     bid={10}
     tries={2}
-    maxTries={10}
+    maxAttempts={10}
     lost={true}
   />
 )});
@@ -90,8 +176,9 @@ storiesOf('Roulette', module).add('default', () => { return (
     bid={100}
     result={boolean('win', true)}
     coeficient={number('coeficient', 0.1)}
-    chancePercentage={70}
+    chancePercentage={50}
     onClickPlay={() => {}}
+    onSpinFinished={() => {}}
     inProgress={boolean('inProgress', false)}
   />
 )})

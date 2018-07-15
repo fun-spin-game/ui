@@ -41,7 +41,8 @@ const styles = {
       padding: '25px 0',
       background: background,
       'font-size': '35px',
-      'margin-left': '1px'
+      'border-left': '1px solid white',
+      'border-right': '1px solid white'
     };
   },
 };

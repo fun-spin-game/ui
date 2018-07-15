@@ -18,14 +18,14 @@ class GameItem extends Component {
       percentage,
       prize,
       bid,
-      maxTries,
-      tries,
+      maxAttempts,
+      amountOfAttempts,
       inProgress,
       won,
       lost,
     } = this.props;
 
-    const triesPercentage = tries / maxTries * 100;
+    const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
     return (
       <div className={`${classes.gameItem} ${inProgress ? 'in-progress': ''} ${won ? 'won': ''} ${lost ? 'lost': ''}`}>
         <div className={`game-item-content ${classes.gameItemContent}`}>
@@ -61,9 +61,9 @@ class GameItem extends Component {
             <div className={classes.playButtonContainer}>
               <Button type="primary" className={`play-button ${classes.playButton}`}>Play!</Button>
             </div>
-            <div className={classes.tries}>
-               <Line percent={triesPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
-               <div>{tries}/{maxTries} <span className={`info`}><small>users tried</small></span></div>
+            <div className={classes.amountOfAttempts}>
+               <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
+               <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts</small></span></div>
                <div>{(inProgress || won || lost) && 'In progress...'}</div>
             </div>
           </div>
@@ -144,7 +144,7 @@ const styles = {
     top: 125,
     'font-size': 10,
   },
-  tries: {
+  amountOfAttempts: {
     position: 'absolute',
     left: 0,
     right: 0,
@@ -207,6 +207,6 @@ GameItem.propTypes = {
   percentage: PropTypes.number.isRequired,
   prize: PropTypes.number,
   bid: PropTypes.number,
-  tries: PropTypes.number.isRequired,
-  maxTries: PropTypes.number.isRequired,
+  amountOfAttempts: PropTypes.number.isRequired,
+  maxAttempts: PropTypes.number.isRequired,
 };

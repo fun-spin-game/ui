@@ -6,10 +6,11 @@ import _ from 'lodash';
 import { Icon, Button } from 'antd';
 import RouletteItem from './RouletteItem';
 import Coins from '../common/Coins'
-import { greenColor, lightGreenColor } from '../variables'
+import { greenColor, redColor, lightGreenColor } from '../variables'
 
 const BASE_SLIDER_SPEED = 8000;
 const SLIDERS_SPEED_DIFFERENCE = 4000;
+const REWARD_ANIMATION_DURATION = 3000;
 const SETTINGS = {
  infinite: true,
  slidesToShow: 7,
@@ -58,7 +59,22 @@ class Roulette extends Component {
     return randomIndex != -1 ? randomIndex : backIndex;
   }
   getRandomOffset() {
-    return _.random(-0.4, 0.4, true);
+    return _.random(-0.45, 0.45, true);
+  }
+  setFinishTimeouts() {
+    const showRewardDelay = BASE_SLIDER_SPEED + SLIDERS_SPEED_DIFFERENCE;
+    setTimeout(() => {
+      this.setState({
+        showReward: true,
+      })
+    }, showRewardDelay);
+
+    setTimeout(() => {
+      this.setState({
+        showReward: false,
+      });
+      this.props.onSpinFinished();
+    }, showRewardDelay + REWARD_ANIMATION_DURATION);
   }
   play() {
     const { result, coeficient } = this.props;
@@ -70,20 +86,7 @@ class Roulette extends Component {
       this.resultSlider.slickGoTo(resultIndex + this.getRandomOffset());
       this.coefficientSlider.slickGoTo(coeficientIndex + this.getRandomOffset());
     });
-
-    const showRewardDelay = BASE_SLIDER_SPEED + SLIDERS_SPEED_DIFFERENCE;
-
-    setTimeout(() => {
-      this.setState({
-        showReward: true,
-      })
-    }, showRewardDelay);
-
-    setTimeout(() => {
-      this.setState({
-        showReward: false,
-      })
-    }, showRewardDelay + 2000);
+    this.setFinishTimeouts();
   }
   render() {
     const {
@@ -93,7 +96,7 @@ class Roulette extends Component {
       result,
       coeficient,
       prize,
-      bid
+      bid,
     } = this.props;
     const {
       showReward,
@@ -143,12 +146,12 @@ class Roulette extends Component {
           size="large"
           disabled={inProgress}
           className={`play-button ${classes.playButton}`}
-          onClick={() => {onClickPlay()}}
+          onClick={() => {onClickPlay(); this.play();}}
         >
           Play!
         </Button>
         {
-          showReward && <div className={`${classes.reward} animated fadeOutUp`}>
+          showReward && <div className={`${classes.reward} ${result ? 'win' : 'lose'} animated fadeOutUp`}>
             {result ? `+${prize * coeficient}` : `-${bid * coeficient}`} <Coins />
           </div>
         }
@@ -166,7 +169,7 @@ const styles = {
     },
   },
   slider: {
-    'box-shadow': '0px 0px 10px 0px rgba(0,0,0,0.75)'
+    'box-shadow': '0px 0px 10px 0px rgba(0,0,0,0.75)',
   },
   coefficientSlider: {
     'margin-top': 20,
@@ -174,26 +177,40 @@ const styles = {
   arrows: {
     'font-size': '50px',
     display: 'flex',
-    'flex-direction': 'column'
+    'flex-direction': 'column',
+    color: 'white',
   },
   playButton: {
+    'box-shadow': '0px 0px 10px 0px rgba(0,0,0,0.75)',
+    height: 'auto',
+    'font-size': '30px',
+    padding: '10px 20px',
     background: greenColor,
     'border-color': greenColor,
-    '&:hover, &:focus, &:active': {
+    '&:hover, &:active, &:focus': {
       background: lightGreenColor,
-      'border-color': lightGreenColor
+      'border-color': lightGreenColor,
     }
   },
   reward: {
-    'font-size': '50px',
-    'animation-duration': '3s',
-  }
+    'z-index': -2,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    'font-size': '60px',
+    'animation-duration': REWARD_ANIMATION_DURATION,
+    '&.win': {
+      color: greenColor,
+    },
+    '&.lose': {
+      color: redColor,
+    }
+  },
 };
 
 export default injectSheet(styles)(Roulette);
 
 Roulette.defaultProps = {
-  width: 'auto',
   inProgress: false
 };
 
@@ -201,9 +218,10 @@ Roulette.propTypes = {
   classes: PropTypes.object.isRequired,
   result: PropTypes.bool.isRequired,
   coeficient: PropTypes.number.isRequired,
+  chancePercentage: PropTypes.number.isRequired,
   prize: PropTypes.number.isRequired,
   bid: PropTypes.number.isRequired,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onClickPlay: PropTypes.func.isRequired,
+  onSpinFinished: PropTypes.func.isRequired,
   inProgress: PropTypes.bool,
 };

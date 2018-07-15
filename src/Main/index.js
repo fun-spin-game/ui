@@ -6,6 +6,7 @@ import Content from '../Content';
 import Header from '../Header';
 import SideMenu from '../SideMenu';
 import GameItem from './GameItem';
+import Game from './Game';
 
 class Main extends Component {
   constructor() {
@@ -18,26 +19,30 @@ class Main extends Component {
   onCollapseSideMenu() {
     this.setState({ collapsedSideMenu: !this.state.collapsedSideMenu });
   }
-  getGameItemResponse({ relatedActions, gameUserId }) {
-    return relatedActions.find(relatedAction2 => {
-      return relatedAction2.action === 'GAME_ITEM_RESPONSE' &&
-      relatedAction2.gameUser.id === gameUserId
+  getGameItemResponse({ requestGameActionId, actions }) {
+    return actions.find(targetAction => {
+      return targetAction.action === 'GAME_SPIN_RESPONSE' &&
+      targetAction.payload.requestGameActionId === requestGameActionId
     })
   }
-  isInProgress({ relatedActions }) {
-    return !!relatedActions.find(relatedAction => {
-      return relatedAction.action === 'GAME_ITEM_REQUEST' &&
-      !this.getGameItemResponse({ relatedActions, gameUserId: relatedAction.gameUser.id });
+  isInProgress({ actions, gameId }) {
+    return !!actions.find(action => {
+      return action.action === 'GAME_SPIN_REQUEST' &&
+      gameId === action.gameId &&
+      !this.getGameItemResponse({ actions, requestGameActionId: action.id });
     });
   }
-  getAmountOfTries({ relatedActions }) {
-    return relatedActions.filter(relatedAction => {
-      return !!this.getGameItemResponse({ relatedActions, gameUserId: relatedAction.gameUser.id });
-    }).length / 2
+  getAmountOfAttempts({ gameId, actions }) {
+    return actions.filter(action => {
+      return action.gameId === gameId &&
+      action.action === 'GAME_SPIN_REQUEST' &&
+      !!this.getGameItemResponse({ actions, requestGameActionId: action.id });
+    }).length
   }
   render() {
-    const { classes } = this.props;
+    const { classes, games, activeGameId, actions } = this.props;
     const { collapsedSideMenu } = this.state;
+    const activeGame = games.find(({ id }) => id === activeGameId);
 
     return (
       <Layout className="layout">
@@ -52,75 +57,7 @@ class Main extends Component {
             <h1 className={classes.title}>Lots:</h1>
             <div className={`${classes.gameItems}`}>
               {
-                [
-                  {
-                    prize: 20,
-                    bid: 20,
-                    percentage: 50,
-                    tries: 7,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 100,
-                    bid: 150,
-                    percentage: 75,
-                    tries: 2,
-                    maxTries: 10,
-                    player: {
-
-                    }
-                  },
-                  {
-                    prize: 5,
-                    bid: 2,
-                    percentage: 15,
-                    tries: 6,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 20,
-                    bid: 20,
-                    percentage: 70,
-                    tries: 3,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 100,
-                    bid: 150,
-                    percentage: 90,
-                    tries: 2,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 5,
-                    bid: 2,
-                    percentage: 30,
-                    tries: 0,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 20,
-                    bid: 20,
-                    percentage: 50,
-                    tries: 9,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 100,
-                    bid: 150,
-                    percentage: 10,
-                    tries: 2,
-                    maxTries: 10,
-                  },
-                  {
-                    prize: 5,
-                    bid: 2,
-                    percentage: 45,
-                    tries: 4,
-                    maxTries: 10,
-                  }
-                ]
-                .map(({ prize, bid, percentage, tries, maxTries, player }, index) => {
+                games.map(({ prize, bid, percentage, maxAttempts, player, id: gameId }, index) => {
                   return (
                     <GameItem
                       id={index}
@@ -128,14 +65,22 @@ class Main extends Component {
                       prize={prize}
                       bid={bid}
                       percentage={percentage}
-                      tries={tries}
-                      maxTries={maxTries}
+                      amountOfAttempts={this.getAmountOfAttempts({ gameId, actions })}
+                      maxAttempts={maxAttempts}
                       player={player}
                     />
                   );
                 })
               }
             </div>
+            {
+              activeGame && (
+                <Game
+                  activeGame={activeGame}
+                  amountOfAttempts={this.getAmountOfAttempts({ gameId: activeGame.gameId, actions })}
+                />
+              )
+            }
           </Content>
         </Layout>
       </Layout>
@@ -178,6 +123,13 @@ const styles = {
 
 export default injectSheet(styles)(Main);
 
+Main.defaultProps = {
+  activeGameId: null,
+};
+
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
+  activeGameId: PropTypes.number,
+  actions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  games: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
