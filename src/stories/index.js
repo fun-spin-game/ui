@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
-import { boolean, number, withKnobs } from '@storybook/addon-knobs';
+import { boolean, withKnobs } from '@storybook/addon-knobs';
 import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -174,8 +174,6 @@ storiesOf('Roulette', module).add('default', () => { return (
   <Roulette
     prize={100}
     bid={100}
-    result={boolean('win', true)}
-    coeficient={number('coeficient', 0.1)}
     chancePercentage={50}
     onClickPlay={() => {}}
     onSpinFinished={() => {}}

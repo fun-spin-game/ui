@@ -24,8 +24,6 @@ class Game extends Component {
         <div className={classes.chancePercentage}>{percentage}% chance to win!</div>
         <Roulette
           prize={prize}
-          result={true}
-          coeficient={0.2}
           chancePercentage={percentage}
           bid={bid}
           onClickPlay={() => {}}
@@ -63,7 +61,7 @@ const styles = {
     'text-align': 'center',
     'font-size': '18px',
     color: 'white',
-    'margin-top': 100,
+    'margin-top': 60,
     'margin-right': 0,
     padding: '0 50px',
     '& .ant-progress-outer': {

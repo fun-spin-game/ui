@@ -25,9 +25,20 @@ class Roulette extends Component {
   constructor({ chancePercentage }) {
     super();
     const coeficients = Array.apply(null, Array(11)).map(function (x, i) { return i / 10; });
+
     this.state = {
+      result: null,
+      coeficient: null,
       showReward: false,
-      resultItems: Array.apply(null, Array(110)).map(() => Math.random() >= chancePercentage / 100),
+      resultItems: Array.apply(null, Array(chancePercentage)).map(() =>{
+        return true;
+      })
+      .concat(Array.apply(null, Array(100 - chancePercentage)).map(() =>{
+        return false;
+      }))
+      .sort(() => {
+        return Math.random() >= 0.5 ? 1 : -1;
+      }),
       coeficientItems: [].concat(
         coeficients,
         coeficients,
@@ -40,7 +51,7 @@ class Roulette extends Component {
         coeficients,
         coeficients,
       ).sort(() => {
-        return Math.random() > 0.5 ? 1 : -1;
+        return Math.random() >= 0.5 ? 1 : -1;
       }),
     }
   }
@@ -49,7 +60,7 @@ class Roulette extends Component {
       this.play();
     }
   }
-  getNextIndex(value, items) {
+  getNextIndex({ value, items }) {
     const minIndex = 60;
     const sliceIndex = _.random(minIndex, items.length - 1);
     const randomIndex = items.findIndex((item, index) => {
@@ -61,11 +72,35 @@ class Roulette extends Component {
   getRandomOffset() {
     return _.random(-0.45, 0.45, true);
   }
-  setFinishTimeouts() {
+  play() {
+    const { chancePercentage, onClickPlay } = this.props;
+    const { coeficientItems } = this.state;
+    onClickPlay();
+    const resultIndex = this.getNextIndex({
+      value: Math.random() >= (chancePercentage / 100),
+      items: this.state.resultItems,
+    });
+    const coeficientIndex = this.getNextIndex({
+      value: _.sample(coeficientItems),
+      items: coeficientItems,
+    });
+    this.resultSlider.slickGoTo(0, true);
+    this.coefficientSlider.slickGoTo(0, true);
+    setTimeout(() => {
+      this.resultSlider.slickGoTo(resultIndex + this.getRandomOffset());
+      this.coefficientSlider.slickGoTo(coeficientIndex + this.getRandomOffset());
+    });
+    this.setFinishTimeouts({ resultIndex, coeficientIndex });
+  }
+  setFinishTimeouts({ resultIndex, coeficientIndex }) {
     const showRewardDelay = BASE_SLIDER_SPEED + SLIDERS_SPEED_DIFFERENCE;
+    const result = this.state.resultItems[resultIndex];
+    const coeficient = this.state.coeficientItems[coeficientIndex];
     setTimeout(() => {
       this.setState({
         showReward: true,
+        result,
+        coeficient,
       })
     }, showRewardDelay);
 
@@ -73,28 +108,13 @@ class Roulette extends Component {
       this.setState({
         showReward: false,
       });
-      this.props.onSpinFinished();
+      this.props.onSpinFinished({ result, coeficient });
     }, showRewardDelay + REWARD_ANIMATION_DURATION);
-  }
-  play() {
-    const { result, coeficient } = this.props;
-    this.resultSlider.slickGoTo(0, true);
-    this.coefficientSlider.slickGoTo(0, true);
-    setTimeout(() => {
-      const resultIndex = this.getNextIndex(result, this.state.resultItems);
-      const coeficientIndex = this.getNextIndex(coeficient, this.state.coeficientItems);
-      this.resultSlider.slickGoTo(resultIndex + this.getRandomOffset());
-      this.coefficientSlider.slickGoTo(coeficientIndex + this.getRandomOffset());
-    });
-    this.setFinishTimeouts();
   }
   render() {
     const {
       classes,
-      onClickPlay,
       inProgress,
-      result,
-      coeficient,
       prize,
       bid,
     } = this.props;
@@ -102,8 +122,10 @@ class Roulette extends Component {
       showReward,
       resultItems,
       coeficientItems,
+      result,
+      coeficient
     } = this.state;
-
+    console.log(resultItems);
     return (
       <div className={classes.roulette}>
         <div className={classes.arrows}>
@@ -146,7 +168,7 @@ class Roulette extends Component {
           size="large"
           disabled={inProgress}
           className={`play-button ${classes.playButton}`}
-          onClick={() => {onClickPlay(); this.play();}}
+          onClick={() => {this.play();}}
         >
           Play!
         </Button>
@@ -216,8 +238,6 @@ Roulette.defaultProps = {
 
 Roulette.propTypes = {
   classes: PropTypes.object.isRequired,
-  result: PropTypes.bool.isRequired,
-  coeficient: PropTypes.number.isRequired,
   chancePercentage: PropTypes.number.isRequired,
   prize: PropTypes.number.isRequired,
   bid: PropTypes.number.isRequired,
