@@ -1,32 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { Layout, Icon } from 'antd';
-import Coins from '../common/Coins';
+import { Layout } from 'antd';
+import { compose } from 'recompose';
+import RightBlock from './RightBlock';
 
 const { Header: HeaderAnt } = Layout;
 
-class Header extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <HeaderAnt className={classes.header}>
-        <div className={classes.logo} />
-        <div className={classes.rightBlock}>
-          <span className={classes.balance}>
-            Balance:
-            <span className={classes.balanceAmount}>
-              <Coins /> 250 <a>
-              <Icon type="plus-circle-o" />
-              </a>
-            </span>
-          </span>
-          <span className={classes.userName}>Vadym Bondarenko</span>
-          <Icon type="logout" className={classes.logOut} />
-        </div>
-      </HeaderAnt>
-    );
-  }
+const Header = ({ classes }) => {
+  return (
+    <HeaderAnt className={classes.header}>
+      <div className={classes.logo} />
+      <RightBlock />
+    </HeaderAnt>
+  );
 }
 
 const styles = {
@@ -45,26 +32,14 @@ const styles = {
     margin: '16px',
     'margin-left': '-25px',
   },
-  logOut: {
-    'font-size': '25px',
-    'cursor': 'pointer',
-    'vertical-align': 'sub',
-    'padding-left': '10px'
-  },
-  rightBlock: {
-    float: 'right'
-  },
-  userName: {
-    'padding-left': '50px',
-  },
-  balanceAmount: {
-    'font-size': '20px',
-    'margin-left': '10px'
-  }
+};
+
+Header.defaultProps = {
+  userData: null,
 };
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default injectSheet(styles)(Header);
+export default compose(injectSheet(styles))(Header);

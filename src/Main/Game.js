@@ -14,8 +14,9 @@ class Game extends Component {
         bid,
         maxAttempts,
       },
-      amountOfAttempts
+      amountOfAttempts,
     } = this.props;
+
     return (
       <div className={classes.rouletteOverlay}>
         <a>
@@ -76,7 +77,12 @@ const styles = {
     top: 20,
     right: 20,
     'font-size': '50px',
-    color: 'white',
+  },
+  disabledAlert: {
+    position: 'absolute',
+    top: 25,
+    left: 25,
+    width: 300,
   }
 };
 
@@ -84,10 +90,16 @@ export default injectSheet(styles)(Game);
 
 Game.defaultProps = {
   activeGameId: null,
+  disabled: false,
+  disabledMessage: 'Disabled',
+  disabledTitle: null,
 };
 
 Game.propTypes = {
   classes: PropTypes.object.isRequired,
-  activeGame: PropTypes.number,
+  activeGame: PropTypes.object.isRequired,
   amountOfAttempts: PropTypes.number.isRequired,
+  disabled: PropTypes.bool,
+  disabledMessage: PropTypes.node,
+  disabledTitle: PropTypes.node,
 };

@@ -25,7 +25,7 @@ const styles = {
   content: {
     background: '#fff',
     padding: 20,
-    minHeight: 280,
+    minHeight: '100vh',
     width: '100%'
   }
 };

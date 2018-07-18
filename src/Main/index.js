@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
+import { compose } from 'recompose';
 import Content from '../Content';
 import Header from '../Header';
 import SideMenu from '../SideMenu';
 import GameItem from './GameItem';
 import Game from './Game';
+import CreateGameForm from './CreateGameForm';
+import withGames from '../redux/games/withGames';
 
 class Main extends Component {
   constructor() {
@@ -14,7 +17,24 @@ class Main extends Component {
 
     this.state = {
       collapsedSideMenu: true,
-    }
+      createGameMode: false,
+    };
+  }
+  componentDidUpdate() {
+    // TODO: Move to redux
+    // const activeGame = this.getActiveGame({ games: this.props.games, activeGameId: this.props.activeGameId });
+    // if (
+    //   prevProps.activeGameId &&
+    //   this.props.activeGameId &&
+    //   prevProps.activeGameId  === this.props.activeGameId &&
+    //   prevProps.balance >= activeGame.bid &&
+    //   prevProps.balance < activeGame.bid
+    // ) {
+    //   notification.open({
+    //     message: 'Low balance',
+    //     description: <span>Game was closed due to the low coin balance. <a>By coins</a></span>,
+    //   });
+    // }
   }
   onCollapseSideMenu() {
     this.setState({ collapsedSideMenu: !this.state.collapsedSideMenu });
@@ -39,10 +59,21 @@ class Main extends Component {
       !!this.getGameItemResponse({ actions, requestGameActionId: action.id });
     }).length
   }
+  getActiveGame({ games, activeGameId }) {
+    return games.find(({ id }) => id === activeGameId);
+  }
+  createGame() {
+
+  }
+  toggleCreateGameModal(value) {
+    this.setState({
+      createGameMode: value,
+    })
+  }
   render() {
     const { classes, games, activeGameId, actions } = this.props;
     const { collapsedSideMenu } = this.state;
-    const activeGame = games.find(({ id }) => id === activeGameId);
+    const activeGame = this.getActiveGame({ games, activeGameId });
 
     return (
       <Layout className="layout">
@@ -73,6 +104,9 @@ class Main extends Component {
                 })
               }
             </div>
+            <div className={classes.createGameBlock}>
+              <Button type="primary" onClick={() => this.toggleCreateGameModal(true)} className={classes.createGameBtn}>Create lot</Button>
+            </div>
             {
               activeGame && (
                 <Game
@@ -81,6 +115,13 @@ class Main extends Component {
                 />
               )
             }
+            <CreateGameForm
+              visible={this.state.createGameMode}
+              wrappedComponentRef={(createGameForm) => this.createGameForm = createGameForm}
+              balance={100}
+              onCancel={() => this.toggleCreateGameModal(false)}
+              handleSubmit={() => this.toggleCreateGameModal(false)}
+            />
           </Content>
         </Layout>
       </Layout>
@@ -118,10 +159,17 @@ const styles = {
   },
   title: {
     'text-align': 'center',
+  },
+  createGameBlock: {
+    'text-align': 'center',
+    padding: '25px 0',
   }
 };
 
-export default injectSheet(styles)(Main);
+export default compose(
+  injectSheet(styles),
+  withGames()
+)(Main);
 
 Main.defaultProps = {
   activeGameId: null,

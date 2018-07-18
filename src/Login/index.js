@@ -1,36 +1,63 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Layout } from 'antd';
+import { compose, withStateHandlers, branch, renderComponent } from 'recompose';
 import Header from '../Header';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import Content from '../Content';
+import withUser from '../redux/user/withUser';
 
-class Login extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Layout className="layout">
-        <Header />
-        <Content>
-          <div className={classes.content}>
-            <SignIn />
-          </div>
-        </Content>
-      </Layout>
-    )
-  }
+const Form = branch(
+  ({ signInMode }) => signInMode,
+  renderComponent(SignIn),
+  renderComponent(SignUp),
+)();
+
+const Login = ({ classes, toggleSignInMode, signInMode }) => {
+  return (
+    <Layout className="layout">
+      <Header />
+      <Content>
+        <div className={classes.content}>
+          <Form signInMode={signInMode} toggleSignInMode={toggleSignInMode} />
+        </div>
+      </Content>
+    </Layout>
+  )
 }
 
 const styles = {
   content: {
     display: 'flex',
-    'justify-content': 'center'
+    'justify-content': 'center',
+    paddingTop: 165,
   },
 };
 
-export default injectSheet(styles)(Login);
+export default compose(
+  injectSheet(styles),
+  withUser(),
+  withStateHandlers(
+    () => ({
+      signInMode: false,
+    }),
+    {
+      toggleSignInMode: ({ signInMode }) => () => ({
+        signInMode: !signInMode,
+      })
+    }
+  )
+)(Login);
+
+Login.defaultProps = {
+  userInfo: null,
+};
 
 Login.propTypes = {
+  userInfo: PropTypes.object,
+  signInMode: PropTypes.bool.isRequired,
+  toggleSignInMode: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };

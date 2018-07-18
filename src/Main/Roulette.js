@@ -10,7 +10,7 @@ import { greenColor, redColor, lightGreenColor } from '../variables'
 
 const BASE_SLIDER_SPEED = 8000;
 const SLIDERS_SPEED_DIFFERENCE = 4000;
-const REWARD_ANIMATION_DURATION = 3000;
+const REWARD_ANIMATION_DURATION = 4000;
 const SETTINGS = {
  infinite: true,
  slidesToShow: 7,
@@ -21,6 +21,7 @@ const SETTINGS = {
  speed: BASE_SLIDER_SPEED,
  initialSlide: 0,
 };
+const AUTOPLAY_DELAY_IN_SEC = 15;
 class Roulette extends Component {
   constructor({ chancePercentage }) {
     super();
@@ -30,6 +31,7 @@ class Roulette extends Component {
       result: null,
       coeficient: null,
       showReward: false,
+      inProgress: false,
       resultItems: Array.apply(null, Array(chancePercentage)).map(() =>{
         return true;
       })
@@ -53,12 +55,21 @@ class Roulette extends Component {
       ).sort(() => {
         return Math.random() >= 0.5 ? 1 : -1;
       }),
+      autoPlayInterval: this.setAutoPlayInterval(),
+      autoPlayIntervalCounter: 0,
     }
   }
-  componentDidUpdate(prevProps) {
-    if (prevProps.inProgress === false && this.props.inProgress === true) {
-      this.play();
-    }
+  setAutoPlayInterval() {
+
+    return setInterval(() => {
+      if (this.state.autoPlayIntervalCounter >= AUTOPLAY_DELAY_IN_SEC) {
+        this.play();
+      } else {
+        this.setState({
+          autoPlayIntervalCounter: this.state.autoPlayIntervalCounter + 1
+        });
+      }
+    }, 1000);
   }
   getNextIndex({ value, items }) {
     const minIndex = 60;
@@ -67,15 +78,20 @@ class Roulette extends Component {
       return index > sliceIndex && item === value;
     });
     const backIndex = items.length - 1 - [...items].reverse().indexOf(value);
-    return randomIndex != -1 ? randomIndex : backIndex;
+    return randomIndex !== -1 ? randomIndex : backIndex;
   }
   getRandomOffset() {
     return _.random(-0.45, 0.45, true);
   }
   play() {
+    clearInterval(this.state.autoPlayInterval);
+    this.setState({
+      autoPlayIntervalCounter: 0,
+      autoPlayInterval: null,
+    });
+
     const { chancePercentage, onClickPlay } = this.props;
     const { coeficientItems } = this.state;
-    onClickPlay();
     const resultIndex = this.getNextIndex({
       value: Math.random() >= (chancePercentage / 100),
       items: this.state.resultItems,
@@ -84,6 +100,10 @@ class Roulette extends Component {
       value: _.sample(coeficientItems),
       items: coeficientItems,
     });
+
+    this.setState({ inProgress: true });
+    onClickPlay();
+
     this.resultSlider.slickGoTo(0, true);
     this.coefficientSlider.slickGoTo(0, true);
     setTimeout(() => {
@@ -96,11 +116,14 @@ class Roulette extends Component {
     const showRewardDelay = BASE_SLIDER_SPEED + SLIDERS_SPEED_DIFFERENCE;
     const result = this.state.resultItems[resultIndex];
     const coeficient = this.state.coeficientItems[coeficientIndex];
+
     setTimeout(() => {
       this.setState({
         showReward: true,
+        inProgress: false,
         result,
         coeficient,
+        autoPlayInterval: this.setAutoPlayInterval(),
       })
     }, showRewardDelay);
 
@@ -114,18 +137,20 @@ class Roulette extends Component {
   render() {
     const {
       classes,
-      inProgress,
       prize,
       bid,
+      disabled,
     } = this.props;
     const {
+      inProgress,
       showReward,
       resultItems,
       coeficientItems,
       result,
-      coeficient
+      coeficient,
+      autoPlayIntervalCounter,
+      autoPlayInterval,
     } = this.state;
-    console.log(resultItems);
     return (
       <div className={classes.roulette}>
         <div className={classes.arrows}>
@@ -166,11 +191,11 @@ class Roulette extends Component {
         <Button
           type="primary"
           size="large"
-          disabled={inProgress}
+          disabled={inProgress || disabled}
           className={`play-button ${classes.playButton}`}
           onClick={() => {this.play();}}
         >
-          Play!
+          Play! {autoPlayInterval && !inProgress && <span>({ AUTOPLAY_DELAY_IN_SEC - autoPlayIntervalCounter })</span>}
         </Button>
         {
           showReward && <div className={`${classes.reward} ${result ? 'win' : 'lose'} animated fadeOutUp`}>
@@ -233,7 +258,6 @@ const styles = {
 export default injectSheet(styles)(Roulette);
 
 Roulette.defaultProps = {
-  inProgress: false
 };
 
 Roulette.propTypes = {
@@ -243,5 +267,5 @@ Roulette.propTypes = {
   bid: PropTypes.number.isRequired,
   onClickPlay: PropTypes.func.isRequired,
   onSpinFinished: PropTypes.func.isRequired,
-  inProgress: PropTypes.bool,
+  disabled: PropTypes.bool,
 };

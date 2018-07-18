@@ -14,6 +14,8 @@ import SignUp from '../Login/SignUp';
 import Main from '../Main';
 import GameItem from '../Main/GameItem';
 import Roulette from '../Main/Roulette';
+import Game from '../Main/Game';
+import CreateGameForm from '../Main/CreateGameForm';
 
 addDecorator(withKnobs);
 
@@ -169,8 +171,8 @@ storiesOf('GameItem', module)
   />
 )});
 
-
-storiesOf('Roulette', module).add('default', () => { return (
+storiesOf('Roulette', module)
+.add('default', () => { return (
   <Roulette
     prize={100}
     bid={100}
@@ -179,4 +181,26 @@ storiesOf('Roulette', module).add('default', () => { return (
     onSpinFinished={() => {}}
     inProgress={boolean('inProgress', false)}
   />
-)})
+)});
+
+
+storiesOf('Game', module)
+.add('default', () => {
+  const activeGame = GAMES[0];
+  return (
+  <Game
+    activeGame={{ ...activeGame }}
+    amountOfAttempts={4}
+    balance={10}
+  />
+)});
+storiesOf('CreateGameForm', module)
+.add('default', () => {
+  return (
+  <CreateGameForm
+    balance={100}
+    handleSubmit={() => {}}
+    onCancel={() => {}}
+    visible={true}
+  />
+)});
