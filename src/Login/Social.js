@@ -12,16 +12,16 @@ const Social = ({ classes }) => {
         <a href={`${REACT_APP_BASE_REST_URL}/auth/facebook`}>
           <Icon type="facebook" />
         </a>
-        <a href="">
+        <a href={`${REACT_APP_BASE_REST_URL}/auth/twitter`}>
           <Icon type="twitter" />
         </a>
-        <a href="">
+        <a href={`${REACT_APP_BASE_REST_URL}/auth/instagram`}>
           <Icon type="instagram" />
         </a>
-        <a href="">
+        <a href={`${REACT_APP_BASE_REST_URL}/auth/google`}>
           <Icon type="google" />
         </a>
-        <a href="">
+        <a href={`${REACT_APP_BASE_REST_URL}/auth/vkontakte`}>
           <b>VK</b>
         </a>
       </div>

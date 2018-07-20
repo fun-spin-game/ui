@@ -1,5 +1,4 @@
 import { wsGenerateMessage, wsParseMessage } from 'pty-common/ws-message';
-import WebSocket from 'ws';
 
 export default class WS {
   static init(...args) {
@@ -8,13 +7,8 @@ export default class WS {
     return WS.instance;
   }
 
-  constructor({ baseUrlSocket }) {
+  constructor() {
     this.messageEventMap = {};
-    this.baseUrlSocket = baseUrlSocket;
-  }
-
-  setToken(token) {
-    this.token = token;
   }
 
   on(type, cb) {
@@ -26,14 +20,12 @@ export default class WS {
   }
 
   connect() {
-    this.socket = new WebSocket(`${this.baseUrlSocket}/?token=${this.token}`, {
-      perMessageDeflate: false,
-    });
+    this.socket = new WebSocket(`${process.env.REACT_APP_BASE_WS_URL}`);
     this.assign();
   }
 
   send(type, payload) {
-    this.socket.send(wsGenerateMessage(type, payload, this.token));
+    this.socket.send(wsGenerateMessage(type, payload));
 
     console.log(`sent ${type} with payload ${JSON.stringify(payload).substr(0, 10000)}`);
   }
