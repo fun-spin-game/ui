@@ -14,9 +14,9 @@ class SignUp extends Component {
     const { classes, handleSubmit, toggleSignInMode, compareToFirstPassword, form: { getFieldDecorator } } = this.props;
     return (
       <FormContainer>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <FormItem>
-            {getFieldDecorator('userName', {
+            {getFieldDecorator('login', {
               rules: [{ required: true, message: 'Please input your username!' }],
             })(
               <Input prefix={<Icon type="user" />} placeholder="Username" />
@@ -44,7 +44,7 @@ class SignUp extends Component {
             )}
           </FormItem>
           <Social/>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" onClick={handleSubmit}>
             Sign Up
           </Button>
           <div className={classes.linksBlock}>
@@ -86,11 +86,10 @@ export default compose(
     }
   })),
   withHandlers({
-    handleSubmit: ({ signUp, form: { validateFields } }) => (e) => {
-      e.preventDefault();
-      validateFields((err, values) => {
+    handleSubmit: ({ signUp, form: { validateFields } }) => () => {
+      validateFields((err, { login, password }) => {
         if (!err) {
-          signUp(values);
+          signUp({ login, password });
         }
       });
     }
@@ -101,6 +100,7 @@ SignUp.propTypes = {
   compareToFirstPassword: PropTypes.func.isRequired,
   toggleSignInMode: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };

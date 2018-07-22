@@ -21,8 +21,6 @@ const userReducer = (
   { type, payload },
 ) => {
   switch (type) {
-    case 'GET_USER_INFO_REQUEST':
-      return { ...initialState };
     case 'GET_USER_INFO_SUCCESS':
       return { ...state, userInfo: payload, userInfoRequestDone: true };
     case 'GET_USER_INFO_FAILURE':

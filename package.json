@@ -11,11 +11,14 @@
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "lodash": "^4.17.10",
+    "mobx": "^5.0.3",
+    "mobx-react": "^5.2.3",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "pty-common": "git+ssh://git@github.com/Danxil/pty-common.git",
     "rc-progress": "^2.2.5",
     "react": "^16.4.1",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.4.1",
     "react-jss": "^8.6.1",
     "react-redux": "^5.0.7",
@@ -28,8 +31,7 @@
     "redux-observable": "^1.0.0",
     "rxjs": "^6.2.2",
     "slick-carousel": "^1.8.0",
-    "mobx": "^5.0.3",
-    "mobx-react": "^5.2.3"
+    "ws": "^5.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

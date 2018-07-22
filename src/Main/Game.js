@@ -9,7 +9,7 @@ class Game extends Component {
     const {
       classes,
       activeGame: {
-        percentage,
+        chanceToWin,
         prize,
         bid,
         maxAttempts,
@@ -22,10 +22,10 @@ class Game extends Component {
         <a>
           <Icon type="close" className={classes.close} />
         </a>
-        <div className={classes.chancePercentage}>{percentage}% chance to win!</div>
+        <div className={classes.chancePercentage}>{chanceToWin}% chance to win!</div>
         <Roulette
           prize={prize}
-          chancePercentage={percentage}
+          chancePercentage={chanceToWin}
           bid={bid}
           onClickPlay={() => {}}
           onSpinFinished={() => {}}

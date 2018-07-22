@@ -15,7 +15,7 @@ class GameItem extends Component {
   render() {
     const {
       classes,
-      percentage,
+      chanceToWin,
       prize,
       bid,
       maxAttempts,
@@ -32,16 +32,16 @@ class GameItem extends Component {
           <div
             className={`${inProgress ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
           >
-            <span className={classes.percentage}>{percentage}% <small>chance</small></span>
+            <span className={classes.chanceToWin}>{chanceToWin}% <small>chance</small></span>
             <div>
               <Circle
                 className={classes.circle}
-                percent={percentage}
+                percent={chanceToWin}
                 gapDegree={95}
                 gapPosition="bottom"
                 strokeWidth="7"
                 strokeLinecap="round"
-                strokeColor={this.getColor(percentage / 100)}
+                strokeColor={this.getColor(chanceToWin / 100)}
                 trailWidth="7"
                 trailColor="#f5f5f5"
                 style={{
@@ -123,7 +123,7 @@ const styles = {
     position: 'relative',
     display: 'inline-block',
   },
-  'percentage': {
+  'chanceToWin': {
     'font-size': '14px',
   },
   prize: {
@@ -204,7 +204,7 @@ GameItem.propTypes = {
   won: PropTypes.bool,
   lost: PropTypes.bool,
   id: PropTypes.number.isRequired,
-  percentage: PropTypes.number.isRequired,
+  chanceToWin: PropTypes.number.isRequired,
   prize: PropTypes.number,
   bid: PropTypes.number,
   amountOfAttempts: PropTypes.number.isRequired,

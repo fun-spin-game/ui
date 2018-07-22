@@ -24,13 +24,13 @@ const GAMES = [
     id: 1,
     prize: 20,
     bid: 20,
-    percentage: 50,
+    chanceToWin: 50,
     maxAttempts: 10,
   },
   {
     prize: 100,
     bid: 150,
-    percentage: 75,
+    chanceToWin: 75,
     maxAttempts: 10,
     player: {
 
@@ -39,43 +39,43 @@ const GAMES = [
   {
     prize: 5,
     bid: 2,
-    percentage: 15,
+    chanceToWin: 15,
     maxAttempts: 10,
   },
   {
     prize: 20,
     bid: 20,
-    percentage: 70,
+    chanceToWin: 70,
     maxAttempts: 10,
   },
   {
     prize: 100,
     bid: 150,
-    percentage: 90,
+    chanceToWin: 90,
     maxAttempts: 10,
   },
   {
     prize: 5,
     bid: 2,
-    percentage: 30,
+    chanceToWin: 30,
     maxAttempts: 10,
   },
   {
     prize: 20,
     bid: 20,
-    percentage: 50,
+    chanceToWin: 50,
     maxAttempts: 10,
   },
   {
     prize: 100,
     bid: 150,
-    percentage: 10,
+    chanceToWin: 10,
     maxAttempts: 10,
   },
   {
     prize: 5,
     bid: 2,
-    percentage: 45,
+    chanceToWin: 45,
     maxAttempts: 10,
   }
 ];
@@ -129,7 +129,7 @@ storiesOf('GameItem', module)
 .add('default', () => { return (
   <GameItem
     id={1}
-    percentage={10}
+    chanceToWin={10}
     prize={100}
     bid={10}
     tries={2}
@@ -140,7 +140,7 @@ storiesOf('GameItem', module)
 .add('inProgress', () => { return (
   <GameItem
     id={1}
-    percentage={10}
+    chanceToWin={10}
     prize={100}
     bid={10}
     tries={2}
@@ -151,7 +151,7 @@ storiesOf('GameItem', module)
 .add('won', () => { return (
   <GameItem
     id={1}
-    percentage={10}
+    chanceToWin={10}
     prize={100}
     bid={10}
     tries={2}
@@ -162,7 +162,7 @@ storiesOf('GameItem', module)
 .add('lost', () => { return (
   <GameItem
     id={1}
-    percentage={10}
+    chanceToWin={10}
     prize={100}
     bid={10}
     tries={2}

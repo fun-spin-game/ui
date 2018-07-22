@@ -9,12 +9,17 @@ import withUser from '../redux/user/withUser';
 
 const FormItem = Form.Item;
 
-const SignIn = ({ classes, toggleSignInMode, handleSubmit, form: { getFieldDecorator } }) => {
+const SignIn = ({
+  classes,
+  toggleSignInMode,
+  handleSubmit,
+  form: { getFieldDecorator },
+}) => {
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <FormItem>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('login', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input prefix={<Icon type="user" />} placeholder="Username" />
@@ -28,7 +33,7 @@ const SignIn = ({ classes, toggleSignInMode, handleSubmit, form: { getFieldDecor
           )}
         </FormItem>
         <Social />
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" onClick={handleSubmit}>
           Log in
         </Button>
         <div className={classes.linksBlock}>
@@ -60,14 +65,11 @@ export default compose(
   injectSheet(styles),
   withUser(),
   withHandlers({
-    handleSubmit: ({ signIn, form: { validateFields } }) => (e) => {
-      e.preventDefault();
-      validateFields((err, values) => {
-        if (!err) {
-          signIn(values);
-        }
-      });
-    }
+    handleSubmit: ({ signIn, form: { validateFields } }) => () => validateFields((err, values) => {
+      if (!err) {
+        signIn(values);
+      }
+    })
   })
 )(SignIn);
 

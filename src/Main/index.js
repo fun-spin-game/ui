@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Layout, Button } from 'antd';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { compose } from 'recompose';
 import Content from '../Content';
 import Header from '../Header';
@@ -87,22 +88,28 @@ class Main extends Component {
           <Content className={`${classes.content} ${collapsedSideMenu ? 'collapsed-mode': ''}`}>
             <h1 className={classes.title}>Lots:</h1>
             <div className={`${classes.gameItems}`}>
-              {
-                games.map(({ prize, bid, percentage, maxAttempts, player, id: gameId }, index) => {
-                  return (
-                    <GameItem
-                      id={index}
-                      key={index}
-                      prize={prize}
-                      bid={bid}
-                      percentage={percentage}
-                      amountOfAttempts={this.getAmountOfAttempts({ gameId, actions })}
-                      maxAttempts={maxAttempts}
-                      player={player}
-                    />
-                  );
-                })
-              }
+              <ReactCSSTransitionGroup
+                transitionName="list"
+                transitionEnterTimeout={500}
+                transitionLeave={false}
+              >
+                {
+                  games.map(({ prize, bid, chanceToWin, maxAttempts, player, id: gameId }, index) => {
+                    return (
+                      <GameItem
+                        id={index}
+                        key={index}
+                        prize={prize}
+                        bid={bid}
+                        chanceToWin={chanceToWin}
+                        amountOfAttempts={this.getAmountOfAttempts({ gameId, actions })}
+                        maxAttempts={maxAttempts}
+                        player={player}
+                      />
+                    );
+                  })
+                }
+              </ReactCSSTransitionGroup>
             </div>
             <div className={classes.createGameBlock}>
               <Button type="primary" onClick={() => this.toggleCreateGameModal(true)} className={classes.createGameBtn}>Create lot</Button>
@@ -131,12 +138,14 @@ class Main extends Component {
 
 const styles = {
   gameItems: {
-    'padding-top': 50,
-    display: 'flex',
-    'flex-wrap': 'wrap',
-    'justify-content': 'space-evenly',
+    '& > *': {
+      'padding-top': 50,
+      display: 'flex',
+      'flex-wrap': 'wrap',
+      'justify-content': 'space-evenly',
+    }
   },
-  percentage: {
+  chanceToWin: {
     'margin-bottom': '5px',
   },
   menuFirstItem: {

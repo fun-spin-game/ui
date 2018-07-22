@@ -1,8 +1,13 @@
 import { connect } from 'react-redux';
-import { getUserInfo, logout } from './apiActions';
+import { getUserInfo, logout, signIn, signUp } from './actions';
 
 export default () => connect(
-  ({ user: { userInfo, userInfoRequestDone } }) => ({
+  ({
+    user: {
+      userInfo,
+      userInfoRequestDone,
+    }
+  }) => ({
     userInfo,
     userInfoRequestDone,
   }),
@@ -13,6 +18,12 @@ export default () => connect(
       },
       logout() {
         return dispatch(logout());
+      },
+      signIn(values) {
+        return dispatch(signIn(values));
+      },
+      signUp(values) {
+        return dispatch(signUp(values));
       }
     };
   }
