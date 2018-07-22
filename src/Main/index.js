@@ -72,7 +72,7 @@ class Main extends Component {
     })
   }
   render() {
-    const { classes, games, activeGameId, actions } = this.props;
+    const { classes, games, activeGameId, actions, connectToGame } = this.props;
     const { collapsedSideMenu } = this.state;
     const activeGame = this.getActiveGame({ games, activeGameId });
 
@@ -97,7 +97,7 @@ class Main extends Component {
                   games.map(({ prize, bid, chanceToWin, maxAttempts, player, id: gameId }, index) => {
                     return (
                       <GameItem
-                        id={index}
+                        id={gameId}
                         key={index}
                         prize={prize}
                         bid={bid}
@@ -105,6 +105,7 @@ class Main extends Component {
                         amountOfAttempts={this.getAmountOfAttempts({ gameId, actions })}
                         maxAttempts={maxAttempts}
                         player={player}
+                        onClickPlay={connectToGame}
                       />
                     );
                   })
@@ -189,4 +190,5 @@ Main.propTypes = {
   activeGameId: PropTypes.number,
   actions: PropTypes.arrayOf(PropTypes.object).isRequired,
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
+  connectToGame: PropTypes.func.isRequired,
 };

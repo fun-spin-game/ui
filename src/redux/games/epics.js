@@ -1,5 +1,5 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, ignoreElements, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import ws from '../../helpers/ws';
 
@@ -11,5 +11,12 @@ export default combineEpics(
         observer.next(message);
       })
     })),
+  ),
+  (action$) => action$.pipe(
+    ofType('CONNECT_TO_GAME'),
+    tap(({ payload }) => {
+      ws.instance.send('CONNECT_TO_GAME', payload);
+    }),
+    ignoreElements()
   ),
 );

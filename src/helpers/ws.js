@@ -1,3 +1,7 @@
+import autoBind from 'auto-bind';
+
+const MAX_RECONNECT_ATTEMPTS = 5;
+
 export default class WS {
   static init(...args) {
     WS.instance = new WS(...args);
@@ -5,19 +9,22 @@ export default class WS {
   }
 
   constructor() {
+    autoBind(this);
     this.callbacks = {};
     this.connect();
   }
 
-  connect(callbacks) {
+  connect() {
     this.socket = new WebSocket(`${process.env.REACT_APP_BASE_WS_URL}`);
-    this.socket.onopen = this.onOpen.bind(this, callbacks);
-    this.socket.onerror = this.onError.bind(this);
-    this.socket.onmessage = this.onMessage.bind(this);
-    this.socket.onclose = this.onClose.bind(this);
+    this.socket.onopen = this.onOpen;
+    this.socket.onerror = this.onError;
+    this.socket.onmessage = this.onMessage;
+    this.socket.onclose = this.onClose;
+    this.socket.reconnectInterval = this.null;
+    this.socket.reconnectCounter = 5;
   }
 
-  sendAction(type, payload) {
+  send(type, payload) {
     this.socket.send(JSON.stringify({ type, payload }));
     console.log(`sent ${type} with payload ${JSON.stringify(payload).substr(0, 10000)}`);
   }
@@ -39,7 +46,14 @@ export default class WS {
     this.socket.onclose = null;
     this.socket.onopen = null;
     this.socket.onerror = null;
-    this.reconnectInterval = setInterval(this.connect.bind(this), 1000);
+    this.reconnectInterval = setInterval(() => {
+      this.connect.bind(this)
+      this.reconnectCounter += 1;
+      if (this.reconnectCounter >= MAX_RECONNECT_ATTEMPTS) {
+        clearInterval(this.reconnectInterval);
+        this.reconnectCounter = 0;
+      }
+    }, 5000);
     if (onClose) onClose();
   }
   onOpen() {

@@ -14,6 +14,7 @@ class GameItem extends Component {
 
   render() {
     const {
+      id,
       classes,
       chanceToWin,
       prize,
@@ -23,6 +24,7 @@ class GameItem extends Component {
       inProgress,
       won,
       lost,
+      onClickPlay,
     } = this.props;
 
     const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
@@ -59,7 +61,13 @@ class GameItem extends Component {
               Your risk: {bid} <Coins />
             </span>
             <div className={classes.playButtonContainer}>
-              <Button type="primary" className={`play-button ${classes.playButton}`}>Play!</Button>
+              <Button
+                type="primary"
+                className={`play-button ${classes.playButton}`}
+                onClick={() => onClickPlay({ gameId: id })}
+              >
+                Play!
+              </Button>
             </div>
             <div className={classes.amountOfAttempts}>
                <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
@@ -209,4 +217,5 @@ GameItem.propTypes = {
   bid: PropTypes.number,
   amountOfAttempts: PropTypes.number.isRequired,
   maxAttempts: PropTypes.number.isRequired,
+  onClickPlay: PropTypes.func.isRequired,
 };

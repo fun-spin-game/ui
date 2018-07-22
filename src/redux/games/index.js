@@ -22,7 +22,7 @@ const gamesReducer = (state = {
     case 'GAME_CREATED': {
       return {
         ...state,
-        games: [ ...state.games, payload ],
+        games: [ ...state.games, payload.game ],
       }
     }
     default:
