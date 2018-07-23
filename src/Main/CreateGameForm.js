@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'recompose';
 import { Slider, Row, Col, InputNumber, Alert, Form, Modal } from 'antd';
 import injectSheet from 'react-jss'
 import Coins from '../common/Coins'
 import { redColor } from '../variables'
+import { getOpponentRisk } from '../helpers/gameUtils'
+import withUser from '../redux/user/withUser';
 
 const FormItem = Form.Item;
 
@@ -36,14 +39,18 @@ class CreateGameForm extends Component {
   onChangePrize(value) {
     this.setState({ prize: value })
   }
-  getOpponentRisk({ prize, chanceToWin, attempts }) {
-    return (prize * chanceToWin / (100 - chanceToWin) * attempts).toFixed(2);
-  }
   getCreatorRisk({ prize, attempts }) {
     return (prize * attempts).toFixed(2);
   }
   render() {
-    const { classes, balance, handleSubmit, visible, onCancel, form: { getFieldDecorator } } = this.props;
+    const {
+      classes,
+      userInfo: { balance },
+      handleSubmit,
+      visible,
+      onCancel,
+      form: { getFieldDecorator }
+    } = this.props;
     const { prize, chanceToWin, attempts } = this.state;
     const creatorRisk = this.getCreatorRisk({ prize, attempts });
     const notEnoughCoins = creatorRisk > balance;
@@ -152,7 +159,7 @@ class CreateGameForm extends Component {
               <div>
                 <Row>
                   <Col span={10}>
-                    <div className={classes.label}>You can win: {this.getOpponentRisk({ prize, chanceToWin, attempts })} <Coins /></div>
+                    <div className={classes.label}>You can win: {getOpponentRisk({ prize, chanceToWin })} <Coins /></div>
                     <div className={classes.label}>
                       You risk:<span> </span>
                       <span className={notEnoughCoins ? classes.redColor : ''}>
@@ -200,7 +207,11 @@ const styles = {
   }
 };
 
-export default Form.create()(injectSheet(styles)(CreateGameForm));
+export default compose(
+  withUser(),
+  Form.create(),
+  injectSheet(styles),
+)(CreateGameForm);
 
 CreateGameForm.defaultProps = {
   visible: false,
@@ -209,7 +220,7 @@ CreateGameForm.defaultProps = {
 CreateGameForm.propTypes = {
   form: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  balance: PropTypes.number.isRequired,
+  userInfo: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   visible: PropTypes.bool,

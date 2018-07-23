@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
+import { compose } from 'recompose';
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
+import { getOpponentRisk } from '../helpers/gameUtils';
+import withGames from '../redux/games/withGames';
 
 class GameItem extends Component {
   getColor(value) {
@@ -18,15 +21,16 @@ class GameItem extends Component {
       classes,
       chanceToWin,
       prize,
-      bid,
       maxAttempts,
-      amountOfAttempts,
       inProgress,
       won,
       lost,
       onClickPlay,
+      getAmountOfAttempts,
     } = this.props;
 
+    const risk = getOpponentRisk({ prize, chanceToWin });
+    const amountOfAttempts = getAmountOfAttempts({ gameId: id });
     const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
     return (
       <div className={`${classes.gameItem} ${inProgress ? 'in-progress': ''} ${won ? 'won': ''} ${lost ? 'lost': ''}`}>
@@ -58,7 +62,7 @@ class GameItem extends Component {
               {prize} <Coins />
             </span>
             <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
-              Your risk: {bid} <Coins />
+              Your risk: {risk} <Coins />
             </span>
             <div className={classes.playButtonContainer}>
               <Button
@@ -71,7 +75,7 @@ class GameItem extends Component {
             </div>
             <div className={classes.amountOfAttempts}>
                <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
-               <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts</small></span></div>
+               <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts used</small></span></div>
                <div>{(inProgress || won || lost) && 'In progress...'}</div>
             </div>
           </div>
@@ -198,12 +202,13 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(GameItem);
+export default compose(
+  withGames(),
+  injectSheet(styles)
+)(GameItem);
 
 GameItem.defaultProps = {
   inProgress: false,
-  success: false,
-  binary: true,
 };
 
 GameItem.propTypes = {
@@ -214,8 +219,7 @@ GameItem.propTypes = {
   id: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,
   prize: PropTypes.number,
-  bid: PropTypes.number,
-  amountOfAttempts: PropTypes.number.isRequired,
   maxAttempts: PropTypes.number.isRequired,
   onClickPlay: PropTypes.func.isRequired,
+  getAmountOfAttempts: PropTypes.func.isRequired,
 };

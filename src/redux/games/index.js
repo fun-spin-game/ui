@@ -1,12 +1,10 @@
 const gamesReducer = (state = {
   games: [],
   actions: [],
-  activeGameId: null,
 }, { type, payload },) => {
   switch (type) {
     case 'INIT_DATA': {
-      const { games } = payload;
-      const actions = [].concat.apply(this, games.map(({ gameActions }) => [...gameActions]));
+      const { games, actions } = payload;
       return {
         ...state,
         games: games.map((game) => { delete game.gameActions; return game; }),
@@ -23,6 +21,13 @@ const gamesReducer = (state = {
       return {
         ...state,
         games: [ ...state.games, payload.game ],
+      }
+    }
+    case 'GAME_USER_DISCONNECTED':
+    case 'GAME_USER_CONNECTED': {
+      return {
+        ...state,
+        actions: [...state.actions, {type, payload}]
       }
     }
     default:

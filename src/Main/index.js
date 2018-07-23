@@ -40,42 +40,15 @@ class Main extends Component {
   onCollapseSideMenu() {
     this.setState({ collapsedSideMenu: !this.state.collapsedSideMenu });
   }
-  getGameItemResponse({ requestGameActionId, actions }) {
-    return actions.find(targetAction => {
-      return targetAction.action === 'GAME_SPIN_RESPONSE' &&
-      targetAction.payload.requestGameActionId === requestGameActionId
-    })
-  }
-  isInProgress({ actions, gameId }) {
-    return !!actions.find(action => {
-      return action.action === 'GAME_SPIN_REQUEST' &&
-      gameId === action.gameId &&
-      !this.getGameItemResponse({ actions, requestGameActionId: action.id });
-    });
-  }
-  getAmountOfAttempts({ gameId, actions }) {
-    return actions.filter(action => {
-      return action.gameId === gameId &&
-      action.action === 'GAME_SPIN_REQUEST' &&
-      !!this.getGameItemResponse({ actions, requestGameActionId: action.id });
-    }).length
-  }
-  getActiveGame({ games, activeGameId }) {
-    return games.find(({ id }) => id === activeGameId);
-  }
-  createGame() {
-
-  }
   toggleCreateGameModal(value) {
     this.setState({
       createGameMode: value,
     })
   }
   render() {
-    const { classes, games, activeGameId, actions, connectToGame } = this.props;
+    console.log(this.props);
+    const { classes, games, connectToGame } = this.props;
     const { collapsedSideMenu } = this.state;
-    const activeGame = this.getActiveGame({ games, activeGameId });
-
     return (
       <Layout className="layout">
         <SideMenu
@@ -94,17 +67,14 @@ class Main extends Component {
                 transitionLeave={false}
               >
                 {
-                  games.map(({ prize, bid, chanceToWin, maxAttempts, player, id: gameId }, index) => {
+                  games.map(({ prize, chanceToWin, maxAttempts, id: gameId }, index) => {
                     return (
                       <GameItem
                         id={gameId}
                         key={index}
                         prize={prize}
-                        bid={bid}
                         chanceToWin={chanceToWin}
-                        amountOfAttempts={this.getAmountOfAttempts({ gameId, actions })}
                         maxAttempts={maxAttempts}
-                        player={player}
                         onClickPlay={connectToGame}
                       />
                     );
@@ -115,18 +85,9 @@ class Main extends Component {
             <div className={classes.createGameBlock}>
               <Button type="primary" onClick={() => this.toggleCreateGameModal(true)} className={classes.createGameBtn}>Create lot</Button>
             </div>
-            {
-              activeGame && (
-                <Game
-                  activeGame={activeGame}
-                  amountOfAttempts={this.getAmountOfAttempts({ gameId: activeGame.gameId, actions })}
-                />
-              )
-            }
+            <Game />
             <CreateGameForm
               visible={this.state.createGameMode}
-              wrappedComponentRef={(createGameForm) => this.createGameForm = createGameForm}
-              balance={100}
               onCancel={() => this.toggleCreateGameModal(false)}
               handleSubmit={() => this.toggleCreateGameModal(false)}
             />
@@ -182,13 +143,11 @@ export default compose(
 )(Main);
 
 Main.defaultProps = {
-  activeGameId: null,
+  activeGame: null,
 };
 
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
-  activeGameId: PropTypes.number,
-  actions: PropTypes.arrayOf(PropTypes.object).isRequired,
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
   connectToGame: PropTypes.func.isRequired,
 };

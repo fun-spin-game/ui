@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
+import { compose, branch, renderComponent } from 'recompose';
 import Roulette from './Roulette';
+import withGames from '../redux/games/withGames';
 
 class Game extends Component {
   render() {
@@ -11,22 +13,22 @@ class Game extends Component {
       activeGame: {
         chanceToWin,
         prize,
-        bid,
         maxAttempts,
+        id: gameId,
       },
-      amountOfAttempts,
+      disconnectFromGame,
+      getAmountOfAttempts
     } = this.props;
-
+    const amountOfAttempts = getAmountOfAttempts({ gameId });
     return (
       <div className={classes.rouletteOverlay}>
-        <a>
+        <a onClick={() => disconnectFromGame({ gameId })}>
           <Icon type="close" className={classes.close} />
         </a>
         <div className={classes.chancePercentage}>{chanceToWin}% chance to win!</div>
         <Roulette
           prize={prize}
-          chancePercentage={chanceToWin}
-          bid={bid}
+          chanceToWin={chanceToWin}
           onClickPlay={() => {}}
           onSpinFinished={() => {}}
           inProgress={false}
@@ -86,7 +88,14 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Game);
+export default compose(
+  injectSheet(styles),
+  withGames(),
+  branch(
+    ({ activeGame }) => !activeGame,
+    renderComponent(() => null)
+  )
+)(Game);
 
 Game.defaultProps = {
   activeGameId: null,
@@ -98,8 +107,9 @@ Game.defaultProps = {
 Game.propTypes = {
   classes: PropTypes.object.isRequired,
   activeGame: PropTypes.object.isRequired,
-  amountOfAttempts: PropTypes.number.isRequired,
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.node,
   disabledTitle: PropTypes.node,
+  disconnectFromGame: PropTypes.func.isRequired,
+  getAmountOfAttempts: PropTypes.func.isRequired,
 };

@@ -19,4 +19,11 @@ export default combineEpics(
     }),
     ignoreElements()
   ),
+  (action$) => action$.pipe(
+    ofType('DISCONNECT_FROM_GAME'),
+    tap(({ payload }) => {
+      ws.instance.send('DISCONNECT_FROM_GAME', payload);
+    }),
+    ignoreElements()
+  ),
 );

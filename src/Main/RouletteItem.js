@@ -1,23 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
+import { compose } from 'recompose';
 import { greenColor, redColor } from '../variables'
 
-class RouletteItem extends Component {
-  static getLum({ coefficient }) {
-    return 100 - (20 + 60 * coefficient) + '%';
-  }
-  render() {
-    const { classes, children } = this.props;
-    return (
-      <div className={classes.rouletteItem}>
-        <div className={classes.rouletteContent}>
-          {children}
-        </div>
-      </div>
-    );
-  }
-}
+const getLum = ({ coefficient }) => {
+  return 100 - (20 + 60 * coefficient) + '%';
+};
+
+const RouletteItem = ({ classes, children }) => (
+  <div className={classes.rouletteItem}>
+    <div className={classes.rouletteContent}>
+      {children}
+    </div>
+  </div>
+);
 
 const styles = {
   rouletteItem: {
@@ -33,7 +30,7 @@ const styles = {
         break;
       case 'default':
       default:
-        background = `hsl(209, 85%, ${RouletteItem.getLum({ coefficient })})`
+        background = `hsl(209, 85%, ${getLum({ coefficient })})`
     }
     return {
       'text-align': 'center',
@@ -47,7 +44,9 @@ const styles = {
   },
 };
 
-export default injectSheet(styles)(RouletteItem);
+export default compose(
+  injectSheet(styles)
+)(RouletteItem);
 
 RouletteItem.defaultProps = {
   type: 'default',

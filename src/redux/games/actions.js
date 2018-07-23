@@ -4,3 +4,9 @@ export const connectToGame = ({ gameId }) => ({
     gameId
   }
 });
+export const disconnectFromGame = ({ gameId }) => ({
+  type: 'DISCONNECT_FROM_GAME',
+  payload: {
+    gameId
+  }
+});
