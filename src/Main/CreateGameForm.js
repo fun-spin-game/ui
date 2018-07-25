@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
+import autoBind from 'auto-bind';
 import { Slider, Row, Col, InputNumber, Alert, Form, Modal } from 'antd';
 import injectSheet from 'react-jss'
 import Coins from '../common/Coins'
 import { redColor } from '../variables'
 import { getRisk, toFixedIfNeed } from '../helpers/gameUtils'
+import withGames from '../redux/games/withGames';
 import withUser from '../redux/user/withUser';
 
 const FormItem = Form.Item;
@@ -14,33 +16,32 @@ const MIN_CHANCE_TO_WIN = 5;
 const MAX_CHANCE_TO_WIN = 95;
 const MIN_ATTEMPTS = 1;
 const MAX_ATTEMPTS = 20;
-const MIN_PRIZE = 10;
+const MIN_PRIZE = 1;
+const MAX_PRIZE = 1000;
 const COL_LEFT = 6;
 const COL_RIGHT = 18;
 
 class CreateGameForm extends Component {
   constructor() {
     super();
+    autoBind(this);
     this.state = {
       chanceToWin: 50,
-      attempts: 1,
+      maxAttempts: 1,
       prize: MIN_PRIZE,
     };
-    this.onChangeChanceToWin = this.onChangeChanceToWin.bind(this);
-    this.onChangeAttempts = this.onChangeAttempts.bind(this);
-    this.onChangePrize = this.onChangePrize.bind(this);
   }
   onChangeChanceToWin(value) {
     this.setState({ chanceToWin: value })
   }
-  onChangeAttempts(value) {
-    this.setState({ attempts: value })
+  onChangeMaxAttempts(value) {
+    this.setState({ maxAttempts: value })
   }
   onChangePrize(value) {
     this.setState({ prize: value })
   }
-  getCreatorRisk({ prize, attempts }) {
-    return toFixedIfNeed(prize * attempts);
+  getCreatorRisk({ prize, maxAttempts }) {
+    return toFixedIfNeed(prize * maxAttempts);
   }
   render() {
     const {
@@ -51,29 +52,28 @@ class CreateGameForm extends Component {
       onCancel,
       form: { getFieldDecorator }
     } = this.props;
-    const { prize, chanceToWin, attempts } = this.state;
-    const creatorRisk = this.getCreatorRisk({ prize, attempts });
+    const { prize, chanceToWin, maxAttempts } = this.state;
+    const creatorRisk = this.getCreatorRisk({ prize, maxAttempts });
     const notEnoughCoins = creatorRisk > balance;
     return (
       <Modal
         title="Create lot"
         visible={visible}
-        onOk={() => handleSubmit()}
+        okButtonProps={{ disabled: notEnoughCoins }}
+        onOk={() => handleSubmit({ prize, chanceToWin, maxAttempts })}
         onCancel={onCancel}
         okText={'Create'}
       >
         <Form id="createGame" className={classes.createGame} onSubmit={this.handleSubmit}>
           <FormItem>
-            {getFieldDecorator('prize', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
+            {getFieldDecorator('prize')(
               <div>
                 <div className={classes.label}>Prize:</div>
                 <Row>
                   <Col span={COL_LEFT} className={classes.coinsInput}>
                     <InputNumber
                       min={MIN_PRIZE}
-                      max={balance}
+                      max={MAX_PRIZE}
                       onChange={this.onChangePrize}
                       value={this.state.prize}
                     />
@@ -82,7 +82,7 @@ class CreateGameForm extends Component {
                   <Col span={COL_RIGHT}>
                     <Slider
                       min={MIN_PRIZE}
-                      max={balance}
+                      max={MAX_PRIZE}
                       tipFormatter={(value) => (<span>{value} <Coins /></span>)}
                       defaultValue={50}
                       onChange={this.onChangePrize}
@@ -94,9 +94,7 @@ class CreateGameForm extends Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('prize', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
+            {getFieldDecorator('prize')(
               <div>
                 <div className={classes.label}>Opponent chance to win:</div>
                 <Row>
@@ -125,9 +123,7 @@ class CreateGameForm extends Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('prize', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
+            {getFieldDecorator('prize')(
               <div>
                 <div className={classes.label}>Attempts:</div>
                 <Row>
@@ -135,8 +131,8 @@ class CreateGameForm extends Component {
                     <InputNumber
                       min={MIN_ATTEMPTS}
                       max={MAX_ATTEMPTS}
-                      value={this.state.attempts}
-                      onChange={this.onChangeAttempts}
+                      value={this.state.maxAttempts}
+                      onChange={this.onChangeMaxAttempts}
                     />
                   </Col>
                   <Col span={COL_RIGHT}>
@@ -144,8 +140,8 @@ class CreateGameForm extends Component {
                       min={MIN_ATTEMPTS}
                       max={MAX_ATTEMPTS}
                       defaultValue={50}
-                      onChange={this.onChangeAttempts}
-                      value={this.state.attempts}
+                      onChange={this.onChangeMaxAttempts}
+                      value={this.state.maxAttempts}
                     />
                   </Col>
                 </Row>
@@ -153,9 +149,7 @@ class CreateGameForm extends Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('prize', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
+            {getFieldDecorator('prize')(
               <div>
                 <Row>
                   <Col span={10}>
@@ -172,7 +166,7 @@ class CreateGameForm extends Component {
                       notEnoughCoins && (
                         <Alert
                           className={classes.alert}
-                          message="Not enough coins to cover you risk. Reduce prize or amount of attempts"
+                          message="Not enough coins to cover you risk. Reduce prize or amount of maxAttempts"
                           type="error"
                         />
                       )
@@ -196,7 +190,7 @@ const styles = {
     '& .fa-coins': {
       position: 'absolute',
       left: 45,
-      top: 10,
+      top: 13,
     }
   },
   redColor: {
@@ -209,6 +203,7 @@ const styles = {
 
 export default compose(
   withUser(),
+  withGames(),
   Form.create(),
   injectSheet(styles),
 )(CreateGameForm);

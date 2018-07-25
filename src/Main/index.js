@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import injectSheet from 'react-jss'
+import FlipMove from 'react-flip-move';
 import { Layout, Button } from 'antd';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { compose } from 'recompose';
 import Content from '../Content';
 import Header from '../Header';
@@ -22,22 +23,6 @@ class Main extends Component {
       createGameMode: false,
     };
   }
-  componentDidUpdate() {
-    // TODO: Move to redux
-    // const activeGame = this.getActiveGame({ games: this.props.games, activeGameId: this.props.activeGameId });
-    // if (
-    //   prevProps.activeGameId &&
-    //   this.props.activeGameId &&
-    //   prevProps.activeGameId  === this.props.activeGameId &&
-    //   prevProps.balance >= activeGame.bid &&
-    //   prevProps.balance < activeGame.bid
-    // ) {
-    //   notification.open({
-    //     message: 'Low balance',
-    //     description: <span>Game was closed due to the low coin balance. <a>By coins</a></span>,
-    //   });
-    // }
-  }
   onCollapseSideMenu() {
     this.setState({ collapsedSideMenu: !this.state.collapsedSideMenu });
   }
@@ -47,7 +32,7 @@ class Main extends Component {
     })
   }
   render() {
-    const { classes, games, connectToGame, isGameInProgress, userInfo: { balance } } = this.props;
+    const { classes, games, connectToGame, notifyCreateGame, getGamePlayer, userInfo: { balance } } = this.props;
     const { collapsedSideMenu } = this.state;
     return (
       <Layout className="layout">
@@ -61,43 +46,27 @@ class Main extends Component {
           <Content className={`${classes.content} ${collapsedSideMenu ? 'collapsed-mode': ''}`}>
             <h1 className={classes.title}>Lots:</h1>
             <div className={`${classes.gameItems}`}>
-              <ReactCSSTransitionGroup
-                transitionName="list"
-                transitionEnterTimeout={500}
-                transitionLeave={false}
-              >
+              <FlipMove leaveAnimation="accordionVertical">
                 {
-                  games
-                  .sort((a, b) => {
-                    const disabledA = balance < a.risk;
-                    const disabledB = balance < b.risk;
-                    if (disabledA !==  disabledB) {
-                      return disabledA ? 1 : -1;
-                    }
-                    if (a.createdAt < b.createdAt) {
-                      return -1;
-                    } else if (a.createdAt > b.createdAt) {
-                      return 1;
-                    }
-                    return 0;
-                  })
-                  .map(({ prize, risk, chanceToWin, maxAttempts, id: gameId }, index) => {
+                  _.sortBy(games, [({ risk }) => balance <= risk, 'createdAt'])
+                  .map(({ prize, risk, chanceToWin, maxAttempts, creatorUser, id: gameId }) => {
                     return (
                       <GameItem
                         id={gameId}
-                        key={index}
+                        key={gameId}
                         prize={prize}
                         risk={risk}
+                        creatorUser={creatorUser}
                         chanceToWin={chanceToWin}
                         maxAttempts={maxAttempts}
                         onClickPlay={connectToGame}
                         disabled={balance < risk}
-                        inProgress={isGameInProgress({ gameId })}
+                        gamePlayer={getGamePlayer({ gameId })}
                       />
                     );
                   })
                 }
-              </ReactCSSTransitionGroup>
+              </FlipMove>
             </div>
             <div className={classes.createGameBlock}>
               <Button type="primary" onClick={() => this.toggleCreateGameModal(true)} className={classes.createGameBtn}>Create lot</Button>
@@ -106,7 +75,7 @@ class Main extends Component {
             <CreateGameForm
               visible={this.state.createGameMode}
               onCancel={() => this.toggleCreateGameModal(false)}
-              handleSubmit={() => this.toggleCreateGameModal(false)}
+                handleSubmit={(values) => { notifyCreateGame({ game: values }); this.toggleCreateGameModal(false) }}
             />
           </Content>
         </Layout>
@@ -169,5 +138,6 @@ Main.propTypes = {
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
   connectToGame: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
-  isGameInProgress: PropTypes.func.isRequired,
+  getGamePlayer: PropTypes.func.isRequired,
+  notifyCreateGame: PropTypes.func.isRequired,
 };

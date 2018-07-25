@@ -1,11 +1,11 @@
 export const connectToGame = ({ gameId }) => ({
-  type: 'CONNECT_TO_GAME',
+  type: 'NOTIFICATION_GAME_USER_CONNECT',
   payload: {
     gameId
   }
 });
 export const disconnectFromGame = ({ gameId }) => ({
-  type: 'DISCONNECT_FROM_GAME',
+  type: 'NOTIFICATION_GAME_USER_DISCONNECT',
   payload: {
     gameId
   }
@@ -15,5 +15,11 @@ export const notifyGameSpin = ({ gameId, result }) => ({
   payload: {
     gameId,
     result,
+  }
+});
+export const notifyCreateGame = ({ game }) => ({
+  type: 'NOTIFICATION_CREATE_GAME',
+  payload: {
+    game,
   }
 });

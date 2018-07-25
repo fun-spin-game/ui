@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
+import autoBind from 'auto-bind'
 import Slider from 'react-slick';
 import { compose } from 'recompose';
 import _ from 'lodash';
@@ -13,11 +14,13 @@ import { toFixedIfNeed } from '../helpers/gameUtils'
 let {
   REACT_APP_GAME_GAME_SPIN_DELAY,
   REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION,
-  REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC,
+  REACT_APP_ROULETTE_AUTOPLAY_DELAY,
+  REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
 } = process.env;
 REACT_APP_GAME_GAME_SPIN_DELAY = parseInt(REACT_APP_GAME_GAME_SPIN_DELAY);
 REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION = parseInt(REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
-REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC = parseInt(REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC);
+REACT_APP_ROULETTE_AUTOPLAY_DELAY = parseInt(REACT_APP_ROULETTE_AUTOPLAY_DELAY);
+REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY = parseInt(REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY);
 const SETTINGS = {
  infinite: true,
  slidesToShow: 7,
@@ -31,31 +34,52 @@ const SETTINGS = {
 class Roulette extends Component {
   constructor({ chanceToWin }) {
     super();
+    autoBind(this);
     this.state = {
       result: null,
       showReward: false,
       resultItems: _.shuffle(_.fill(Array(chanceToWin), true)
       .concat(_.fill(Array(100 - chanceToWin), false))),
-      autoPlayInterval: this.setAutoPlayInterval(),
+      autoPlayInterval: null,
+      autoPlayNotificationTimeout: null,
       hideRewardTimeout: null,
       autoPlayIntervalCounter: 0,
     }
   }
+  componentDidMount() {
+    this.setState({
+      autoPlayNotificationTimeout: this.setAupoPlayNotificationTimeout(this.props),
+    })
+  }
   componentWillUnmount() {
+    clearInterval(this.state.autoPlayNotificationTimeout);
     clearInterval(this.state.autoPlayInterval);
     clearTimeout(this.state.hideRewardTimeout);
   }
 
   setAutoPlayInterval() {
-    return setInterval(() => {
-      if (this.state.autoPlayIntervalCounter >= REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC) {
-        this.play();
-      } else {
-        this.setState({
-          autoPlayIntervalCounter: this.state.autoPlayIntervalCounter + 1
-        });
-      }
-    }, 1000);
+    this.setState({
+      autoPlayInterval: setInterval(() => {
+        if (this.state.autoPlayIntervalCounter >= REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000) {
+          this.play();
+        } else {
+          this.setState({
+            autoPlayIntervalCounter: this.state.autoPlayIntervalCounter + 1
+          });
+        }
+      }, 1000)
+    })
+  }
+
+  setAupoPlayNotificationTimeout({ lowBalance, maxAttemptsReached }) {
+    if (lowBalance || maxAttemptsReached) return;
+    this.setState({
+      autoPlayInterval: null,
+      autoPlayNotificationTimeout: setTimeout(
+        () => this.setAutoPlayInterval(),
+        REACT_APP_ROULETTE_AUTOPLAY_DELAY - REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY
+      )
+    });
   }
 
   getNextIndex({ value, items }) {
@@ -84,15 +108,14 @@ class Roulette extends Component {
   }
 
   onSpinDone({ result }) {
-    const hideRewardTimeout = setTimeout(() => {
-      this.setState({
-        showReward: false,
-      });
-    }, REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
     this.setState({
-      hideRewardTimeout,
+      hideRewardTimeout: setTimeout(() => {
+        this.setState({
+          showReward: false,
+        });
+      }, REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION),
       showReward: true,
-      autoPlayInterval: this.setAutoPlayInterval(),
+      autoPlayNotificationTimeout: this.setAupoPlayNotificationTimeout(this.props),
     });
     this.props.onSpinFinished({ result });
   }
@@ -143,6 +166,7 @@ class Roulette extends Component {
             inProgress={inProgress}
             lowBalance={lowBalance}
             autoPlayIntervalCounter={autoPlayIntervalCounter}
+            autoplayIntervalStarted={!!this.state.autoPlayInterval}
             play={this.play.bind(this)}
           />
         </div>

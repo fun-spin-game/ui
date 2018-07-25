@@ -15,10 +15,7 @@ export const getActiveGame = ({ actions, userId, games }) => {
     lastRelevantAction.payload.userId === userId
   ) ? lastRelevantAction.payload.gameId : null;
 
-  const game = games.find(({ id }) => id === activeGameId);
-  return game ? {
-    ...game,
-  } : null;
+  return games.find(({ id }) => id === activeGameId);
 };
 
 export const toFixedIfNeed = (val) => {

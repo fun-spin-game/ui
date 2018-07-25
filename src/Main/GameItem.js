@@ -9,6 +9,7 @@ import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
 import withGames from '../redux/games/withGames';
+import withUser from '../redux/user/withUser';
 
 const getColor = (value) => {
   const hue = ((value) * 120).toString(10);
@@ -16,28 +17,36 @@ const getColor = (value) => {
 }
 
 const GameItem = ({
-    id,
-    classes,
-    chanceToWin,
-    prize,
-    maxAttempts,
-    inProgress,
-    won,
-    lost,
-    onClickPlay,
-    risk,
-    disabled,
-    amountOfAttemptsPercentage,
-    amountOfAttempts
-  }) => {
+  id,
+  classes,
+  chanceToWin,
+  prize,
+  maxAttempts,
+  gamePlayer,
+  creatorUser,
+  won,
+  lost,
+  onClickPlay,
+  risk,
+  disabled,
+  amountOfAttemptsPercentage,
+  amountOfAttempts,
+  userInfo,
+}) => {
   return (
     <div
-      className={classNames(classes.gameItem, { inProgress, won, lost, disabled })}
+      className={classNames(classes.gameItem, {
+        inProgress: gamePlayer,
+        won,
+        lost,
+        disabled,
+        ownGame: creatorUser && creatorUser.id === userInfo.id
+      })}
       title={disabled ? 'Low balance. Can not cover the risk' : ''}
     >
       <div className={`game-item-content ${classes.gameItemContent}`}>
         <div
-          className={`${inProgress ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
+          className={`${gamePlayer ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
         >
           <span className={classes.chanceToWin}>{chanceToWin}% <small>chance</small></span>
           <div>
@@ -77,13 +86,19 @@ const GameItem = ({
           <div className={classes.amountOfAttempts}>
              <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
              <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts used</small></span></div>
-             <div>{(inProgress || won || lost) && 'In progress...'}</div>
+             <div>{(gamePlayer) && 'In progress...'}</div>
           </div>
         </div>
         {
-          (inProgress || won || lost) &&
+          (gamePlayer) &&
           <div className={classes.playerAvatarContainer}>
-            <Avatar size="small" className={`player-avatar ${classes.playerAvatar}`} icon="user" />
+            <Avatar size="small" className={`player-avatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
+          </div>
+        }
+        {
+          (creatorUser) &&
+          <div className={classes.creatorAvatarContainer}>
+            <Avatar size="small" className={`creatorAvatar ${classes.creatorAvatar}`} src={creatorUser.photo} />
           </div>
         }
       </div>
@@ -96,7 +111,7 @@ const styles = {
     'text-align': 'center',
     height: 250,
     'padding': 35,
-    '&:not(.inProgress):not(.won):not(.lost):hover:not(.disabled)': {
+    '&:not(.inProgress):not(.won):not(.lost):hover:not(.disabled):not(.ownGame)': {
       '& .game-item-content': {
         transform: 'scale(1.3)',
       },
@@ -130,6 +145,11 @@ const styles = {
     },
     '&.disabled': {
       opacity: .4
+    },
+    '&.ownGame': {
+      '& .creatorAvatar': {
+        border: `2px solid ${greenColor}`,
+      }
     }
   },
   gameItemContent: {
@@ -188,10 +208,13 @@ const styles = {
     left: 125,
     top: 185,
   },
-  playerAvatar: {
-  },
-  playerAvatarLoader: {
+  creatorAvatarContainer: {
     position: 'absolute',
+    left: 125,
+    top: 0,
+  },
+  creatorAvatar: {
+    boxSizing: 'content-box',
   },
   flashAnimation: {
     'animation-duration': '3s',
@@ -206,6 +229,7 @@ const styles = {
 };
 
 export default compose(
+  withUser(),
   withGames(),
   withProps(({
     id,
@@ -222,12 +246,13 @@ export default compose(
 )(GameItem);
 
 GameItem.defaultProps = {
-  inProgress: false,
+  gamePlayer: null,
+  creatorUser: null,
 };
 
 GameItem.propTypes = {
   classes: PropTypes.object.isRequired,
-  inProgress: PropTypes.bool,
+  gamePlayer: PropTypes.object,
   won: PropTypes.bool,
   disabled: PropTypes.bool,
   lost: PropTypes.bool,
@@ -236,6 +261,10 @@ GameItem.propTypes = {
   prize: PropTypes.number,
   risk: PropTypes.number,
   maxAttempts: PropTypes.number.isRequired,
+  creatorUser: PropTypes.object,
   onClickPlay: PropTypes.func.isRequired,
   getAmountOfAttempts: PropTypes.func.isRequired,
+  amountOfAttemptsPercentage: PropTypes.number.isRequired,
+  amountOfAttempts: PropTypes.number.isRequired,
+  userInfo: PropTypes.object.isRequired,
 };

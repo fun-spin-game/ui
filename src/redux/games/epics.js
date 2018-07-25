@@ -16,7 +16,7 @@ const wsMessageToReduxInterceptor = ({ message, state }) => {
       const activeGame = getActiveGame({
         actions: state.games.actions,
         games: state.games.games,
-        userId: state.user.userInfo.id
+        userId: state.user.userInfo || state.user.userInfo.id
       });
       if (activeGame && activeGame.id === message.payload.gameId) {
         return interceptorDelay(process.env.REACT_APP_ACTIVE_GAME_EXPIRED_DELAY);
@@ -37,24 +37,15 @@ export default combineEpics(
     })),
   ),
   (action$) => action$.pipe(
-    ofType('CONNECT_TO_GAME'),
-    tap(({ payload }) => {
-      ws.instance.send('CONNECT_TO_GAME', payload);
+    ofType(
+      'NOTIFICATION_GAME_USER_CONNECT',
+      'NOTIFICATION_GAME_USER_DISCONNECT',
+      'NOTIFICATION_CREATE_GAME',
+      'NOTIFICATION_GAME_SPIN',
+    ),
+    tap(({ type, payload }) => {
+      ws.instance.send(type, payload);
     }),
     ignoreElements()
   ),
-  (action$) => action$.pipe(
-    ofType('DISCONNECT_FROM_GAME'),
-    tap(({ payload }) => {
-      ws.instance.send('DISCONNECT_FROM_GAME', payload);
-    }),
-    ignoreElements()
-  ),
-  (action$) => action$.pipe(
-    ofType('NOTIFICATION_GAME_SPIN'),
-    tap(({ payload }) => {
-      ws.instance.send('NOTIFICATION_GAME_SPIN', payload);
-    }),
-    ignoreElements()
-  )
 );

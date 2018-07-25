@@ -31,7 +31,7 @@ class Game extends Component {
     return (
       <div className={classes.rouletteOverlay}>
         {
-          !maxAttemptsReached && !inProgress && <a onClick={() => disconnectFromGame({ gameId })}>
+            !inProgress && <a onClick={() => disconnectFromGame({ gameId })}>
               <Icon type="close" className={classes.close} />
             </a>
         }

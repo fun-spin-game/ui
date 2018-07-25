@@ -5,10 +5,12 @@ import injectSheet from 'react-jss'
 import { compose, branch, renderComponent } from 'recompose';
 import { greenColor, lightGreenColor } from '../variables'
 let {
-  REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC,
+  REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
 } = process.env;
 
-const RoulettePlayBtn = ({ inProgress, autoPlayIntervalCounter, classes, play }) => (
+const autoplayNotificationDelay = REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000;
+
+const RoulettePlayBtn = ({ inProgress, autoplayIntervalStarted, autoPlayIntervalCounter, classes, play }) => (
   <Button
     type="primary"
     size="large"
@@ -16,7 +18,7 @@ const RoulettePlayBtn = ({ inProgress, autoPlayIntervalCounter, classes, play })
     className={`play-button ${classes.playButton}`}
     onClick={() => {play();}}
   >
-    Play! {!inProgress && <span>({ REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC - autoPlayIntervalCounter })</span>}
+    Play! {!inProgress && autoplayIntervalStarted && <span>({ autoplayNotificationDelay - autoPlayIntervalCounter })</span>}
   </Button>
 )
 
@@ -64,6 +66,7 @@ RoulettePlayBtn.propTypes = {
   maxAttemptsReached: PropTypes.bool.isRequired,
   lowBalance: PropTypes.bool.isRequired,
   inProgress: PropTypes.bool.isRequired,
+  autoplayIntervalStarted: PropTypes.bool.isRequired,
   autoPlayIntervalCounter: PropTypes.number.isRequired,
   play: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

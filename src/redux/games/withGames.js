@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { connectToGame, disconnectFromGame, notifyGameSpin } from './actions';
+import { connectToGame, disconnectFromGame, notifyGameSpin, notifyCreateGame } from './actions';
 import { getActiveGame } from '../../helpers/gameUtils';
 
 export default () => connect(
@@ -18,6 +18,9 @@ export default () => connect(
     },
     notifyGameSpin({ gameId, result }) {
       return dispatch(notifyGameSpin({ gameId, result }))
+    },
+    notifyCreateGame({ game }) {
+      return dispatch(notifyCreateGame({ game }));
     }
   }), (stateProps, dispatchProps, ownProps) => ({
     ...ownProps,
@@ -27,10 +30,11 @@ export default () => connect(
       return stateProps.actions
       .filter((action) => action.type === 'GAME_SPIN' && gameId === action.payload.gameId).length;
     },
-    isGameInProgress({ gameId }) {
+    getGamePlayer({ gameId }) {
       const { actions } = stateProps;
       const lastGameAction = [...actions].reverse().find(({ payload }) => gameId === payload.gameId)
-      return lastGameAction && lastGameAction.type !== 'GAME_USER_DISCONNECTED';
+      if (lastGameAction && lastGameAction.type !== 'GAME_USER_DISCONNECTED') return lastGameAction.payload.user;
+      else return null
     }
   }),
 );

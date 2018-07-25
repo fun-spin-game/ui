@@ -19,10 +19,13 @@ const SignIn = ({
     <FormContainer>
       <Form>
         <FormItem>
-          {getFieldDecorator('login', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+          {getFieldDecorator('email', {
+            rules: [
+              { required: true, message: 'Please input your email!' },
+              { type: 'email', message: 'The input is not valid E-mail!' },
+            ],
           })(
-            <Input prefix={<Icon type="user" />} placeholder="Username" />
+            <Input prefix={<Icon type="user" />} placeholder="Email" />
           )}
         </FormItem>
         <FormItem>
