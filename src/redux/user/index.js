@@ -14,6 +14,8 @@ const userReducer = (
       return { ...state, userInfoRequestDone: true };
     case 'LOGOUT_SUCCESS':
       return { ...state, userInfo: null };
+    case 'USER_UPDATED':
+      return { ...state, userInfo: payload };
     default:
       return state;
   }

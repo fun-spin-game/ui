@@ -1,102 +1,102 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import injectSheet from 'react-jss'
-import { compose } from 'recompose';
+import PropTypes from 'prop-types'
+import classNames from 'classnames';
+import { compose, withProps } from 'recompose';
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
-import { getOpponentRisk } from '../helpers/gameUtils';
+import { toFixedIfNeed } from '../helpers/gameUtils';
 import withGames from '../redux/games/withGames';
 
-class GameItem extends Component {
-  getColor(value) {
-    const hue = ((value) * 120).toString(10);
-    return ["hsl(",hue,",85%,50%)"].join("");
-  }
-
-  render() {
-    const {
-      id,
-      classes,
-      chanceToWin,
-      prize,
-      maxAttempts,
-      inProgress,
-      won,
-      lost,
-      onClickPlay,
-      getAmountOfAttempts,
-    } = this.props;
-
-    const risk = getOpponentRisk({ prize, chanceToWin });
-    const amountOfAttempts = getAmountOfAttempts({ gameId: id });
-    const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
-    return (
-      <div className={`${classes.gameItem} ${inProgress ? 'in-progress': ''} ${won ? 'won': ''} ${lost ? 'lost': ''}`}>
-        <div className={`game-item-content ${classes.gameItemContent}`}>
-          <div
-            className={`${inProgress ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
-          >
-            <span className={classes.chanceToWin}>{chanceToWin}% <small>chance</small></span>
-            <div>
-              <Circle
-                className={classes.circle}
-                percent={chanceToWin}
-                gapDegree={95}
-                gapPosition="bottom"
-                strokeWidth="7"
-                strokeLinecap="round"
-                strokeColor={this.getColor(chanceToWin / 100)}
-                trailWidth="7"
-                trailColor="#f5f5f5"
-                style={{
-                  width: 150,
-                  height: 150
-                }}
-              />
-            </div>
-            <span
-              className={`prize ${classes.prize} ${won ? 'fadeOutUp animated' : ''}`}
-            >
-              {prize} <Coins />
-            </span>
-            <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
-              Your risk: {risk} <Coins />
-            </span>
-            <div className={classes.playButtonContainer}>
-              <Button
-                type="primary"
-                className={`play-button ${classes.playButton}`}
-                onClick={() => onClickPlay({ gameId: id })}
-              >
-                Play!
-              </Button>
-            </div>
-            <div className={classes.amountOfAttempts}>
-               <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
-               <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts used</small></span></div>
-               <div>{(inProgress || won || lost) && 'In progress...'}</div>
-            </div>
-          </div>
-          {
-            (inProgress || won || lost) &&
-            <div className={classes.playerAvatarContainer}>
-              <Avatar size="small" className={`player-avatar ${classes.playerAvatar}`} icon="user" />
-            </div>
-          }
-        </div>
-      </div>
-    )
-  }
+const getColor = (value) => {
+  const hue = ((value) * 120).toString(10);
+  return ["hsl(",hue,",85%,50%)"].join("");
 }
+
+const GameItem = ({
+    id,
+    classes,
+    chanceToWin,
+    prize,
+    maxAttempts,
+    inProgress,
+    won,
+    lost,
+    onClickPlay,
+    risk,
+    disabled,
+    amountOfAttemptsPercentage,
+    amountOfAttempts
+  }) => {
+  return (
+    <div
+      className={classNames(classes.gameItem, { inProgress, won, lost, disabled })}
+      title={disabled ? 'Low balance. Can not cover the risk' : ''}
+    >
+      <div className={`game-item-content ${classes.gameItemContent}`}>
+        <div
+          className={`${inProgress ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
+        >
+          <span className={classes.chanceToWin}>{chanceToWin}% <small>chance</small></span>
+          <div>
+            <Circle
+              className={classes.circle}
+              percent={chanceToWin}
+              gapDegree={95}
+              gapPosition="bottom"
+              strokeWidth="7"
+              strokeLinecap="round"
+              strokeColor={getColor(chanceToWin / 100)}
+              trailWidth="7"
+              trailColor="#f5f5f5"
+              style={{
+                width: 150,
+                height: 150
+              }}
+            />
+          </div>
+          <span
+            className={`prize ${classes.prize} ${won ? 'fadeOutUp animated' : ''}`}
+          >
+            {prize} <Coins />
+          </span>
+          <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
+            Your risk: {toFixedIfNeed(risk)} <Coins />
+          </span>
+          <div className={classes.playButtonContainer}>
+            <Button
+              type="primary"
+              className={`play-button ${classes.playButton}`}
+              onClick={() => onClickPlay({ gameId: id })}
+            >
+              Play!
+            </Button>
+          </div>
+          <div className={classes.amountOfAttempts}>
+             <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
+             <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts used</small></span></div>
+             <div>{(inProgress || won || lost) && 'In progress...'}</div>
+          </div>
+        </div>
+        {
+          (inProgress || won || lost) &&
+          <div className={classes.playerAvatarContainer}>
+            <Avatar size="small" className={`player-avatar ${classes.playerAvatar}`} icon="user" />
+          </div>
+        }
+      </div>
+    </div>
+  )
+};
 
 const styles = {
   gameItem: {
     'text-align': 'center',
     height: 250,
     'padding': 35,
-    '&:not(.in-progress):not(.won):not(.lost):hover': {
+    '&:not(.inProgress):not(.won):not(.lost):hover:not(.disabled)': {
       '& .game-item-content': {
         transform: 'scale(1.3)',
       },
@@ -128,6 +128,9 @@ const styles = {
     '&.lost': {
       color: redColor,
     },
+    '&.disabled': {
+      opacity: .4
+    }
   },
   gameItemContent: {
     transition: 'all 300ms ease',
@@ -204,6 +207,17 @@ const styles = {
 
 export default compose(
   withGames(),
+  withProps(({
+    id,
+    getAmountOfAttempts,
+    maxAttempts,
+  }) => {
+    const amountOfAttempts = getAmountOfAttempts({ gameId: id });
+    return {
+      amountOfAttempts,
+      amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
+    }
+  }),
   injectSheet(styles)
 )(GameItem);
 
@@ -215,10 +229,12 @@ GameItem.propTypes = {
   classes: PropTypes.object.isRequired,
   inProgress: PropTypes.bool,
   won: PropTypes.bool,
+  disabled: PropTypes.bool,
   lost: PropTypes.bool,
   id: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,
   prize: PropTypes.number,
+  risk: PropTypes.number,
   maxAttempts: PropTypes.number.isRequired,
   onClickPlay: PropTypes.func.isRequired,
   getAmountOfAttempts: PropTypes.func.isRequired,

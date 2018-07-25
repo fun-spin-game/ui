@@ -5,7 +5,7 @@ import { Slider, Row, Col, InputNumber, Alert, Form, Modal } from 'antd';
 import injectSheet from 'react-jss'
 import Coins from '../common/Coins'
 import { redColor } from '../variables'
-import { getOpponentRisk } from '../helpers/gameUtils'
+import { getRisk, toFixedIfNeed } from '../helpers/gameUtils'
 import withUser from '../redux/user/withUser';
 
 const FormItem = Form.Item;
@@ -40,7 +40,7 @@ class CreateGameForm extends Component {
     this.setState({ prize: value })
   }
   getCreatorRisk({ prize, attempts }) {
-    return (prize * attempts).toFixed(2);
+    return toFixedIfNeed(prize * attempts);
   }
   render() {
     const {
@@ -159,7 +159,7 @@ class CreateGameForm extends Component {
               <div>
                 <Row>
                   <Col span={10}>
-                    <div className={classes.label}>You can win: {getOpponentRisk({ prize, chanceToWin })} <Coins /></div>
+                    <div className={classes.label}>You can win: {toFixedIfNeed(getRisk({ prize, chanceToWin }))} <Coins /></div>
                     <div className={classes.label}>
                       You risk:<span> </span>
                       <span className={notEnoughCoins ? classes.redColor : ''}>

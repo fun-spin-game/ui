@@ -5,14 +5,15 @@ import { compose, branch, renderComponent, withHandlers } from 'recompose';
 import { Icon } from 'antd';
 import withUser from '../redux/user/withUser';
 import Coins from '../common/Coins';
+import { toFixedIfNeed } from '../helpers/gameUtils';
 
-const RightBlock = ({ classes, logout }) => {
+const RightBlock = ({ classes, logout, userInfo }) => {
   return (
     <div className={classes.rightBlock}>
       <span className={classes.balance}>
         Balance:
         <span className={classes.balanceAmount}>
-          <Coins /> 250 <a>
+          <Coins /> {toFixedIfNeed(userInfo.balance)} <a>
           <Icon type="plus-circle-o" />
           </a>
         </span>
@@ -48,7 +49,7 @@ RightBlock.defaultProps = {
 
 RightBlock.propTypes = {
   classes: PropTypes.object.isRequired,
-  userData: PropTypes.object,
+  userInfo: PropTypes.object,
   logout: PropTypes.func.isRequired,
 };
 

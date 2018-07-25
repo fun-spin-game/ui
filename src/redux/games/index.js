@@ -14,7 +14,7 @@ const gamesReducer = (state = {
     case 'GAME_EXPIRED': {
       return {
         ...state,
-        games: state.games.filter((game) => game.id !== payload.id),
+        games: state.games.filter((game) => game.id !== payload.gameId),
       }
     }
     case 'GAME_CREATED': {
@@ -23,6 +23,7 @@ const gamesReducer = (state = {
         games: [ ...state.games, payload.game ],
       }
     }
+    case 'GAME_SPIN':
     case 'GAME_USER_DISCONNECTED':
     case 'GAME_USER_CONNECTED': {
       return {
@@ -34,10 +35,5 @@ const gamesReducer = (state = {
       return state
   }
 }
-
-export const createGame = (game) => ({
-  type: 'CREATE_GAME',
-  game
-})
 
 export default gamesReducer;

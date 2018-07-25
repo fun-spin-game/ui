@@ -4,15 +4,20 @@ import injectSheet from 'react-jss'
 import Slider from 'react-slick';
 import { compose } from 'recompose';
 import _ from 'lodash';
-import { Icon, Button } from 'antd';
+import { Icon } from 'antd';
 import RouletteItem from './RouletteItem';
+import RoulettePlayBtn from './RoulettePlayBtn';
 import Coins from '../common/Coins'
-import { greenColor, redColor, lightGreenColor } from '../variables'
-import { getOpponentRisk } from '../helpers/gameUtils'
-
-const BASE_SLIDER_SPEED = 8000;
-const SLIDERS_SPEED_DIFFERENCE = 4000;
-const REWARD_ANIMATION_DURATION = 4000;
+import { greenColor, redColor } from '../variables'
+import { toFixedIfNeed } from '../helpers/gameUtils'
+let {
+  REACT_APP_GAME_GAME_SPIN_DELAY,
+  REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION,
+  REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC,
+} = process.env;
+REACT_APP_GAME_GAME_SPIN_DELAY = parseInt(REACT_APP_GAME_GAME_SPIN_DELAY);
+REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION = parseInt(REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
+REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC = parseInt(REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC);
 const SETTINGS = {
  infinite: true,
  slidesToShow: 7,
@@ -20,57 +25,30 @@ const SETTINGS = {
  arrows: false,
  draggable: false,
  centerMode: true,
- speed: BASE_SLIDER_SPEED,
+ speed: REACT_APP_GAME_GAME_SPIN_DELAY,
  initialSlide: 0,
 };
-const AUTOPLAY_DELAY_IN_SEC = 15;
 class Roulette extends Component {
   constructor({ chanceToWin }) {
     super();
-    const coeficients = Array.apply(null, Array(11)).map(function (x, i) { return i / 10; });
-
     this.state = {
       result: null,
-      coeficient: null,
       showReward: false,
-      inProgress: false,
-      resultItems: Array.apply(null, Array(chanceToWin)).map(() =>{
-        return true;
-      })
-      .concat(Array.apply(null, Array(100 - chanceToWin)).map(() =>{
-        return false;
-      }))
-      .sort(() => {
-        return Math.random() >= 0.5 ? 1 : -1;
-      }),
-      coeficientItems: [].concat(
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-        coeficients,
-      ).sort(() => {
-        return Math.random() >= 0.5 ? 1 : -1;
-      }),
+      resultItems: _.shuffle(_.fill(Array(chanceToWin), true)
+      .concat(_.fill(Array(100 - chanceToWin), false))),
       autoPlayInterval: this.setAutoPlayInterval(),
-      showRewardTimeout: null,
       hideRewardTimeout: null,
       autoPlayIntervalCounter: 0,
     }
   }
   componentWillUnmount() {
     clearInterval(this.state.autoPlayInterval);
-    clearTimeout(this.state.showRewardTimeout);
     clearTimeout(this.state.hideRewardTimeout);
   }
+
   setAutoPlayInterval() {
     return setInterval(() => {
-      if (this.state.autoPlayIntervalCounter >= AUTOPLAY_DELAY_IN_SEC) {
+      if (this.state.autoPlayIntervalCounter >= REACT_APP_ROULETTE_AUTOPLAY_DELAY_IN_SEC) {
         this.play();
       } else {
         this.setState({
@@ -79,6 +57,7 @@ class Roulette extends Component {
       }
     }, 1000);
   }
+
   getNextIndex({ value, items }) {
     const minIndex = 60;
     const sliceIndex = _.random(minIndex, items.length - 1);
@@ -88,105 +67,67 @@ class Roulette extends Component {
     const backIndex = items.length - 1 - [...items].reverse().indexOf(value);
     return randomIndex !== -1 ? randomIndex : backIndex;
   }
-  getRandomOffset() {
-    return _.random(-0.45, 0.45, true);
-  }
+
   play() {
     clearInterval(this.state.autoPlayInterval);
-    this.setState({
-      autoPlayIntervalCounter: 0,
-      autoPlayInterval: null,
-    });
+    const { onClickPlay, lowBalance } = this.props;
+    if (lowBalance) return;
 
-    const { chanceToWin, onClickPlay } = this.props;
-    const { coeficientItems } = this.state;
-    const resultIndex = this.getNextIndex({
-      value: Math.random() >= (chanceToWin / 100),
-      items: this.state.resultItems,
-    });
-    const coeficientIndex = this.getNextIndex({
-      value: _.sample(coeficientItems),
-      items: coeficientItems,
-    });
-
-    this.setState({ inProgress: true });
-    onClickPlay();
-
+    const result = _.sample(this.state.resultItems);
+    const resultIndex = this.getNextIndex({ value: result, items: this.state.resultItems });
+    this.setState({ autoPlayIntervalCounter: 0, result });
     this.resultSlider.slickGoTo(0, true);
-    this.coefficientSlider.slickGoTo(0, true);
     setTimeout(() => {
-      this.resultSlider.slickGoTo(resultIndex + this.getRandomOffset());
-      this.coefficientSlider.slickGoTo(coeficientIndex + this.getRandomOffset());
+      this.resultSlider.slickGoTo(resultIndex + _.random(-0.45, 0.45, true));
+      onClickPlay({ result });
     });
-    this.setFinishTimeouts({ resultIndex, coeficientIndex });
   }
-  setFinishTimeouts({ resultIndex, coeficientIndex }) {
-    const showRewardDelay = BASE_SLIDER_SPEED + SLIDERS_SPEED_DIFFERENCE;
-    const result = this.state.resultItems[resultIndex];
-    const coeficient = this.state.coeficientItems[coeficientIndex];
-    const showRewardTimeout = setTimeout(() => {
-      this.setState({
-        showReward: true,
-        inProgress: false,
-        result,
-        coeficient,
-        autoPlayInterval: this.setAutoPlayInterval(),
-      })
-    }, showRewardDelay);
+
+  onSpinDone({ result }) {
     const hideRewardTimeout = setTimeout(() => {
       this.setState({
         showReward: false,
       });
-      this.props.onSpinFinished({ result, coeficient });
-    }, showRewardDelay + REWARD_ANIMATION_DURATION);
-    this.setState({ showRewardTimeout, hideRewardTimeout });
+    }, REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
+    this.setState({
+      hideRewardTimeout,
+      showReward: true,
+      autoPlayInterval: this.setAutoPlayInterval(),
+    });
+    this.props.onSpinFinished({ result });
   }
+
   render() {
     const {
       classes,
       prize,
-      chanceToWin,
-      disabled,
+      risk,
+      maxAttemptsReached,
+      inProgress,
+      lowBalance,
     } = this.props;
     const {
-      inProgress,
       showReward,
       resultItems,
-      coeficientItems,
       result,
-      coeficient,
       autoPlayIntervalCounter,
-      autoPlayInterval,
     } = this.state;
-    const risk = getOpponentRisk({ prize, chanceToWin });
     return (
       <div className={classes.roulette}>
         <div className={classes.arrows}>
           <Icon type="down" />
         </div>
         <div className={`${classes.resultSlider} ${classes.slider}`}>
-          <Slider {...SETTINGS} ref={(ref) => { this.resultSlider = ref }}>
+          <Slider
+            {...SETTINGS}
+            ref={(ref) => { this.resultSlider = ref }}
+            afterChange={(slideIndex) => slideIndex && this.onSpinDone({ result: this.state.result })}
+          >
             {
               resultItems.map((win, index) => {
                 return (
                   <RouletteItem key={index} type={win ? 'win' : 'lose'}>
-                    {win ? `+${prize}` : `-${risk}`} <Coins />
-                  </RouletteItem>
-                )
-              })
-            }
-          </Slider>
-        </div>
-        <div className={`${classes.coefficientSlider} ${classes.slider}`}>
-          <Slider
-            {...{ ...SETTINGS, speed: BASE_SLIDER_SPEED + SLIDERS_SPEED_DIFFERENCE }}
-            ref={(ref) => { this.coefficientSlider = ref }}
-          >
-            {
-              coeficientItems.map((item, index) => {
-                return (
-                  <RouletteItem key={index} coefficient={item}>
-                    x{item}
+                    {win ? `+${prize}` : `-${toFixedIfNeed(risk)}`} <Coins />
                   </RouletteItem>
                 )
               })
@@ -196,18 +137,18 @@ class Roulette extends Component {
         <div className={classes.arrows}>
           <Icon type="up" />
         </div>
-        <Button
-          type="primary"
-          size="large"
-          disabled={inProgress || disabled}
-          className={`play-button ${classes.playButton}`}
-          onClick={() => {this.play();}}
-        >
-          Play! {autoPlayInterval && !inProgress && <span>({ AUTOPLAY_DELAY_IN_SEC - autoPlayIntervalCounter })</span>}
-        </Button>
+        <div className={classes.playBtnContainer}>
+          <RoulettePlayBtn
+            maxAttemptsReached={maxAttemptsReached}
+            inProgress={inProgress}
+            lowBalance={lowBalance}
+            autoPlayIntervalCounter={autoPlayIntervalCounter}
+            play={this.play.bind(this)}
+          />
+        </div>
         {
           showReward && <div className={`${classes.reward} ${result ? 'win' : 'lose'} animated fadeOutUp`}>
-            {result ? `+${prize * coeficient}` : `-${risk * coeficient}`} <Coins />
+            {result ? `+${prize}` : `-${toFixedIfNeed(risk)}`} <Coins />
           </div>
         }
       </div>
@@ -226,34 +167,26 @@ const styles = {
   slider: {
     'box-shadow': '0px 0px 10px 0px rgba(0,0,0,0.75)',
   },
-  coefficientSlider: {
-    'margin-top': 20,
-  },
   arrows: {
     'font-size': '50px',
     display: 'flex',
     'flex-direction': 'column',
     color: 'white',
   },
-  playButton: {
-    'box-shadow': '0px 0px 10px 0px rgba(0,0,0,0.75)',
-    height: 'auto',
-    'font-size': '30px',
-    padding: '10px 20px',
-    background: greenColor,
-    'border-color': greenColor,
-    '&:hover, &:active, &:focus': {
-      background: lightGreenColor,
-      'border-color': lightGreenColor,
-    }
+  playBtnContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 270,
   },
   reward: {
     'z-index': -2,
     position: 'absolute',
     left: 0,
     right: 0,
+    top: -160,
     'font-size': '60px',
-    'animation-duration': REWARD_ANIMATION_DURATION,
+    'animation-duration': REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION,
     '&.win': {
       color: greenColor,
     },
@@ -272,9 +205,12 @@ Roulette.defaultProps = {
 
 Roulette.propTypes = {
   classes: PropTypes.object.isRequired,
-  chanceToWin: PropTypes.number.isRequired,
   prize: PropTypes.number.isRequired,
+  chanceToWin: PropTypes.number.isRequired,
+  risk: PropTypes.number.isRequired,
   onClickPlay: PropTypes.func.isRequired,
   onSpinFinished: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
+  maxAttemptsReached: PropTypes.bool,
+  lowBalance: PropTypes.bool,
+  inProgress: PropTypes.bool,
 };

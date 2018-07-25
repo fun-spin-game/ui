@@ -10,3 +10,10 @@ export const disconnectFromGame = ({ gameId }) => ({
     gameId
   }
 });
+export const notifyGameSpin = ({ gameId, result }) => ({
+  type: 'NOTIFICATION_GAME_SPIN',
+  payload: {
+    gameId,
+    result,
+  }
+});

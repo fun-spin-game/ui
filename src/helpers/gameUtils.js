@@ -1,3 +1,26 @@
-export const getOpponentRisk = ({ prize, chanceToWin }) => {
-  return (prize * chanceToWin / (100 - chanceToWin)).toFixed(2);
+export const getRisk = ({ prize, chanceToWin }) => {
+  return (prize * chanceToWin / (100 - chanceToWin));
+}
+
+export const getActiveGame = ({ actions, userId, games }) => {
+  const reversedActions = [...actions].reverse();
+  const lastRelevantAction = reversedActions.find(({ type, payload }) => {
+    return payload.userId === userId &&
+    (type === 'GAME_USER_CONNECTED' ||
+    type === 'GAME_USER_DISCONNECTED');
+  });
+  const activeGameId = (
+    lastRelevantAction &&
+    lastRelevantAction.type === 'GAME_USER_CONNECTED' &&
+    lastRelevantAction.payload.userId === userId
+  ) ? lastRelevantAction.payload.gameId : null;
+
+  const game = games.find(({ id }) => id === activeGameId);
+  return game ? {
+    ...game,
+  } : null;
+};
+
+export const toFixedIfNeed = (val) => {
+  return parseFloat(val.toFixed(process.env.REACT_APP_FIXED_DIGITS));
 }

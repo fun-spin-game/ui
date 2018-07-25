@@ -11,6 +11,7 @@ import GameItem from './GameItem';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
 import withGames from '../redux/games/withGames';
+import withUser from '../redux/user/withUser';
 
 class Main extends Component {
   constructor() {
@@ -46,8 +47,7 @@ class Main extends Component {
     })
   }
   render() {
-    console.log(this.props);
-    const { classes, games, connectToGame } = this.props;
+    const { classes, games, connectToGame, isGameInProgress, userInfo: { balance } } = this.props;
     const { collapsedSideMenu } = this.state;
     return (
       <Layout className="layout">
@@ -67,15 +67,32 @@ class Main extends Component {
                 transitionLeave={false}
               >
                 {
-                  games.map(({ prize, chanceToWin, maxAttempts, id: gameId }, index) => {
+                  games
+                  .sort((a, b) => {
+                    const disabledA = balance < a.risk;
+                    const disabledB = balance < b.risk;
+                    if (disabledA !==  disabledB) {
+                      return disabledA ? 1 : -1;
+                    }
+                    if (a.createdAt < b.createdAt) {
+                      return -1;
+                    } else if (a.createdAt > b.createdAt) {
+                      return 1;
+                    }
+                    return 0;
+                  })
+                  .map(({ prize, risk, chanceToWin, maxAttempts, id: gameId }, index) => {
                     return (
                       <GameItem
                         id={gameId}
                         key={index}
                         prize={prize}
+                        risk={risk}
                         chanceToWin={chanceToWin}
                         maxAttempts={maxAttempts}
                         onClickPlay={connectToGame}
+                        disabled={balance < risk}
+                        inProgress={isGameInProgress({ gameId })}
                       />
                     );
                   })
@@ -139,7 +156,8 @@ const styles = {
 
 export default compose(
   injectSheet(styles),
-  withGames()
+  withUser(),
+  withGames(),
 )(Main);
 
 Main.defaultProps = {
@@ -150,4 +168,6 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
   connectToGame: PropTypes.func.isRequired,
+  userInfo: PropTypes.object.isRequired,
+  isGameInProgress: PropTypes.func.isRequired,
 };

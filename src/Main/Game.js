@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
-import { compose, branch, renderComponent } from 'recompose';
+import { compose, branch, renderComponent, withState } from 'recompose';
 import Roulette from './Roulette';
 import withGames from '../redux/games/withGames';
+import withUser from '../redux/user/withUser';
 
 class Game extends Component {
   render() {
@@ -14,28 +15,43 @@ class Game extends Component {
         chanceToWin,
         prize,
         maxAttempts,
+        risk,
         id: gameId,
       },
+      userInfo: { balance },
       disconnectFromGame,
-      getAmountOfAttempts
+      getAmountOfAttempts,
+      notifyGameSpin,
+      inProgress,
+      setInProgress,
     } = this.props;
     const amountOfAttempts = getAmountOfAttempts({ gameId });
+    const maxAttemptsReached = amountOfAttempts >= maxAttempts;
+    const lowBalance = balance < risk;
     return (
       <div className={classes.rouletteOverlay}>
-        <a onClick={() => disconnectFromGame({ gameId })}>
-          <Icon type="close" className={classes.close} />
-        </a>
+        {
+          !maxAttemptsReached && !inProgress && <a onClick={() => disconnectFromGame({ gameId })}>
+              <Icon type="close" className={classes.close} />
+            </a>
+        }
         <div className={classes.chancePercentage}>{chanceToWin}% chance to win!</div>
         <Roulette
           prize={prize}
           chanceToWin={chanceToWin}
-          onClickPlay={() => {}}
-          onSpinFinished={() => {}}
-          inProgress={false}
+          risk={risk}
+          onClickPlay={({ result }) => {
+            notifyGameSpin({ gameId, result: result ? prize : -risk });
+            setInProgress(true);
+          }}
+          onSpinFinished={() => {setInProgress(false)}}
+          maxAttemptsReached={maxAttemptsReached}
+          lowBalance={lowBalance}
+          inProgress={inProgress}
         />
         <div className={classes.attemptsBlock}>
           <Progress size="small" percent={amountOfAttempts / maxAttempts * 100} />
-          <span>{amountOfAttempts}/{maxAttempts} attempts left</span>
+          <span>{amountOfAttempts}/{maxAttempts} attempts used</span>
         </div>
       </div>
     )
@@ -64,11 +80,11 @@ const styles = {
     'text-align': 'center',
     'font-size': '18px',
     color: 'white',
-    'margin-top': 60,
+    'margin-top': 200,
     'margin-right': 0,
     padding: '0 50px',
-    '& .ant-progress-outer': {
-      'padding-right': 0
+    '& .ant-progress-text': {
+      display: 'none',
     },
     '& .ant-progress-bg': {
       height: '2px !important',
@@ -91,6 +107,8 @@ const styles = {
 export default compose(
   injectSheet(styles),
   withGames(),
+  withUser(),
+  withState('inProgress', 'setInProgress', false),
   branch(
     ({ activeGame }) => !activeGame,
     renderComponent(() => null)
@@ -112,4 +130,8 @@ Game.propTypes = {
   disabledTitle: PropTypes.node,
   disconnectFromGame: PropTypes.func.isRequired,
   getAmountOfAttempts: PropTypes.func.isRequired,
+  notifyGameSpin: PropTypes.func.isRequired,
+  inProgress: PropTypes.bool.isRequired,
+  setInProgress: PropTypes.func.isRequired,
+  userInfo: PropTypes.object.isRequired,
 };
