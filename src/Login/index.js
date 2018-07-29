@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { Layout } from 'antd';
 import { compose, withStateHandlers, branch, renderComponent } from 'recompose';
-import Header from '../Header';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Content from '../Content';
-import withUser from '../redux/user/withUser';
+import withUser from '../containers/withUser';
 
 const Form = branch(
   ({ signInMode }) => signInMode,
@@ -17,14 +14,9 @@ const Form = branch(
 
 const Login = ({ classes, toggleSignInMode, signInMode }) => {
   return (
-    <Layout className="layout">
-      <Header />
-      <Content>
-        <div className={classes.content}>
-          <Form signInMode={signInMode} toggleSignInMode={toggleSignInMode} />
-        </div>
-      </Content>
-    </Layout>
+    <div className={classes.content}>
+      <Form signInMode={signInMode} toggleSignInMode={toggleSignInMode} />
+    </div>
   )
 }
 

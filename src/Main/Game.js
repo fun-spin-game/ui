@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
-import { compose, branch, renderComponent, withState } from 'recompose';
+import { compose, branch, renderComponent } from 'recompose';
 import Roulette from './Roulette';
-import withGames from '../redux/games/withGames';
-import withUser from '../redux/user/withUser';
+import withGames from '../containers/withGames';
+import withUser from '../containers/withUser';
 
 class Game extends Component {
   render() {
@@ -21,13 +21,13 @@ class Game extends Component {
       userInfo: { balance },
       disconnectFromGame,
       getAmountOfAttempts,
-      notifyGameSpin,
-      inProgress,
-      setInProgress,
+      notifyGameSpinStart,
+      isGameSpinInProgress,
     } = this.props;
     const amountOfAttempts = getAmountOfAttempts({ gameId });
     const maxAttemptsReached = amountOfAttempts >= maxAttempts;
     const lowBalance = balance < risk;
+    const inProgress = isGameSpinInProgress({ gameId });
     return (
       <div className={classes.rouletteOverlay}>
         {
@@ -41,10 +41,9 @@ class Game extends Component {
           chanceToWin={chanceToWin}
           risk={risk}
           onClickPlay={({ result }) => {
-            notifyGameSpin({ gameId, result: result ? prize : -risk });
-            setInProgress(true);
+            notifyGameSpinStart({ gameId, result: result ? prize : -risk });
           }}
-          onSpinFinished={() => {setInProgress(false)}}
+          onSpinFinished={() => {}}
           maxAttemptsReached={maxAttemptsReached}
           lowBalance={lowBalance}
           inProgress={inProgress}
@@ -108,7 +107,6 @@ export default compose(
   injectSheet(styles),
   withGames(),
   withUser(),
-  withState('inProgress', 'setInProgress', false),
   branch(
     ({ activeGame }) => !activeGame,
     renderComponent(() => null)
@@ -130,8 +128,7 @@ Game.propTypes = {
   disabledTitle: PropTypes.node,
   disconnectFromGame: PropTypes.func.isRequired,
   getAmountOfAttempts: PropTypes.func.isRequired,
-  notifyGameSpin: PropTypes.func.isRequired,
-  inProgress: PropTypes.bool.isRequired,
-  setInProgress: PropTypes.func.isRequired,
+  notifyGameSpinStart: PropTypes.func.isRequired,
+  isGameSpinInProgress: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
 };

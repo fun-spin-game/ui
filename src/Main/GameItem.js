@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { compose, withProps } from 'recompose';
 import { Circle, Line } from 'rc-progress';
-import { Button, Avatar } from 'antd';
+import { Button, Avatar, Tooltip } from 'antd';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
-import withGames from '../redux/games/withGames';
-import withUser from '../redux/user/withUser';
+import withGames from '../containers/withGames';
+import withUser from '../containers/withUser';
 
 const getColor = (value) => {
   const hue = ((value) * 120).toString(10);
@@ -32,6 +32,7 @@ const GameItem = ({
   amountOfAttemptsPercentage,
   amountOfAttempts,
   userInfo,
+  notWonYet,
 }) => {
   return (
     <div
@@ -48,7 +49,11 @@ const GameItem = ({
         <div
           className={`${gamePlayer ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
         >
-          <span className={classes.chanceToWin}>{chanceToWin}% <small>chance</small></span>
+          <span className={classes.chanceToWin}>
+            <Tooltip title={`${chanceToWin}% chance to win${notWonYet ? '. This lot was not won yet!' : ''}`}>
+              {chanceToWin}% chance
+            </Tooltip>
+          </span>
           <div>
             <Circle
               className={classes.circle}
@@ -66,6 +71,9 @@ const GameItem = ({
               }}
             />
           </div>
+          {
+            true && <span className={`${classes.notWonYet}`}></span>
+          }
           <span
             className={`prize ${classes.prize} ${won ? 'fadeOutUp animated' : ''}`}
           >
@@ -158,9 +166,10 @@ const styles = {
     position: 'relative',
     display: 'inline-block',
   },
-  'chanceToWin': {
+  'chanceToWin': ({ notWonYet }) => ({
     'font-size': '14px',
-  },
+    color: notWonYet ? greenColor : 'inherited',
+  }),
   prize: {
     transition: 'all 300ms ease',
     position: 'absolute',
@@ -171,14 +180,15 @@ const styles = {
     'z-index': 1,
     'white-space': 'nowrap'
   },
-  bid: {
+  bid: ({ disabled }) => ({
     transition: 'all 300ms ease',
     position: 'absolute',
     left: 0,
     right: 0,
     top: 125,
     'font-size': 10,
-  },
+    color: disabled ? redColor : 'inherited',
+  }),
   amountOfAttempts: {
     position: 'absolute',
     left: 0,
@@ -248,6 +258,7 @@ export default compose(
 GameItem.defaultProps = {
   gamePlayer: null,
   creatorUser: null,
+  notWonYet: false,
 };
 
 GameItem.propTypes = {
@@ -256,6 +267,7 @@ GameItem.propTypes = {
   won: PropTypes.bool,
   disabled: PropTypes.bool,
   lost: PropTypes.bool,
+  notWonYet: PropTypes.bool,
   id: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,
   prize: PropTypes.number,

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getUserInfo, logout, signIn, signUp } from './actions';
+import { getUserInfo, logout, signIn, signUp } from '../redux/user/actions';
 
 export default () => connect(
   ({

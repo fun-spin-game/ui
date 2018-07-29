@@ -10,8 +10,8 @@ export const disconnectFromGame = ({ gameId }) => ({
     gameId
   }
 });
-export const notifyGameSpin = ({ gameId, result }) => ({
-  type: 'NOTIFICATION_GAME_SPIN',
+export const notifyGameSpinStart = ({ gameId, result }) => ({
+  type: 'NOTIFICATION_GAME_SPIN_START',
   payload: {
     gameId,
     result,
@@ -21,5 +21,11 @@ export const notifyCreateGame = ({ game }) => ({
   type: 'NOTIFICATION_CREATE_GAME',
   payload: {
     game,
+  }
+});
+export const setAppInFocus = (value) => ({
+  type: 'SET_APP_IN_FOCUS',
+  payload: {
+    value,
   }
 });

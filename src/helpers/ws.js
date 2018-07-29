@@ -21,7 +21,7 @@ export default class WS {
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
     this.socket.reconnectInterval = this.null;
-    this.socket.reconnectCounter = 5;
+    this.socket.reconnectCounter = 20;
   }
 
   send(type, payload) {
@@ -64,6 +64,7 @@ export default class WS {
   }
   on(action, cb) {
     this.callbacks[`on${action.charAt(0).toUpperCase() + action.slice(1)}`] = cb;
+    return this;
   }
 
 }

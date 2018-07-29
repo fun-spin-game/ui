@@ -5,7 +5,7 @@ import injectSheet from 'react-jss'
 import { compose, withHandlers } from 'recompose'
 import FormContainer from './FormContainer'
 import Social from './Social';
-import withUser from '../redux/user/withUser';
+import withUser from '../containers/withUser';
 
 const FormItem = Form.Item;
 

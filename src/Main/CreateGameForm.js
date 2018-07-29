@@ -7,8 +7,8 @@ import injectSheet from 'react-jss'
 import Coins from '../common/Coins'
 import { redColor } from '../variables'
 import { getRisk, toFixedIfNeed } from '../helpers/gameUtils'
-import withGames from '../redux/games/withGames';
-import withUser from '../redux/user/withUser';
+import withGames from '../containers/withGames';
+import withUser from '../containers/withUser';
 
 const FormItem = Form.Item;
 

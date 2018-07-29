@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { compose, branch, renderComponent, withHandlers } from 'recompose';
 import { Icon, Avatar } from 'antd';
-import withUser from '../redux/user/withUser';
+import withUser from '../containers/withUser';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
 

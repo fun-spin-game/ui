@@ -37,6 +37,7 @@ class Roulette extends Component {
     autoBind(this);
     this.state = {
       result: null,
+      prevResult: null,
       showReward: false,
       resultItems: _.shuffle(_.fill(Array(chanceToWin), true)
       .concat(_.fill(Array(100 - chanceToWin), false))),
@@ -47,13 +48,11 @@ class Roulette extends Component {
     }
   }
   componentDidMount() {
-    this.setState({
-      autoPlayNotificationTimeout: this.setAupoPlayNotificationTimeout(this.props),
-    })
+    this.setAupoPlayNotificationTimeout(this.props);
   }
   componentWillUnmount() {
-    clearInterval(this.state.autoPlayNotificationTimeout);
     clearInterval(this.state.autoPlayInterval);
+    clearTimeout(this.state.autoPlayNotificationTimeout);
     clearTimeout(this.state.hideRewardTimeout);
   }
 
@@ -73,12 +72,13 @@ class Roulette extends Component {
 
   setAupoPlayNotificationTimeout({ lowBalance, maxAttemptsReached }) {
     if (lowBalance || maxAttemptsReached) return;
+    const autoPlayNotificationTimeout = setTimeout(
+      () => this.setAutoPlayInterval(),
+      REACT_APP_ROULETTE_AUTOPLAY_DELAY - REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY
+    )
     this.setState({
       autoPlayInterval: null,
-      autoPlayNotificationTimeout: setTimeout(
-        () => this.setAutoPlayInterval(),
-        REACT_APP_ROULETTE_AUTOPLAY_DELAY - REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY
-      )
+      autoPlayNotificationTimeout,
     });
   }
 
@@ -94,6 +94,7 @@ class Roulette extends Component {
 
   play() {
     clearInterval(this.state.autoPlayInterval);
+    clearTimeout(this.state.autoPlayNotificationTimeout);
     const { onClickPlay, lowBalance } = this.props;
     if (lowBalance) return;
 
@@ -104,18 +105,20 @@ class Roulette extends Component {
     setTimeout(() => {
       this.resultSlider.slickGoTo(resultIndex + _.random(-0.45, 0.45, true));
       onClickPlay({ result });
-    });
+    }, 0);
   }
 
   onSpinDone({ result }) {
+    this.setAupoPlayNotificationTimeout(this.props);
+    const hideRewardTimeout = setTimeout(() => {
+      this.setState({
+        showReward: false,
+      })
+    }, REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
     this.setState({
-      hideRewardTimeout: setTimeout(() => {
-        this.setState({
-          showReward: false,
-        });
-      }, REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION),
+      hideRewardTimeout,
       showReward: true,
-      autoPlayNotificationTimeout: this.setAupoPlayNotificationTimeout(this.props),
+      prevResult: this.state.result,
     });
     this.props.onSpinFinished({ result });
   }
@@ -132,7 +135,7 @@ class Roulette extends Component {
     const {
       showReward,
       resultItems,
-      result,
+      prevResult,
       autoPlayIntervalCounter,
     } = this.state;
     return (
@@ -171,8 +174,8 @@ class Roulette extends Component {
           />
         </div>
         {
-          showReward && <div className={`${classes.reward} ${result ? 'win' : 'lose'} animated fadeOutUp`}>
-            {result ? `+${prize}` : `-${toFixedIfNeed(risk)}`} <Coins />
+          showReward && <div className={`${classes.reward} ${prevResult ? 'win' : 'lose'} animated fadeOutUp`}>
+            {prevResult ? `+${prize}` : `-${toFixedIfNeed(risk)}`} <Coins />
           </div>
         }
       </div>

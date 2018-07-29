@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router'
-import withUser from '../redux/user/withUser'
+import withUser from '../containers/withUser'
 
 const PrivateRoute = ({ component: Component, userInfo, ...rest }) => {
   return (
