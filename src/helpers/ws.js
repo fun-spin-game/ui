@@ -1,5 +1,3 @@
-import autoBind from 'auto-bind';
-
 const MAX_RECONNECT_ATTEMPTS = 5;
 
 export default class WS {
@@ -9,8 +7,14 @@ export default class WS {
   }
 
   constructor() {
-    autoBind(this);
     this.callbacks = {};
+    this.connect = this.connect.bind(this);
+    this.send = this.send.bind(this);
+    this.onMessage = this.onMessage.bind(this);
+    this.onError = this.onError.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onOpen = this.onOpen.bind(this);
+    this.on = this.on.bind(this);
     this.connect();
   }
 

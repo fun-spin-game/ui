@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import autoBind from 'auto-bind'
 import Slider from 'react-slick';
 import { compose } from 'recompose';
 import _ from 'lodash';
@@ -34,7 +33,11 @@ const SETTINGS = {
 class Roulette extends Component {
   constructor({ chanceToWin }) {
     super();
-    autoBind(this);
+    this.setAutoPlayInterval = this.setAutoPlayInterval.bind(this);
+    this.setAupoPlayNotificationTimeout = this.setAupoPlayNotificationTimeout.bind(this);
+    this.getNextIndex = this.getNextIndex.bind(this);
+    this.play = this.play.bind(this);
+    this.onSpinDone = this.onSpinDone.bind(this);
     this.state = {
       result: null,
       prevResult: null,
@@ -55,7 +58,6 @@ class Roulette extends Component {
     clearTimeout(this.state.autoPlayNotificationTimeout);
     clearTimeout(this.state.hideRewardTimeout);
   }
-
   setAutoPlayInterval() {
     this.setState({
       autoPlayInterval: setInterval(() => {
@@ -69,7 +71,6 @@ class Roulette extends Component {
       }, 1000)
     })
   }
-
   setAupoPlayNotificationTimeout({ lowBalance, maxAttemptsReached }) {
     if (lowBalance || maxAttemptsReached) return;
     const autoPlayNotificationTimeout = setTimeout(
@@ -81,7 +82,6 @@ class Roulette extends Component {
       autoPlayNotificationTimeout,
     });
   }
-
   getNextIndex({ value, items }) {
     const minIndex = 60;
     const sliceIndex = _.random(minIndex, items.length - 1);
@@ -91,7 +91,6 @@ class Roulette extends Component {
     const backIndex = items.length - 1 - [...items].reverse().indexOf(value);
     return randomIndex !== -1 ? randomIndex : backIndex;
   }
-
   play() {
     clearInterval(this.state.autoPlayInterval);
     clearTimeout(this.state.autoPlayNotificationTimeout);
@@ -107,7 +106,6 @@ class Roulette extends Component {
       onClickPlay({ result });
     }, 0);
   }
-
   onSpinDone({ result }) {
     this.setAupoPlayNotificationTimeout(this.props);
     const hideRewardTimeout = setTimeout(() => {
@@ -122,7 +120,6 @@ class Roulette extends Component {
     });
     this.props.onSpinFinished({ result });
   }
-
   render() {
     const {
       classes,

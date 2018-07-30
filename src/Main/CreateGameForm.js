@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-import autoBind from 'auto-bind';
 import { Slider, Row, Col, InputNumber, Alert, Form, Modal } from 'antd';
 import injectSheet from 'react-jss'
 import Coins from '../common/Coins'
@@ -24,7 +23,10 @@ const COL_RIGHT = 18;
 class CreateGameForm extends Component {
   constructor() {
     super();
-    autoBind(this);
+    this.onChangeChanceToWin = this.onChangeChanceToWin.bind(this)
+    this.onChangeMaxAttempts = this.onChangeMaxAttempts.bind(this)
+    this.onChangePrize = this.onChangePrize.bind(this)
+    this.getCreatorRisk = this.getCreatorRisk.bind(this)
     this.state = {
       chanceToWin: 50,
       maxAttempts: 1,
