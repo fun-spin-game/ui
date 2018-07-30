@@ -35,9 +35,7 @@
     "redux-observable": "^1.0.0",
     "rxjs": "^6.2.2",
     "slick-carousel": "^1.8.0",
-    "ws": "^5.2.2",
-    "eslint": "^5.0.1",
-    "eslint-plugin-react": "^7.10.0"
+    "ws": "^5.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,8 +43,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
-    "eslint": "./node_modules/.bin/eslint ./src"
+    "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.8",
