@@ -19,7 +19,6 @@
     "mobx-react": "^5.2.3",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
-    "pty-common": "git+ssh://git@github.com/Danxil/pty-common.git",
     "rc-progress": "^2.2.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
