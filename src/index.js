@@ -13,6 +13,6 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "flag-icon-css/css/flag-icon.css";
 
 import './index.css';
-
+console.log(11, process.env.DEBUG);
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

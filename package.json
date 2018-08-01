@@ -12,6 +12,7 @@
     "antd": "^3.7.0",
     "classnames": "^2.2.6",
     "connected-react-router": "^4.3.0",
+    "debug": "^3.1.0",
     "flag-icon-css": "^3.0.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",

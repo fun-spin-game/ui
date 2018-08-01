@@ -7,18 +7,20 @@ import { rootReducer, rootEpic } from './redux';
 import restApiInjector from './helpers/restApiInjector';
 
 export default ({ history }) => {
-
   const epicMiddleware = createEpicMiddleware();
+
+  const middlewares = [
+    restApiInjector,
+    apiMiddleware,
+    epicMiddleware,
+    routerMiddleware(history),
+  ];
+
+  if (process.env.NODE_ENV === '1development') middlewares.push(logger);
 
   const store = createStore(
     connectRouter(history)(rootReducer),
-    applyMiddleware(
-      restApiInjector,
-      apiMiddleware,
-      epicMiddleware,
-      logger,
-      routerMiddleware(history),
-    ),
+    applyMiddleware(...middlewares),
   );
 
   epicMiddleware.run(rootEpic);

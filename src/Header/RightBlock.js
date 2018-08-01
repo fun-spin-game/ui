@@ -34,7 +34,7 @@ const RightBlock = ({ classes, logout, userInfo, translate }) => {
 
 const styles = {
   logOut: {
-    'font-size': '25px',
+    'font-size': '24px',
     'cursor': 'pointer',
     'vertical-align': 'sub',
     'padding-left': '10px'
@@ -67,11 +67,11 @@ const styles = {
     }
   },
   playerAvatar: {
-    verticalAlign: -6,
     marginLeft: 15,
   },
   userBlock: {
-    whiteSpace: 'nowrap'
+    display: 'flex',
+    alignItems: 'center',
   }
 };
 

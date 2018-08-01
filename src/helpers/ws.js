@@ -1,3 +1,5 @@
+import debug from 'debug';
+const log = debug('ws');
 const MAX_RECONNECT_ATTEMPTS = 5;
 
 export default class WS {
@@ -30,22 +32,22 @@ export default class WS {
 
   send(type, payload) {
     this.socket.send(JSON.stringify({ type, payload }));
-    console.log(`sent ${type} with payload ${JSON.stringify(payload).substr(0, 10000)}`);
+    log(`sent ${type} with payload ${JSON.stringify(payload).substr(0, 10000)}`);
   }
   onMessage({ data }) {
     const {  onMessage } = this.callbacks;
     const { type, payload } = JSON.parse(data);
-    console.log(`recieved ${type} with payload ${JSON.stringify(payload).substr(0, 10000)}`);
+    log(`recieved ${type} with payload ${JSON.stringify(payload).substr(0, 10000)}`);
     if (onMessage) onMessage({ type, payload });
   }
   onError(error) {
     const {  onError } = this.callbacks;
-    console.log('ws error', error);
+    log('ws error', error);
     if (onError) onError(error);
   }
   onClose() {
     const {  onClose } = this.callbacks;
-    console.log('ws closed');
+    log('ws closed');
     this.socket.onmessage = null;
     this.socket.onclose = null;
     this.socket.onopen = null;
@@ -61,7 +63,7 @@ export default class WS {
     if (onClose) onClose();
   }
   onOpen() {
-    console.log('ws opened');
+    log('ws opened');
     const {  onOpen } = this.callbacks;
     clearInterval(this.reconnectInterval);
     if (onOpen) onOpen();
