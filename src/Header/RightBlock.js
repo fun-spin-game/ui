@@ -21,7 +21,11 @@ const RightBlock = ({ classes, logout, userInfo, translate }) => {
       </span>
       <div className={classes.userBlock}>
         <span className={classes.userName}>{userInfo.displayName || userInfo.email}</span>
-        { userInfo.photo && <Avatar size="small" className={`${classes.playerAvatar}`} src={userInfo.photo} /> }
+        {
+          userInfo.photo ?
+          <Avatar size="small" className={`${classes.playerAvatar}`} src={userInfo.photo} /> :
+          <Avatar size="small" className={classes.playerAvatar} icon="user" />
+        }
         <Icon type="logout" className={classes.logOut} onClick={logout} />
       </div>
     </div>
