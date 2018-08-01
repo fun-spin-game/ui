@@ -6,20 +6,28 @@ import { compose, withHandlers, withProps } from 'recompose'
 import FormContainer from './FormContainer'
 import Social from './Social';
 import withUser from '../containers/withUser';
+import { Translate, withLocalize } from 'react-localize-redux';
 
 const FormItem = Form.Item;
 
 class SignUp extends Component {
   render() {
-    const { classes, handleSubmit, toggleSignInMode, compareToFirstPassword, form: { getFieldDecorator } } = this.props;
+    const {
+      classes,
+      handleSubmit,
+      toggleSignInMode,
+      compareToFirstPassword,
+      form: { getFieldDecorator },
+      translate
+    } = this.props;
     return (
       <FormContainer>
         <Form>
           <FormItem>
             {getFieldDecorator('email', {
               rules: [
-                { required: true, message: 'Please input your email!' },
-                { type: 'email', message: 'The input is not valid E-mail!' },
+                { required: true, message: <Translate id={'PLEASE_ENTER_YOU_EMAIL'} /> },
+                { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
               ],
             })(
               <Input prefix={<Icon type="user" />} placeholder="Email" />
@@ -27,31 +35,31 @@ class SignUp extends Component {
           </FormItem>
           <FormItem>
             {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your password!' }],
+            rules: [{ required: true, message: <Translate id={'PLEASE_ENTER_YOU_PASSWORD'} /> }],
             })(
-              <Input prefix={<Icon type="lock" />} type="password" placeholder="Password" />
+              <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PASSWORD')} />
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('repeatPassword', {
               rules: [
                 {
-                  required: true, message: 'Please repeat your password!'
+                  required: true, message: <Translate id={'PLEASE_REPEAT_PASSWORD'} />
                 },
                 {
                   validator: compareToFirstPassword,
                 }
               ],
             })(
-              <Input prefix={<Icon type="lock" />} type="password" placeholder="Repeat password" />
+              <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PLEASE_REPEAT_PASSWORD')} />
             )}
           </FormItem>
           <Social/>
           <Button type="primary" onClick={handleSubmit}>
-            Sign Up
+            {<Translate id={'REGISTER'} />}
           </Button>
           <div className={classes.linksBlock}>
-            Or <a onClick={toggleSignInMode}>Log In</a> with existed user
+            {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'LOG_IN'} />}</a> {<Translate id={'WITH_EXISTED_USER'} />}
           </div>
         </Form>
       </FormContainer>
@@ -77,12 +85,13 @@ const styles = {
 
 export default compose(
   Form.create(),
+  withLocalize,
   injectSheet(styles),
   withUser(),
   withProps(({ form }) => ({
     compareToFirstPassword: (rule, value, callback) => {
       if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
+        callback(<Translate id={'PASSWORDS_DO_NOT_MATCH'} />);
       } else {
         callback();
       }
@@ -104,6 +113,7 @@ SignUp.propTypes = {
   toggleSignInMode: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };

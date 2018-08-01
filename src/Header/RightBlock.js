@@ -18,7 +18,6 @@ const RightBlock = ({ classes, logout, userInfo }) => {
           </a>
         </span>
       </span>
-
       <span className={classes.userName}>{userInfo.displayName || userInfo.email}</span>
       { userInfo.photo && <Avatar size="small" className={`${classes.playerAvatar}`} src={userInfo.photo} /> }
       <Icon type="logout" className={classes.logOut} onClick={logout} />
@@ -34,10 +33,9 @@ const styles = {
     'padding-left': '10px'
   },
   rightBlock: {
-    float: 'right'
   },
   userName: {
-    'padding-left': '50px',
+    'margin-left': '20px',
   },
   balanceAmount: {
     'font-size': '20px',

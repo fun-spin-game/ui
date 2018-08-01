@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import injectSheet from 'react-jss'
+import { Translate } from 'react-localize-redux';
 
 const Social = ({ classes }) => {
   const { REACT_APP_BASE_REST_URL } = process.env;
   return (
     <div className={classes.socialWrapper}>
-      Sign In with social networks:
+      {<Translate id={'LOG_IN_WITH_SOCIAL_NETWORKS'} />}:
       <div className={classes.social}>
         <a href={`${REACT_APP_BASE_REST_URL}/auth/facebook`}>
           <Icon type="facebook" />

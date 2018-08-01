@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import classNames from 'classnames';
 import injectSheet from 'react-jss'
+import { renderToStaticMarkup } from 'react-dom/server';
 import { Layout } from 'antd';
 import { Switch } from 'react-router';
+import { withLocalize } from 'react-localize-redux';
 import { compose, branch, renderComponent, lifecycle, withState } from 'recompose';
 import { withRouter } from 'react-router'
+import Cookie from 'js-cookie';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
 import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
 import SideMenu from './SideMenu';
@@ -17,6 +19,7 @@ import Header from './Header';
 import Content from './Content';
 import Login from './Login';
 import Statistic from './Statistic';
+import localization from './localization';
 
 const Routes = ({
   classes,
@@ -33,7 +36,13 @@ const Routes = ({
       />
       <Layout>
         <Header />
-        <Content className={classNames(classes.content, { 'collapsed-mode': collapsedSideMenu, withoutSideBar: pathname === '/login' })}>
+        <Content
+          className={classNames(
+            classes.content, {
+            'collapsed-mode': collapsedSideMenu,
+            withoutSideBar: pathname === '/login'
+          })}
+        >
           <Switch>
             <AuthenticatedRoute exact path="/" component={Main} />
             <AuthenticatedRoute exact path="/statistic" component={Statistic} />
@@ -42,7 +51,6 @@ const Routes = ({
         </Content>
       </Layout>
     </Layout>
-
   );
 };
 
@@ -69,14 +77,26 @@ const styles = {
 
 export default compose(
   withRouter,
+  withLocalize,
   injectSheet(styles),
   withUser(),
   withGames(),
   lifecycle({
     componentDidMount() {
+      let browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0];
+      if (browserLanguage !== 'ru') browserLanguage = 'gb';
       this.props.getUserInfo();
       window.onblur = () => this.props.setAppInFocus(false);
       window.onfocus = () => this.props.setAppInFocus(true);
+      this.props.initialize({
+        languages: [
+          { label: 'EN', code: 'gb' },
+          { label: 'RU', code: 'ru' }
+        ],
+        translation: localization,
+        options: { renderToStaticMarkup },
+      });
+      this.props.setActiveLanguage(Cookie.get('language') || browserLanguage);
     }
   }),
   withState('collapsedSideMenu', 'setCollapsedSideMenu', true),
@@ -92,4 +112,5 @@ Routes.propTypes = {
   classes: PropTypes.object.isRequired,
   collapsedSideMenu: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,
+  initialize: PropTypes.func.isRequired,
 }

@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { compose, withProps } from 'recompose';
 import { Circle, Line } from 'rc-progress';
-import { Button, Avatar, Tooltip } from 'antd';
+import { Button, Avatar } from 'antd';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
 import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
+import Tooltip from '../common/Tooltip';
 
 const getColor = (value) => {
   const hue = ((value) * 120).toString(10);
@@ -43,14 +44,16 @@ const GameItem = ({
         disabled,
         ownGame: creatorUser && creatorUser.id === userInfo.id
       })}
-      title={disabled ? 'Low balance. Can not cover the risk' : ''}
     >
       <div className={`game-item-content ${classes.gameItemContent}`}>
         <div
           className={`${gamePlayer ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
         >
           <span className={classes.chanceToWin}>
-            <Tooltip title={`${chanceToWin}% chance to win${notWonYet ? '. This lot was not won yet!' : ''}`}>
+            <Tooltip
+              disable={!notWonYet}
+              title="This lot was not won yet!"
+            >
               {chanceToWin}% chance
             </Tooltip>
           </span>
@@ -80,7 +83,12 @@ const GameItem = ({
             {prize} <Coins />
           </span>
           <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
-            Your risk: {toFixedIfNeed(risk)} <Coins />
+            <Tooltip
+              title="Low balance. Can not cover the risk"
+              disable={!disabled}
+            >
+              Your risk: {toFixedIfNeed(risk)} <Coins />
+            </Tooltip>
           </span>
           <div className={classes.playButtonContainer}>
             <Button
@@ -100,7 +108,7 @@ const GameItem = ({
         {
           (gamePlayer) &&
           <div className={classes.playerAvatarContainer}>
-            <Avatar size="small" className={`player-avatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
+            <Avatar className={`player-avatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
           </div>
         }
         {

@@ -6,6 +6,7 @@ import { compose, withHandlers } from 'recompose'
 import FormContainer from './FormContainer'
 import Social from './Social';
 import withUser from '../containers/withUser';
+import { Translate, withLocalize } from 'react-localize-redux';
 
 const FormItem = Form.Item;
 
@@ -13,6 +14,7 @@ const SignIn = ({
   classes,
   toggleSignInMode,
   handleSubmit,
+  translate,
   form: { getFieldDecorator },
 }) => {
   return (
@@ -21,8 +23,8 @@ const SignIn = ({
         <FormItem>
           {getFieldDecorator('email', {
             rules: [
-              { required: true, message: 'Please input your email!' },
-              { type: 'email', message: 'The input is not valid E-mail!' },
+              { required: true, message: <Translate id={'PLEASE_ENTER_YOU_EMAIL'} />},
+              { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
             ],
           })(
             <Input prefix={<Icon type="user" />} placeholder="Email" />
@@ -30,17 +32,17 @@ const SignIn = ({
         </FormItem>
         <FormItem>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
+            rules: [{ required: true, message: <Translate id={'PLEASE_ENTER_YOU_PASSWORD'} />}],
           })(
-            <Input prefix={<Icon type="lock" />} type="password" placeholder="Password" />
+            <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PASSWORD')} />
           )}
         </FormItem>
         <Social />
         <Button type="primary" onClick={handleSubmit}>
-          Log in
+          {<Translate id={'LOG_IN'} />}
         </Button>
         <div className={classes.linksBlock}>
-          Or <a onClick={toggleSignInMode}>register now!</a>
+          {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'REGISTER'} />}</a> {<Translate id={'NEW_USER'} />}
         </div>
       </Form>
     </FormContainer>
@@ -65,6 +67,7 @@ const styles = {
 
 export default compose(
   Form.create(),
+  withLocalize,
   injectSheet(styles),
   withUser(),
   withHandlers({
@@ -79,6 +82,7 @@ export default compose(
 SignIn.propTypes = {
   signIn: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   toggleSignInMode: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,

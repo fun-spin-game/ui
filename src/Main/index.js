@@ -41,7 +41,7 @@ class Main extends Component {
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus}>
             {
-              _.sortBy(games, [({ risk }) => balance <= risk, 'createdAt'])
+              _.sortBy(games, [({ risk }) => balance <= risk, 'prize'])
               .map(({ prize, risk, chanceToWin, maxAttempts, creatorUser, id: gameId }) => {
                 return (
                   <GameItem

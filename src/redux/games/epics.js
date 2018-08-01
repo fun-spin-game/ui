@@ -3,9 +3,11 @@ import { combineEpics, ofType } from 'redux-observable';
 import { mergeMap, ignoreElements, tap } from 'rxjs/operators';
 import { notification, message } from 'antd';
 import { Observable } from 'rxjs';
+import { Translate } from 'react-localize-redux';
 import ws from '../../helpers/ws';
 import { getActiveGame } from '../../helpers/gameUtils';
 import Coins from '../../common/Coins';
+import Providers from '../../Providers';
 
 const interceptorDelay = (ms) => {
   return new Promise(resolve => setTimeout(() => resolve(true), parseInt(ms)));
@@ -35,7 +37,7 @@ export default combineEpics(
       ws.init()
       .on('close', () => notification.error({
         key: 'CONNECTION_LOST',
-        description: 'Conection with server is lost. Trying to reconnect...',
+        description: <Providers><Translate id="CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT" /></Providers>,
         duration: 0,
       }))
       .on('open', () => notification.close( 'CONNECTION_LOST'))
@@ -62,9 +64,13 @@ export default combineEpics(
     tap(({ payload: { result, game: { creatorUserId, risk }, user: { displayName } } }) => {
       if (creatorUserId !== state$.value.user.userInfo.id) return;
       if (result < 0) {
-        message.success(<span>+{risk} <Coins /> User {displayName} lose in you lot</span>)
+        message.success(<span>
+          +{risk} <Coins /> <Providers><Translate id="USER_LOSE_IN_YOU_LOT" data={{ displayName }} /></Providers>
+        </span>)
       } else {
-        message.error(<span>-{risk} <Coins /> User {displayName} won in you lot</span>)
+        message.error(<span>
+          -{risk} <Coins /> <Providers><Translate id="USER_WON_IN_YOU_LOT" data={{ displayName }} /></Providers>
+        </span>)
       }
     }),
     ignoreElements()
@@ -74,7 +80,9 @@ export default combineEpics(
       'GAME_CREATED',
     ),
     tap(({ payload: { game: { creatorUserId } } }) => {
-      if (creatorUserId == $state.value.user.userInfo.id) message.info('Game created')
+      if (creatorUserId == $state.value.user.userInfo.id) message.info(
+        <Providers><Translate id="LOT_CREATED" /></Providers>
+      )
     }),
     ignoreElements()
   ),
@@ -84,7 +92,9 @@ export default combineEpics(
     ),
     tap(({ payload: { notifyUsersCreatorsIdsAboutGameExpired } }) => {
       if (notifyUsersCreatorsIdsAboutGameExpired.indexOf($state.value.user.userInfo.id) !== -1)
-      message.info('You game expired')
+      message.info(
+        <Providers><Translate id="YOU_LOT_EXPIRED" /></Providers>
+      )
     }),
     ignoreElements()
   ),
