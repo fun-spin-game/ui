@@ -60,4 +60,5 @@
     "babel-runtime": "^6.26.0",
     "jest": "^23.3.0"
   },
+  "proxy": "https://fun-spin.herokuapp.com"
 }
