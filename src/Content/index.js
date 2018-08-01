@@ -20,7 +20,9 @@ class Content extends Component {
 
 const styles = {
   contentWrapper: {
-    padding: '0 50px',
+    '@media (min-width: 400px)': {
+      padding: '0 50px',
+    }
   },
   content: {
     background: '#fff',

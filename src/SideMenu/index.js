@@ -5,12 +5,20 @@ import { branch, compose, renderComponent } from 'recompose'
 import { Link } from 'react-router-dom'
 import { Layout, Icon, Menu } from 'antd';
 import { withRouter } from 'react-router'
+import { withLocalize } from 'react-localize-redux';
 
 const { Sider } = Layout;
 
 class SideMenu extends Component {
   render() {
-    const { classes, className, collapsed, onCollapse, location: { pathname } } = this.props;
+    const {
+      classes,
+      className,
+      collapsed,
+      onCollapse,
+      location: { pathname },
+      translate,
+    } = this.props;
     return (
       <Sider
         className={`${classes.sider} ${className}`}
@@ -22,13 +30,13 @@ class SideMenu extends Component {
           <Menu.Item key="/" className={classes.menuFirstItem}>
             <Link to="/">
               <Icon type="smile-o" />
-              <span>Lots</span>
+              <span>{translate('LOTS')}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="/statistic">
             <Link to="/statistic">
               <Icon type="area-chart" />
-              <span>Statistic</span>
+              <span>{translate('STATISTIC')}</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -40,6 +48,7 @@ class SideMenu extends Component {
 const styles = {
   sider: {
     height: '100vh',
+    zIndex: 20,
   },
   menuFirstItem: {
     'margin-top': '0 !important',
@@ -54,6 +63,7 @@ const styles = {
 
 export default compose(
   withRouter,
+  withLocalize,
   injectSheet(styles),
   branch(
     ({ location: { pathname } }) => pathname === '/login',
@@ -71,4 +81,5 @@ SideMenu.propTypes = {
   className: PropTypes.string,
   collapsed: PropTypes.bool.isRequired,
   onCollapse: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
 };

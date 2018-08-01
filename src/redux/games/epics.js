@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { combineEpics, ofType } from 'redux-observable';
 import { mergeMap, ignoreElements, tap } from 'rxjs/operators';
 import { notification, message } from 'antd';
@@ -37,7 +37,13 @@ export default combineEpics(
       ws.init()
       .on('close', () => notification.error({
         key: 'CONNECTION_LOST',
-        description: <Providers><Translate id="CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT" /></Providers>,
+        description: (
+          <Providers>
+            <Fragment>
+              <Translate id="CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT" />...
+            </Fragment>
+          </Providers>
+        ),
         duration: 0,
       }))
       .on('open', () => notification.close( 'CONNECTION_LOST'))
@@ -65,11 +71,11 @@ export default combineEpics(
       if (creatorUserId !== state$.value.user.userInfo.id) return;
       if (result < 0) {
         message.success(<span>
-          +{risk} <Coins /> <Providers><Translate id="USER_LOSE_IN_YOU_LOT" data={{ displayName }} /></Providers>
+          +{risk} <Coins /> <Providers><Fragment><Translate id="USER_LOSE_IN_YOU_LOT" data={{ displayName }} />!</Fragment></Providers>
         </span>)
       } else {
         message.error(<span>
-          -{risk} <Coins /> <Providers><Translate id="USER_WON_IN_YOU_LOT" data={{ displayName }} /></Providers>
+          -{risk} <Coins /> <Providers><Fragment><Translate id="USER_WON_IN_YOU_LOT" data={{ displayName }} /></Fragment></Providers>
         </span>)
       }
     }),

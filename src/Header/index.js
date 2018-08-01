@@ -45,17 +45,29 @@ const styles = {
     'z-index': 10,
     color: 'white',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    '@media(max-width: 400px)': {
+      width: '100%',
+      paddingRight: 0,
+      paddingLeft: 20,
+    }
   },
   logo: {
-    width: '150px',
+    width: '100px',
     height: '31px',
     background: 'rgba(255,255,255,.2)',
     margin: '16px',
     'margin-left': '-25px',
+    '@media(max-width: 400px)': {
+      display: 'none',
+    }
   },
   headerContent: {
-    display: 'flex'
+    display: 'flex',
+    '@media(max-width: 400px)': {
+      width: '100%',
+      justifyContent: 'space-between',
+    },
   },
   language: {
     marginLeft: 20,

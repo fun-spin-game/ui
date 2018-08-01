@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { compose } from 'recompose';
 import { greenColor, redColor } from '../variables'
+import classNames from 'classnames'
 
 const getLum = ({ coefficient }) => {
   return 100 - (20 + 60 * coefficient) + '%';
@@ -10,7 +11,7 @@ const getLum = ({ coefficient }) => {
 
 const RouletteItem = ({ classes, children }) => (
   <div className={classes.rouletteItem}>
-    <div className={classes.rouletteContent}>
+    <div className={classNames(classes.rouletteContent, classes.rouletteContentMedia)}>
       {children}
     </div>
   </div>
@@ -18,6 +19,11 @@ const RouletteItem = ({ classes, children }) => (
 
 const styles = {
   rouletteItem: {
+  },
+  rouletteContentMedia: {
+    '@media(max-width: 400px)': {
+      'font-size': '17px !important',
+    }
   },
   rouletteContent: ({ type, coefficient }) => {
     let background;
@@ -39,7 +45,7 @@ const styles = {
       background: background,
       'font-size': '35px',
       'border-left': '1px solid white',
-      'border-right': '1px solid white'
+      'border-right': '1px solid white',
     };
   },
 };

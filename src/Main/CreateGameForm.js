@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { Slider, Row, Col, InputNumber, Alert, Form, Modal } from 'antd';
 import injectSheet from 'react-jss'
+import { withLocalize } from 'react-localize-redux';
 import Coins from '../common/Coins'
 import { redColor } from '../variables'
 import { getRisk, toFixedIfNeed } from '../helpers/gameUtils'
@@ -17,8 +18,8 @@ const MIN_ATTEMPTS = 1;
 const MAX_ATTEMPTS = 20;
 const MIN_PRIZE = 1;
 const MAX_PRIZE = 1000;
-const COL_LEFT = 6;
-const COL_RIGHT = 18;
+const COL_LEFT = 10;
+const COL_RIGHT = 14;
 
 class CreateGameForm extends Component {
   constructor() {
@@ -52,6 +53,7 @@ class CreateGameForm extends Component {
       handleSubmit,
       visible,
       onCancel,
+      translate,
       form: { getFieldDecorator }
     } = this.props;
     const { prize, chanceToWin, maxAttempts } = this.state;
@@ -59,18 +61,19 @@ class CreateGameForm extends Component {
     const notEnoughCoins = creatorRisk > balance;
     return (
       <Modal
-        title="Create lot"
+        title={translate('NEW_LOT')}
         visible={visible}
         okButtonProps={{ disabled: notEnoughCoins }}
         onOk={() => handleSubmit({ prize, chanceToWin, maxAttempts })}
         onCancel={onCancel}
+        className={classes.modal}
         okText={'Create'}
       >
         <Form id="createGame" className={classes.createGame} onSubmit={this.handleSubmit}>
           <FormItem>
             {getFieldDecorator('prize')(
               <div>
-                <div className={classes.label}>Prize:</div>
+                <div className={classes.label}>{translate('PRIZE')}:</div>
                 <Row>
                   <Col span={COL_LEFT} className={classes.coinsInput}>
                     <InputNumber
@@ -98,7 +101,7 @@ class CreateGameForm extends Component {
           <FormItem>
             {getFieldDecorator('prize')(
               <div>
-                <div className={classes.label}>Opponent chance to win:</div>
+                <div className={classes.label}>{translate('CHANCE_OF_WINNING')}:</div>
                 <Row>
                   <Col span={COL_LEFT}>
                     <InputNumber
@@ -127,7 +130,7 @@ class CreateGameForm extends Component {
           <FormItem>
             {getFieldDecorator('prize')(
               <div>
-                <div className={classes.label}>Attempts:</div>
+                <div className={classes.label}>{translate('MAX_AMOUNT_OF_ATTEMPTS')}:</div>
                 <Row>
                   <Col span={COL_LEFT}>
                     <InputNumber
@@ -154,21 +157,21 @@ class CreateGameForm extends Component {
             {getFieldDecorator('prize')(
               <div>
                 <Row>
-                  <Col span={10}>
-                    <div className={classes.label}>You can win: {toFixedIfNeed(getRisk({ prize, chanceToWin }))} <Coins /></div>
+                  <Col span={12}>
+                    <div className={classes.label}>{translate('YOU_CAN_WIN')}: {toFixedIfNeed(getRisk({ prize, chanceToWin }) * this.state.maxAttempts)} <Coins /></div>
                     <div className={classes.label}>
-                      You risk:<span> </span>
+                      {translate('YOU_RISK')}:<span> </span>
                       <span className={notEnoughCoins ? classes.redColor : ''}>
                         {creatorRisk}
                       </span> <Coins />
                     </div>
                   </ Col>
-                  <Col span={14}>
+                  <Col span={12}>
                     {
                       notEnoughCoins && (
                         <Alert
                           className={classes.alert}
-                          message="Not enough coins to cover you risk. Reduce prize or amount of maxAttempts"
+                          message={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}. ${translate('REDUCE_PRIZE_OR_AMOUNT_OF_ATTEMPTS')}`}
                           type="error"
                         />
                       )
@@ -200,10 +203,16 @@ const styles = {
   },
   alert: {
     'margin-top': '10px',
-  }
+  },
+  modal: {
+    '@media(max-width: 400px)': {
+      top: 0,
+    },
+  },
 };
 
 export default compose(
+  withLocalize,
   withUser(),
   withGames(),
   Form.create(),
@@ -219,6 +228,7 @@ CreateGameForm.propTypes = {
   classes: PropTypes.object.isRequired,
   userInfo: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   visible: PropTypes.bool,
 };

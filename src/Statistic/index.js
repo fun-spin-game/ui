@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { compose, lifecycle } from 'recompose';
 import { List, Card, Avatar } from 'antd';
+import { withLocalize } from 'react-localize-redux';
 import withStatistic from '../containers/withStatistic';
 import Coins from '../common/Coins';
+import PageTitle from '../common/PageTitle';
 
-const Statistic = ({ classes, top }) => {
+const Statistic = ({ classes, top, translate }) => {
   return (
     <div className={classes.statistic}>
-      <h1 className={classes.title}>Top 50:</h1>
+      <PageTitle>{translate('TOP')} 50:</PageTitle>
       <List
         grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
         dataSource={top}
@@ -37,9 +39,6 @@ const styles = {
       paddingLeft: 15,
     }
   },
-  title: {
-    'text-align': 'center',
-  },
   card: {
     display: 'flex',
     height: 80,
@@ -50,6 +49,7 @@ const styles = {
 };
 
 export default compose(
+  withLocalize,
   withStatistic(),
   lifecycle({
     componentDidMount () {
@@ -65,4 +65,5 @@ Statistic.defaultProps = {
 Statistic.propTypes = {
   top: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
+  translate: PropTypes.func.isRequired,
 };

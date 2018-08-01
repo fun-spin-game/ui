@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import injectSheet from 'react-jss'
 import { compose, branch, renderComponent } from 'recompose';
+import { withLocalize } from 'react-localize-redux';
 import { greenColor, lightGreenColor } from '../variables'
 let {
   REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
@@ -10,7 +11,14 @@ let {
 
 const autoplayNotificationDelay = REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000;
 
-const RoulettePlayBtn = ({ inProgress, autoplayIntervalStarted, autoPlayIntervalCounter, classes, play }) => (
+const RoulettePlayBtn = ({
+  inProgress,
+  autoplayIntervalStarted,
+  autoPlayIntervalCounter,
+  classes,
+  play,
+  translate,
+}) => (
   <Button
     type="primary"
     size="large"
@@ -18,7 +26,7 @@ const RoulettePlayBtn = ({ inProgress, autoplayIntervalStarted, autoPlayInterval
     className={`play-button ${classes.playButton}`}
     onClick={() => {play();}}
   >
-    Play! {!inProgress && autoplayIntervalStarted && <span>({ autoplayNotificationDelay - autoPlayIntervalCounter })</span>}
+    {translate('PLAY')}! {!inProgress && autoplayIntervalStarted && <span>({ autoplayNotificationDelay - autoPlayIntervalCounter })</span>}
   </Button>
 )
 
@@ -33,6 +41,9 @@ const styles = {
     '&:hover, &:active, &:focus': {
       background: lightGreenColor,
       'border-color': lightGreenColor,
+    },
+    '@media(max-width: 400px)': {
+      'font-size': '17px !important',
     }
   },
   text: {
@@ -52,6 +63,7 @@ const Text = compose(
 
 export default compose(
   injectSheet(styles),
+  withLocalize,
   branch(
     ({ lowBalance }) => lowBalance,
     renderComponent(() => (<Text>Low balance!</Text>)),
@@ -69,5 +81,6 @@ RoulettePlayBtn.propTypes = {
   autoplayIntervalStarted: PropTypes.bool.isRequired,
   autoPlayIntervalCounter: PropTypes.number.isRequired,
   play: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };

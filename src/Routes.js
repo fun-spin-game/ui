@@ -64,6 +64,9 @@ const styles = {
     },
     '&.withoutSideBar': {
       marginLeft: '0 !important',
+    },
+    '@media(max-width: 400px)': {
+      marginLeft: 80,
     }
   },
   sideMenu: {

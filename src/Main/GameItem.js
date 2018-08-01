@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { compose, withProps } from 'recompose';
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
+import { withLocalize } from 'react-localize-redux';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
@@ -34,6 +35,7 @@ const GameItem = ({
   amountOfAttempts,
   userInfo,
   notWonYet,
+  translate,
 }) => {
   return (
     <div
@@ -52,9 +54,9 @@ const GameItem = ({
           <span className={classes.chanceToWin}>
             <Tooltip
               disable={!notWonYet}
-              title="This lot was not won yet!"
+              title={`${translate('THIS_LOT_WAS_NOT_WON_YET')}!`}
             >
-              {chanceToWin}% chance
+              {chanceToWin}% {translate('CHANCE')}
             </Tooltip>
           </span>
           <div>
@@ -84,10 +86,10 @@ const GameItem = ({
           </span>
           <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
             <Tooltip
-              title="Low balance. Can not cover the risk"
+              title={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}`}
               disable={!disabled}
             >
-              Your risk: {toFixedIfNeed(risk)} <Coins />
+              {translate('YOU_RISK')}: {toFixedIfNeed(risk)} <Coins />
             </Tooltip>
           </span>
           <div className={classes.playButtonContainer}>
@@ -96,13 +98,13 @@ const GameItem = ({
               className={`play-button ${classes.playButton}`}
               onClick={() => onClickPlay({ gameId: id })}
             >
-              Play!
+              {translate('PLAY')}!
             </Button>
           </div>
           <div className={classes.amountOfAttempts}>
              <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
-             <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>attempts used</small></span></div>
-             <div>{(gamePlayer) && 'In progress...'}</div>
+             <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>{translate('ATTEMPTS_USED')}</small></span></div>
+             <div>{(gamePlayer) && `${translate('IN_PROGRESS')}...`}</div>
           </div>
         </div>
         {
@@ -203,6 +205,7 @@ const styles = {
     right: 0,
     top: 140,
     'font-size': '14px',
+    whiteSpace: 'nowrap',
   },
   playButtonContainer: {
     position: 'absolute',
@@ -248,6 +251,7 @@ const styles = {
 
 export default compose(
   withUser(),
+  withLocalize,
   withGames(),
   withProps(({
     id,
@@ -283,6 +287,7 @@ GameItem.propTypes = {
   maxAttempts: PropTypes.number.isRequired,
   creatorUser: PropTypes.object,
   onClickPlay: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   getAmountOfAttempts: PropTypes.func.isRequired,
   amountOfAttemptsPercentage: PropTypes.number.isRequired,
   amountOfAttempts: PropTypes.number.isRequired,

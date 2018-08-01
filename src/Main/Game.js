@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
 import { compose, branch, renderComponent } from 'recompose';
+import { withLocalize } from 'react-localize-redux';
 import Roulette from './Roulette';
 import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
@@ -11,6 +12,7 @@ class Game extends Component {
   render() {
     const {
       classes,
+      translate,
       activeGame: {
         chanceToWin,
         prize,
@@ -35,7 +37,7 @@ class Game extends Component {
               <Icon type="close" className={classes.close} />
             </a>
         }
-        <div className={classes.chancePercentage}>{chanceToWin}% chance to win!</div>
+        <div className={classes.chancePercentage}>{chanceToWin}% {translate('CHANCE_TO_WIN')}!</div>
         <Roulette
           prize={prize}
           chanceToWin={chanceToWin}
@@ -50,7 +52,7 @@ class Game extends Component {
         />
         <div className={classes.attemptsBlock}>
           <Progress size="small" percent={amountOfAttempts / maxAttempts * 100} />
-          <span>{amountOfAttempts}/{maxAttempts} attempts used</span>
+          <span>{amountOfAttempts}/{maxAttempts} {translate('ATTEMPTS_USED')}</span>
         </div>
       </div>
     )
@@ -65,7 +67,7 @@ const styles = {
     left: 0,
     right: 0,
     background: '#000000d6',
-    'z-index': 10,
+    'z-index': 20,
     display: 'flex',
     'flex-direction': 'column',
     'justify-content': 'center',
@@ -74,6 +76,9 @@ const styles = {
     'font-size': '35px',
     color: 'white',
     'text-align': 'center',
+    '@media(max-width: 400px)': {
+      'font-size': '17px',
+    }
   },
   attemptsBlock: {
     'text-align': 'center',
@@ -87,6 +92,10 @@ const styles = {
     },
     '& .ant-progress-bg': {
       height: '2px !important',
+    },
+    '@media(max-width: 400px)': {
+      'margin-top': 130,
+      'font-size': '15px',
     }
   },
   close: {
@@ -94,6 +103,11 @@ const styles = {
     top: 20,
     right: 20,
     'font-size': '50px',
+    '@media(max-width: 400px)': {
+      top: 20,
+      right: 15,
+      'font-size': '35px',
+    }
   },
   disabledAlert: {
     position: 'absolute',
@@ -105,6 +119,7 @@ const styles = {
 
 export default compose(
   injectSheet(styles),
+  withLocalize,
   withGames(),
   withUser(),
   branch(
@@ -129,6 +144,7 @@ Game.propTypes = {
   disconnectFromGame: PropTypes.func.isRequired,
   getAmountOfAttempts: PropTypes.func.isRequired,
   notifyGameSpinStart: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   isGameSpinInProgress: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
 };

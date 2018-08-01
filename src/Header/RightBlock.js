@@ -6,21 +6,24 @@ import { Icon, Avatar } from 'antd';
 import withUser from '../containers/withUser';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
+import { withLocalize } from 'react-localize-redux';
 
-const RightBlock = ({ classes, logout, userInfo }) => {
+const RightBlock = ({ classes, logout, userInfo, translate }) => {
   return (
     <div className={classes.rightBlock}>
       <span className={classes.balance}>
-        Balance:
+        <span className={classes.balanceLabel}>{translate('BALANCE')}:</span>
         <span className={classes.balanceAmount}>
-          <Coins /> {toFixedIfNeed(userInfo.balance)} <a>
+          <Coins /> <span className={classes.coinsAmount}>{toFixedIfNeed(userInfo.balance)}</span> <a>
           <Icon type="plus-circle-o" />
           </a>
         </span>
       </span>
-      <span className={classes.userName}>{userInfo.displayName || userInfo.email}</span>
-      { userInfo.photo && <Avatar size="small" className={`${classes.playerAvatar}`} src={userInfo.photo} /> }
-      <Icon type="logout" className={classes.logOut} onClick={logout} />
+      <div className={classes.userBlock}>
+        <span className={classes.userName}>{userInfo.displayName || userInfo.email}</span>
+        { userInfo.photo && <Avatar size="small" className={`${classes.playerAvatar}`} src={userInfo.photo} /> }
+        <Icon type="logout" className={classes.logOut} onClick={logout} />
+      </div>
     </div>
   )
 }
@@ -33,17 +36,38 @@ const styles = {
     'padding-left': '10px'
   },
   rightBlock: {
+    display: 'flex',
+    '@media(max-width: 400px)': {
+      marginLeft: 0,
+    }
   },
   userName: {
     'margin-left': '20px',
+    '@media(max-width: 400px)': {
+      display: 'none',
+    }
   },
   balanceAmount: {
     'font-size': '20px',
-    'margin-left': '10px'
+    'margin-left': '10px',
+    whiteSpace: 'nowrap',
+  },
+  coinsAmount: {
+    '@media(max-width: 400px)': {
+      'font-size': '17px',
+    }
+  },
+  balanceLabel: {
+    '@media(max-width: 400px)': {
+      display: 'none',
+    }
   },
   playerAvatar: {
     verticalAlign: -6,
     marginLeft: 15,
+  },
+  userBlock: {
+    whiteSpace: 'nowrap'
   }
 };
 
@@ -55,9 +79,11 @@ RightBlock.propTypes = {
   classes: PropTypes.object.isRequired,
   userInfo: PropTypes.object,
   logout: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
 };
 
 export default compose(
+  withLocalize,
   injectSheet(styles),
   withUser(),
   branch(

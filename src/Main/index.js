@@ -4,12 +4,14 @@ import _ from 'lodash';
 import injectSheet from 'react-jss';
 import FlipMove from 'react-flip-move';
 import { Button } from 'antd';
+import { withLocalize } from 'react-localize-redux';
 import { compose } from 'recompose';
 import GameItem from './GameItem';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
 import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
+import PageTitle from '../common/PageTitle';
 
 class Main extends Component {
   constructor() {
@@ -34,10 +36,11 @@ class Main extends Component {
       appInFocus,
       userInfo: { balance },
       isGameNotWonYet,
+      translate,
     } = this.props;
     return (
       <Fragment>
-        <h1 className={classes.title}>Lots:</h1>
+        <PageTitle>{translate('LOTS')}:</PageTitle>
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus}>
             {
@@ -63,7 +66,13 @@ class Main extends Component {
           </FlipMove>
         </div>
         <div className={classes.createGameBlock}>
-          <Button type="primary" onClick={() => this.toggleCreateGameModal(true)} className={classes.createGameBtn}>Create lot</Button>
+          <Button
+            type="primary"
+            onClick={() => this.toggleCreateGameModal(true)}
+            className={classes.createGameBtn}
+          >
+            {translate('CREATE_LOT')}
+          </Button>
         </div>
         <Game />
         <CreateGameForm
@@ -79,7 +88,6 @@ class Main extends Component {
 const styles = {
   gameItems: {
     '& > *': {
-      'padding-top': 50,
       display: 'flex',
       'flex-wrap': 'wrap',
       'justify-content': 'space-evenly',
@@ -101,6 +109,7 @@ const styles = {
 };
 
 export default compose(
+  withLocalize,
   injectSheet(styles),
   withUser(),
   withGames(),
@@ -118,5 +127,6 @@ Main.propTypes = {
   getGamePlayer: PropTypes.func.isRequired,
   appInFocus: PropTypes.bool.isRequired,
   isGameNotWonYet: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
   notifyCreateGame: PropTypes.func.isRequired,
 };

@@ -22,7 +22,7 @@ REACT_APP_ROULETTE_AUTOPLAY_DELAY = parseInt(REACT_APP_ROULETTE_AUTOPLAY_DELAY);
 REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY = parseInt(REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY);
 const SETTINGS = {
  infinite: true,
- slidesToShow: 7,
+ slidesToShow: window.screen.width > 400 ? 7 : 3,
  slidesToScroll: 1,
  arrows: false,
  draggable: false,
@@ -202,6 +202,9 @@ const styles = {
     left: 0,
     right: 0,
     top: 270,
+    '@media(max-width: 400px)': {
+      top: 220,
+    }
   },
   reward: {
     'z-index': -2,
