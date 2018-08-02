@@ -43,7 +43,7 @@
     "ws": "^5.2.2"
   },
   "scripts": {
-    "start": "npm run build && ./node_modules/.bin/serve -s build/",
+    "start": "./node_modules/.bin/serve -s build/ -l $PORT",
     "start-dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
