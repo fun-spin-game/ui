@@ -124,6 +124,10 @@ const styles = {
     'text-align': 'center',
     height: 250,
     'padding': 35,
+    '@media(max-width: 400px)': {
+      transform: 'scale(.7) translate(0px, -20px)',
+      height: 170,
+    },
     '&:not(.inProgress):not(.won):not(.lost):not(.disabled):not(.ownGame):hover': {
       '& .game-item-content': {
         transform: 'scale(1.3)',

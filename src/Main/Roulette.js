@@ -98,14 +98,14 @@ class Roulette extends Component {
     const { onClickPlay, lowBalance } = this.props;
     if (lowBalance) return;
     const newResultItems = _.shuffle(this.state.resultItems);
-    const resultIndex = 50;
+    const resultIndex = 49;
     const result = newResultItems[resultIndex];
     this.resultSlider.slickGoTo(0, true);
     this.setState({ autoPlayIntervalCounter: 0, result, resultItems: newResultItems });
     setTimeout(() => {
       this.resultSlider.slickGoTo(resultIndex + _.random(-0.45, 0.45, true));
       onClickPlay({ result });
-    }, 0);
+    });
   }
   onSpinDone({ result }) {
     this.setAupoPlayNotificationTimeout(this.props);
