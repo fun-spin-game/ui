@@ -110,15 +110,10 @@ const GameItem = ({
         {
           (gamePlayer) &&
           <div className={classes.playerAvatarContainer}>
-            <Avatar className={`player-avatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
+            <Avatar className={`playerAvatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
           </div>
         }
-        {
-          (creatorUser) &&
-          <div className={classes.creatorAvatarContainer}>
-            <Avatar size="small" className={`creatorAvatar ${classes.creatorAvatar}`} src={creatorUser.photo} />
-          </div>
-        }
+
       </div>
     </div>
   )
@@ -129,7 +124,7 @@ const styles = {
     'text-align': 'center',
     height: 250,
     'padding': 35,
-    '&:not(.inProgress):not(.won):not(.lost):hover:not(.disabled):not(.ownGame)': {
+    '&:not(.inProgress):not(.won):not(.lost):not(.disabled):not(.ownGame):hover': {
       '& .game-item-content': {
         transform: 'scale(1.3)',
       },
@@ -143,7 +138,7 @@ const styles = {
       '& .play-button': {
         visibility: 'visible',
         opacity: 1,
-      }
+      },
     },
     '&.won': {
       color: greenColor,
@@ -236,6 +231,8 @@ const styles = {
   },
   creatorAvatar: {
     boxSizing: 'content-box',
+  },
+  playerAvatar: {
   },
   flashAnimation: {
     'animation-duration': '3s',

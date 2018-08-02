@@ -43,7 +43,8 @@ class Roulette extends Component {
       prevResult: null,
       showReward: false,
       resultItems: _.shuffle(_.fill(Array(chanceToWin), true)
-      .concat(_.fill(Array(100 - chanceToWin), false))),
+      .concat(_.fill(Array(100 - chanceToWin), false)))
+      .slice(0, 50),
       autoPlayInterval: null,
       autoPlayNotificationTimeout: null,
       hideRewardTimeout: null,
@@ -97,7 +98,7 @@ class Roulette extends Component {
     const { onClickPlay, lowBalance } = this.props;
     if (lowBalance) return;
     const newResultItems = _.shuffle(this.state.resultItems);
-    const resultIndex = 90;
+    const resultIndex = 50;
     const result = newResultItems[resultIndex];
     this.resultSlider.slickGoTo(0, true);
     this.setState({ autoPlayIntervalCounter: 0, result, resultItems: newResultItems });

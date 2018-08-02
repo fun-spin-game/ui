@@ -13,7 +13,5 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "flag-icon-css/css/flag-icon.css";
 
 import './index.css';
-console.log(11, process.env.NODE_ENV);
-console.log(22, process.env.REACT_APP_BASE_REST_URL);
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
