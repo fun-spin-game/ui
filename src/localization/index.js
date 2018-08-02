@@ -147,4 +147,8 @@ export default {
     'Chance to win',
     'Шанс выигрыша'
   ],
+  GAME_COMPLETED: [
+    'Game completed',
+    'Игра завершена'
+  ],
 };

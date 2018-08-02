@@ -94,7 +94,7 @@ const styles = {
       height: '2px !important',
     },
     '@media(max-width: 400px)': {
-      'margin-top': 130,
+      'margin-top': 55,
       'font-size': '15px',
     }
   },

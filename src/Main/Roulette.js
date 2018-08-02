@@ -47,7 +47,6 @@ class Roulette extends Component {
       .slice(0, 50),
       autoPlayInterval: null,
       autoPlayNotificationTimeout: null,
-      hideRewardTimeout: null,
       autoPlayIntervalCounter: 0,
     }
   }
@@ -57,7 +56,6 @@ class Roulette extends Component {
   componentWillUnmount() {
     clearInterval(this.state.autoPlayInterval);
     clearTimeout(this.state.autoPlayNotificationTimeout);
-    clearTimeout(this.state.hideRewardTimeout);
   }
   setAutoPlayInterval() {
     this.setState({
@@ -101,7 +99,7 @@ class Roulette extends Component {
     const resultIndex = 49;
     const result = newResultItems[resultIndex];
     this.resultSlider.slickGoTo(0, true);
-    this.setState({ autoPlayIntervalCounter: 0, result, resultItems: newResultItems });
+    this.setState({ autoPlayIntervalCounter: 0, result, resultItems: newResultItems, showReward: false });
     setTimeout(() => {
       this.resultSlider.slickGoTo(resultIndex + _.random(-0.45, 0.45, true));
       onClickPlay({ result });
@@ -109,13 +107,7 @@ class Roulette extends Component {
   }
   onSpinDone({ result }) {
     this.setAupoPlayNotificationTimeout(this.props);
-    const hideRewardTimeout = setTimeout(() => {
-      this.setState({
-        showReward: false,
-      })
-    }, REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
     this.setState({
-      hideRewardTimeout,
       showReward: true,
       prevResult: this.state.result,
     });
@@ -172,7 +164,7 @@ class Roulette extends Component {
           />
         </div>
         {
-          showReward && <div className={`${classes.reward} ${prevResult ? 'win' : 'lose'} animated fadeOutUp`}>
+          showReward && <div className={`${classes.reward} ${prevResult ? 'win' : 'lose'}`}>
             {prevResult ? `+${prize}` : `-${toFixedIfNeed(risk)}`} <Coins />
           </div>
         }
@@ -204,7 +196,7 @@ const styles = {
     right: 0,
     top: 270,
     '@media(max-width: 400px)': {
-      top: 220,
+      top: 175,
     }
   },
   reward: {
@@ -220,6 +212,10 @@ const styles = {
     },
     '&.lose': {
       color: redColor,
+    },
+    '@media(max-width: 400px)': {
+      top: -110,
+      fontSize: '45px',
     }
   },
 };

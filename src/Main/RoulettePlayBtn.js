@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import injectSheet from 'react-jss'
 import { compose, branch, renderComponent } from 'recompose';
-import { withLocalize } from 'react-localize-redux';
+import { withLocalize, Translate } from 'react-localize-redux';
 import { greenColor, lightGreenColor } from '../variables'
 let {
   REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
@@ -66,11 +66,11 @@ export default compose(
   withLocalize,
   branch(
     ({ lowBalance }) => lowBalance,
-    renderComponent(() => (<Text>Low balance!</Text>)),
+    renderComponent(() => (<Text><Translate id="LOW_BALANCE" />!</Text>)),
   ),
   branch(
     ({ maxAttemptsReached }) => maxAttemptsReached,
-    renderComponent(() => (<Text>Game completed! Please wait...</Text>)),
+    renderComponent(() => (<Text><Translate id="GAME_COMPLETED" />!</Text>)),
   ),
 )(RoulettePlayBtn);
 
