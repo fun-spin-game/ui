@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import injectSheet from 'react-jss';
 import FlipMove from 'react-flip-move';
-import { Button } from 'antd';
+import { Button, Select, Slider } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import { compose } from 'recompose';
 import GameItem from './GameItem';
@@ -12,6 +12,15 @@ import CreateGameForm from './CreateGameForm';
 import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
 import PageTitle from '../common/PageTitle';
+import Coins from '../common/Coins';
+
+const Option = Select.Option;
+
+
+
+const FILTERS = new Array(200 / 20)
+.fill()
+.map((o, index) => ({ min: index * 20, max: (index + 1) * 20 }));
 
 class Main extends Component {
   constructor() {
@@ -19,6 +28,7 @@ class Main extends Component {
 
     this.state = {
       createGameMode: false,
+      filter: 0,
     };
   }
   toggleCreateGameModal(value) {
@@ -38,28 +48,38 @@ class Main extends Component {
       isGameNotWonYet,
       translate,
     } = this.props;
+    const filter = FILTERS[this.state.filter];
+    const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
     return (
       <Fragment>
         <PageTitle>{translate('LOTS')}:</PageTitle>
+        <Slider
+          defaultValue={0}
+          min={0}
+          max={FILTERS.length - 1}
+          onAfterChange={(value) => { this.setState({ filter: value }) }}
+          tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
+        />
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus}>
             {
-              _.sortBy(games, [({ risk }) => balance <= risk, 'prize'])
+              _.sortBy(filteredGames, [({ risk }) => balance <= risk, 'prize'])
               .map(({ prize, risk, chanceToWin, maxAttempts, creatorUser, id: gameId }) => {
                 return (
-                  <GameItem
-                    id={gameId}
-                    key={gameId}
-                    prize={prize}
-                    risk={risk}
-                    notWonYet={isGameNotWonYet({ gameId })}
-                    creatorUser={creatorUser}
-                    chanceToWin={chanceToWin}
-                    maxAttempts={maxAttempts}
-                    onClickPlay={connectToGame}
-                    disabled={balance < risk}
-                    gamePlayer={getGamePlayer({ gameId })}
-                  />
+                  <div key={gameId}>
+                    <GameItem
+                      id={gameId}
+                      prize={prize}
+                      risk={risk}
+                      notWonYet={isGameNotWonYet({ gameId })}
+                      creatorUser={creatorUser}
+                      chanceToWin={chanceToWin}
+                      maxAttempts={maxAttempts}
+                      onClickPlay={connectToGame}
+                      disabled={balance < risk}
+                      gamePlayer={getGamePlayer({ gameId })}
+                    />
+                  </div>
                 );
               })
             }

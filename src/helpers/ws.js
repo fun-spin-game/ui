@@ -1,4 +1,5 @@
 import debug from 'debug';
+
 const log = debug('ws');
 const MAX_RECONNECT_ATTEMPTS = 5;
 
@@ -72,5 +73,4 @@ export default class WS {
     this.callbacks[`on${action.charAt(0).toUpperCase() + action.slice(1)}`] = cb;
     return this;
   }
-
 }
