@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import injectSheet from 'react-jss';
 import FlipMove from 'react-flip-move';
-import { Button, Select, Slider } from 'antd';
+import { Button, Slider } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import { compose } from 'recompose';
 import GameItem from './GameItem';
@@ -14,13 +14,9 @@ import withUser from '../containers/withUser';
 import PageTitle from '../common/PageTitle';
 import Coins from '../common/Coins';
 
-const Option = Select.Option;
-
-
-
 const FILTERS = new Array(200 / 20)
 .fill()
-.map((o, index) => ({ min: index * 20, max: (index + 1) * 20 }));
+.map((o, index) => ({ min: index * 20 || 1, max: (index + 1) * 20 }));
 
 class Main extends Component {
   constructor() {

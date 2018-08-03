@@ -151,4 +151,12 @@ export default {
     'Game completed',
     'Игра завершена'
   ],
+  FROM: [
+    'From',
+    'С'
+  ],
+  TO: [
+    'To',
+    'По'
+  ],
 };

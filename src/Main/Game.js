@@ -62,7 +62,7 @@ class Game extends Component {
 const styles = {
   rouletteOverlay: {
     position: 'fixed',
-    top: 64,
+    top: 0,
     bottom: 0,
     left: 0,
     right: 0,
@@ -71,6 +71,9 @@ const styles = {
     display: 'flex',
     'flex-direction': 'column',
     'justify-content': 'center',
+    '@media(max-width: 400px)': {
+      'padding-top': 100,
+    }
   },
   chancePercentage: {
     'font-size': '35px',
