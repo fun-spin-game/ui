@@ -1,6 +1,6 @@
 export const getRisk = ({ prize, chanceToWin }) => {
-  return (prize * chanceToWin / (100 - chanceToWin));
-}
+  return prize * chanceToWin / (100 - chanceToWin);
+};
 
 export const getActiveGame = ({ actions, userId, games }) => {
   const reversedActions = [...actions].reverse();
@@ -22,4 +22,4 @@ export const getLastGameAction = ({ gameId, actions }) => [...actions].reverse()
 
 export const toFixedIfNeed = (val) => {
   return parseFloat(val.toFixed(process.env.REACT_APP_FIXED_DIGITS));
-}
+};

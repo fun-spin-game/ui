@@ -1,4 +1,4 @@
-const gamesReducer = (state = {
+const reducer = (state = {
   games: [],
   actions: [],
   appInFocus: true,
@@ -50,4 +50,4 @@ const gamesReducer = (state = {
   }
 }
 
-export default gamesReducer;
+export default reducer;

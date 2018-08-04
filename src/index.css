@@ -28,3 +28,12 @@ body {
 .ant-tooltip-inner {
   word-break: break-word;
 }
+
+.ant-card {
+  background: #fcfcfc;
+  border: 0;
+}
+.ant-card-head {
+  background: #f2f0f0;
+  border: 0;
+}

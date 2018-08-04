@@ -11,6 +11,7 @@ import { withRouter } from 'react-router'
 import Cookie from 'js-cookie';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
 import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
+import Footer from './Footer';
 import SideMenu from './SideMenu';
 import withUser from './containers/withUser';
 import withGames from './containers/withGames';
@@ -19,6 +20,7 @@ import Header from './Header';
 import Content from './Content';
 import Login from './Login';
 import Statistic from './Statistic';
+import Payments from './Withdraws';
 import localization from './localization';
 
 const Routes = ({
@@ -36,19 +38,23 @@ const Routes = ({
       />
       <Layout>
         <Header />
-        <Content
+        <div
           className={classNames(
             classes.content, {
             'collapsed-mode': collapsedSideMenu,
             withoutSideBar: pathname === '/login'
           })}
         >
-          <Switch>
-            <AuthenticatedRoute exact path="/" component={Main} />
-            <AuthenticatedRoute exact path="/statistic" component={Statistic} />
-            <NotAuthenticatedRoute path="/login" component={Login} />
-          </Switch>
-        </Content>
+          <Content>
+            <Switch>
+              <AuthenticatedRoute exact path="/" component={Main} />
+              <NotAuthenticatedRoute exact path="/statistic" component={Statistic} />
+              <NotAuthenticatedRoute exact path="/payments" component={Payments} />
+              <NotAuthenticatedRoute path="/login" component={Login} />
+            </Switch>
+          </Content>
+          <Footer />
+        </div>
       </Layout>
     </Layout>
   );

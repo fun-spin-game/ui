@@ -43,6 +43,7 @@ class Main extends Component {
       userInfo: { balance },
       isGameNotWonYet,
       translate,
+      getAmountOfAttempts,
     } = this.props;
     const filter = FILTERS[this.state.filter];
     const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
@@ -56,6 +57,7 @@ class Main extends Component {
           onAfterChange={(value) => { this.setState({ filter: value }) }}
           tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
         />
+        <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus}>
             {
@@ -72,7 +74,7 @@ class Main extends Component {
                       chanceToWin={chanceToWin}
                       maxAttempts={maxAttempts}
                       onClickPlay={connectToGame}
-                      disabled={balance < risk}
+                      disabled={balance < risk || getAmountOfAttempts({ gameId }) >= maxAttempts}
                       gamePlayer={getGamePlayer({ gameId })}
                     />
                   </div>
@@ -121,6 +123,11 @@ const styles = {
   createGameBlock: {
     'text-align': 'center',
     padding: '25px 0',
+  },
+  filterLabel: {
+    textAlign: 'center',
+    fontSize: '14px',
+    marginTop: -5,
   }
 };
 
@@ -138,6 +145,7 @@ Main.defaultProps = {
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getAmountOfAttempts: PropTypes.func.isRequired,
   connectToGame: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
   getGamePlayer: PropTypes.func.isRequired,

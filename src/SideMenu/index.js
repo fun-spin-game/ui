@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { branch, compose, renderComponent } from 'recompose'
@@ -6,8 +6,10 @@ import { Link } from 'react-router-dom'
 import { Layout, Icon, Menu } from 'antd';
 import { withRouter } from 'react-router'
 import { withLocalize } from 'react-localize-redux';
+import { TOP_MENU_ITEMS } from '../Header';
 
 const { Sider } = Layout;
+const SubMenu = Menu.SubMenu;
 
 class SideMenu extends Component {
   render() {
@@ -33,12 +35,18 @@ class SideMenu extends Component {
               <span>{translate('LOTS')}</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="/statistic">
-            <Link to="/statistic">
-              <Icon type="area-chart" />
-              <span>{translate('STATISTIC')}</span>
-            </Link>
-          </Menu.Item>
+          <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>{translate('OTHERS')}...</span></span>}>
+          {
+            TOP_MENU_ITEMS.map(o => (
+              <Menu.Item className="ant-menu-item" key={o.route}>
+                <Link to={o.route}>
+                  <Icon type={o.iconType} />
+                  <span>{translate(o.translateId)}</span>
+                </Link>
+              </Menu.Item>
+            ))
+          }
+          </SubMenu>
         </Menu>
       </Sider>
     )

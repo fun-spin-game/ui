@@ -12,7 +12,9 @@ const getLum = ({ coefficient }) => {
 const RouletteItem = ({ classes, children }) => (
   <div className={classes.rouletteItem}>
     <div className={classNames(classes.rouletteContent, classes.rouletteContentMedia)}>
-      {children}
+      <div>
+        {children}
+      </div>
     </div>
   </div>
 );
@@ -23,6 +25,7 @@ const styles = {
   rouletteContentMedia: {
     '@media(max-width: 400px)': {
       'font-size': '17px !important',
+      height: '80px !important',
     }
   },
   rouletteContent: ({ type, coefficient }) => {
@@ -39,9 +42,12 @@ const styles = {
         background = `hsl(209, 85%, ${getLum({ coefficient })})`
     }
     return {
+      height: 150,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       'text-align': 'center',
       color: 'white',
-      padding: '25px 0',
       background: background,
       'font-size': '35px',
       'border-left': '1px solid white',

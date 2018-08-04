@@ -2,7 +2,7 @@ const initialState = {
   top: [],
 };
 
-const userReducer = (
+const reducer = (
   state = initialState,
   { type, payload },
 ) => {
@@ -14,4 +14,4 @@ const userReducer = (
   }
 };
 
-export default userReducer;
+export default reducer;

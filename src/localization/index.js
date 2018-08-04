@@ -159,4 +159,20 @@ export default {
     'To',
     'По'
   ],
+  PAYMENTS: [
+    'Payments',
+    'Выплаты'
+  ],
+  ABOUT_US: [
+    'About us',
+    'О нас'
+  ],
+  OTHERS: [
+    'Others',
+    'Остальное'
+  ],
+  LAST_WITHDRAWS: [
+    'Last withdraws',
+    'Последние выплаты'
+  ],
 };

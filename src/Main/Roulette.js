@@ -103,7 +103,7 @@ class Roulette extends Component {
     setTimeout(() => {
       this.resultSlider.slickGoTo(resultIndex + _.random(-0.45, 0.45, true));
       onClickPlay({ result });
-    });
+    }, 100);
   }
   onSpinDone({ result }) {
     this.setAupoPlayNotificationTimeout(this.props);

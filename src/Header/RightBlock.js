@@ -41,9 +41,7 @@ const styles = {
   },
   rightBlock: {
     display: 'flex',
-    '@media(max-width: 400px)': {
-      marginLeft: 0,
-    }
+    marginLeft: 20,
   },
   userName: {
     'margin-left': '20px',

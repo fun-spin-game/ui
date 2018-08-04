@@ -71,9 +71,7 @@ const styles = {
     display: 'flex',
     'flex-direction': 'column',
     'justify-content': 'center',
-    '@media(max-width: 400px)': {
-      'padding-top': 100,
-    }
+    paddingTop: 100,
   },
   chancePercentage: {
     'font-size': '35px',
