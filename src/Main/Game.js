@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
+import { AES, enc } from 'crypto-js';
 import { compose, branch, renderComponent } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import Roulette from './Roulette';
@@ -19,6 +20,7 @@ class Game extends Component {
         maxAttempts,
         risk,
         id: gameId,
+        schema: schemaEncoded
       },
       userInfo: { balance },
       disconnectFromGame,
@@ -30,6 +32,8 @@ class Game extends Component {
     const maxAttemptsReached = amountOfAttempts >= maxAttempts;
     const lowBalance = balance < risk;
     const inProgress = isGameSpinInProgress({ gameId });
+    const schema = AES.decrypt(schemaEncoded, 'dAfg$1397642gsge_39').toString(enc.Utf8);
+    const result = Boolean(parseInt(schema[getAmountOfAttempts({ gameId })]));
     return (
       <div className={classes.rouletteOverlay}>
         {
@@ -42,6 +46,7 @@ class Game extends Component {
           prize={prize}
           chanceToWin={chanceToWin}
           risk={risk}
+          result={result}
           onClickPlay={({ result }) => {
             notifyGameSpinStart({ gameId, result: result ? prize : -risk });
           }}

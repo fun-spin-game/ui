@@ -73,7 +73,7 @@ const GameItem = (props) => {
         >
           <span className={`chanceToWin ${classes.chanceToWin}`}>
             <Tooltip
-              disable={!notWonYet}
+              disable={true}
               title={`${translate('THIS_LOT_WAS_NOT_WON_YET')}!`}
             >
               {chanceToWin}% {translate('CHANCE')}
@@ -219,7 +219,7 @@ const styles = {
   },
   'chanceToWin': ({ notWonYet }) => ({
     'font-size': '14px',
-    color: notWonYet ? greenColor : 'inherited',
+    color: notWonYet ? 'inherited' : 'inherited',
   }),
   prize: {
     transition: 'all 300ms ease',

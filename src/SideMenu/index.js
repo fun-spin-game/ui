@@ -61,7 +61,7 @@ class SideMenu extends Component {
           className={classNames(classes.menu)}
         >
           {
-            SIDE_MENU_ITEMS.map(o => (
+            userInfo && SIDE_MENU_ITEMS.map(o => (
               <Menu.Item key={o.route} onClick={() => setCollapsedSideMenu(true)}>
                 <Link to={o.route}>
                   <Icon type={o.iconType} />

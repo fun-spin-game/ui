@@ -23,7 +23,7 @@ import injectSheet from "react-jss";
 import PageTitle from "../common/PageTitle";
 import Coins from "../common/Coins";
 import { redColor, greenColor } from "../variables";
-import { MIN_AMOUNT_FOR_WITHDRAW, START_BONUS, MIN_AMOUNT_OF_WITHDRAWING } from '../config';
+import { START_BONUS, MIN_AMOUNT_OF_WITHDRAWING } from '../config';
 
 const FormItem = Form.Item;
 
@@ -94,8 +94,8 @@ const Withdraw = ({
   handleSubmit,
 }) => {
   const sortedWithdraws = _.sortBy(withdraws, 'createdAt');
-  const maxValue = balance > START_BONUS ? balance - START_BONUS : 0;
-  const lowBalance = balance < MIN_AMOUNT_FOR_WITHDRAW;
+  const maxValue = Math.floor(balance - MIN_AMOUNT_OF_WITHDRAWING >= START_BONUS ? balance - START_BONUS : 0);
+  const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING + START_BONUS;
   const paidNotEnough = paid < START_BONUS;
   return (
     <div className={classes.withdrawing}>
@@ -106,7 +106,7 @@ const Withdraw = ({
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW', { n: MIN_AMOUNT_FOR_WITHDRAW })}`}
+                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW', { n: START_BONUS + MIN_AMOUNT_OF_WITHDRAWING })}`}
                 type="error"
               />
             </FormItem>

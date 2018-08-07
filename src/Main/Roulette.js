@@ -16,9 +16,10 @@ import {
   ROULETTE_AUTOPLAY_DELAY,
   ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
 } from '../config';
+
 const SETTINGS = {
  infinite: true,
- slidesToShow: window.screen.width > 400 ? 7 : 3,
+ slidesToShow: window.innerWidth > 1200 ? 7 : 3,
  slidesToScroll: 1,
  arrows: false,
  draggable: false,
@@ -31,7 +32,6 @@ class Roulette extends Component {
     super();
     this.setAutoPlayInterval = this.setAutoPlayInterval.bind(this);
     this.setAupoPlayNotificationTimeout = this.setAupoPlayNotificationTimeout.bind(this);
-    this.getNextIndex = this.getNextIndex.bind(this);
     this.play = this.play.bind(this);
     this.onSpinDone = this.onSpinDone.bind(this);
     this.state = {
@@ -77,23 +77,17 @@ class Roulette extends Component {
       autoPlayNotificationTimeout,
     });
   }
-  getNextIndex({ value, items }) {
-    const minIndex = 60;
-    const sliceIndex = _.random(minIndex, items.length - 1);
-    const randomIndex = items.findIndex((item, index) => {
-      return index > sliceIndex && item === value;
-    });
-    const backIndex = items.length - 1 - [...items].reverse().indexOf(value);
-    return randomIndex !== -1 ? randomIndex : backIndex;
-  }
-  play() {
+  async play() {
     clearInterval(this.state.autoPlayInterval);
     clearTimeout(this.state.autoPlayNotificationTimeout);
-    const { onClickPlay, lowBalance } = this.props;
+    const { onClickPlay, lowBalance, result } = this.props;
     if (lowBalance) return;
+
     const newResultItems = _.shuffle(this.state.resultItems);
     const resultIndex = 49;
-    const result = newResultItems[resultIndex];
+
+    newResultItems[49] = result;
+
     this.resultSlider.slickGoTo(0, true);
     this.setState({ autoPlayIntervalCounter: 0, result, resultItems: newResultItems, showReward: false });
     setTimeout(() => {
@@ -228,6 +222,7 @@ Roulette.propTypes = {
   prize: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,
   risk: PropTypes.number.isRequired,
+  result: PropTypes.bool.isRequired,
   onClickPlay: PropTypes.func.isRequired,
   onSpinFinished: PropTypes.func.isRequired,
   maxAttemptsReached: PropTypes.bool,
