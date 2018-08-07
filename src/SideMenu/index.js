@@ -12,13 +12,26 @@ import classNames from "classnames";
 
 const { Sider } = Layout;
 
+const SIDE_MENU_ITEMS = [
+  {
+    route: '/',
+    translateId: 'LOTS',
+    iconType: 'smile-o',
+  },
+  {
+    route: '/withdraw',
+    translateId: 'WITHDRAW',
+    iconType: 'credit-card',
+  },
+];
+
 class SideMenu extends Component {
   render() {
     const {
       classes,
       className,
       collapsed,
-      onCollapse,
+      setCollapsedSideMenu,
       location: { pathname },
       translate,
       userInfo,
@@ -32,13 +45,14 @@ class SideMenu extends Component {
             classes.sider,
             className,
             {
+              collapsed: collapsed,
               loginPage: pathname === '/login'
             }
           )
         }
         collapsible
         collapsed={collapsed}
-        onCollapse={onCollapse}
+        onCollapse={setCollapsedSideMenu}
       >
         <Menu
           theme="dark"
@@ -47,38 +61,18 @@ class SideMenu extends Component {
           className={classNames(classes.menu)}
         >
           {
-            userInfo && (
-              <Menu.Item
-                className={classNames(
-                  classes.menuFirstItem
-                )}
-                key={'/'}
-              >
-                <Link to={'/'}>
-                  <Icon type={'smile-o'} />
-                  <span>{translate('LOTS')}</span>
+            SIDE_MENU_ITEMS.map(o => (
+              <Menu.Item key={o.route} onClick={() => setCollapsedSideMenu(true)}>
+                <Link to={o.route}>
+                  <Icon type={o.iconType} />
+                  <span>{translate(o.translateId)}</span>
                 </Link>
               </Menu.Item>
-            )
-          }
-          {
-            userInfo && (
-              <Menu.Item
-                className={classNames(
-                  classes.menuFirstItem
-                )}
-                key={'/withdraw'}
-              >
-                <Link to={'/withdraw'}>
-                  <Icon type={'credit-card'} />
-                  <span>{translate('WITHDRAW')}</span>
-                </Link>
-              </Menu.Item>
-            )
+            ))
           }
           {
             TOP_MENU_ITEMS.filter(o => o.route !== '/login' || !userInfo).map(o => (
-              <Menu.Item className={classes.topMenuDuplicateItem} key={o.route}>
+              <Menu.Item className={classes.topMenuDuplicateItem} onClick={() => setCollapsedSideMenu(true)} key={o.route}>
                 <Link to={o.route}>
                   <Icon type={o.iconType} />
                   <span>{translate(o.translateId)}</span>
@@ -96,6 +90,15 @@ const styles = {
   sider: {
     height: '100vh',
     zIndex: 20,
+    overflow: 'auto',
+    position: 'fixed',
+    left: 0,
+    top: 64,
+    '&.collapsed': {
+      '@media(max-width: 600px)': {
+        display: 'none',
+      },
+    },
     '&.loginPage': {
       '@media(min-width: 1101px)': {
         display: 'none',
@@ -137,6 +140,6 @@ SideMenu.propTypes = {
   location: PropTypes.object.isRequired,
   className: PropTypes.string,
   collapsed: PropTypes.bool.isRequired,
-  onCollapse: PropTypes.func.isRequired,
+  setCollapsedSideMenu: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
 };

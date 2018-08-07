@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Layout } from 'antd';
 import { Switch } from 'react-router';
 import { withLocalize } from 'react-localize-redux';
-import { compose, branch, renderComponent, lifecycle, withState } from 'recompose';
+import { compose, branch, renderComponent, lifecycle, withState, withProps } from 'recompose';
 import { withRouter, Route } from 'react-router'
 import Cookie from 'js-cookie';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
@@ -30,18 +30,17 @@ import Withdraw from './Withdraw';
 const Routes = ({
   classes,
   collapsedSideMenu,
-  setCollapsedSideMenu,
+  setCollapsedSideMenuFn,
   location: { pathname },
 }) => {
   return (
     <Layout className="layout">
       <SideMenu
-        className={classes.sideMenu}
         collapsed={collapsedSideMenu}
-        onCollapse={() => { setCollapsedSideMenu(!collapsedSideMenu) }}
+        setCollapsedSideMenu={setCollapsedSideMenuFn}
       />
       <Layout>
-        <Header />
+        <Header collapsedSideMenu={collapsedSideMenu} setCollapsedSideMenu={setCollapsedSideMenuFn} />
         <div
           className={classNames(
             classes.content, {
@@ -81,15 +80,8 @@ const styles = {
       },
     },
     '@media(max-width: 600px)': {
-      marginLeft: 80,
+      marginLeft: '0 !important',
     }
-  },
-  sideMenu: {
-    overflow: 'auto',
-    height: '100vh',
-    position: 'fixed',
-    left: 0,
-    top: 64,
   },
 };
 
@@ -118,6 +110,9 @@ export default compose(
     }
   }),
   withState('collapsedSideMenu', 'setCollapsedSideMenu', true),
+  withProps(({ setCollapsedSideMenu, collapsedSideMenu }) => ({
+    setCollapsedSideMenuFn: (val) => { setCollapsedSideMenu(typeof(val) === 'boolean' ? val : !collapsedSideMenu) }
+  })),
   branch(
     ({ userInfoRequestDone }) => !userInfoRequestDone,
     renderComponent(() => null),
@@ -130,5 +125,6 @@ Routes.propTypes = {
   classes: PropTypes.object.isRequired,
   collapsedSideMenu: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,
+  setCollapsedSideMenuFn: PropTypes.func.isRequired,
   initialize: PropTypes.func.isRequired,
 }

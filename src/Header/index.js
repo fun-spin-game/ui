@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import { compose } from 'recompose';
 import { Link } from "react-router-dom";
@@ -44,6 +44,8 @@ const Header = ({
   translate,
   location: { pathname },
   userInfo,
+  setCollapsedSideMenu,
+  collapsedSideMenu,
 }) => {
   return (
     <HeaderAnt className={classes.header}>
@@ -69,6 +71,11 @@ const Header = ({
           }
         </Menu>
         <RightBlock />
+        <Icon
+          className={classes.trigger}
+          type={collapsedSideMenu ? 'menu-unfold' : 'menu-fold'}
+          onClick={setCollapsedSideMenu}
+        />
      </div>
     </HeaderAnt>
   );
@@ -109,6 +116,16 @@ const styles = {
   headerContent: {
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+  trigger: {
+    fontSize: '18px',
+    lineHeight: '64px',
+    paddingLeft: '24px',
+    cursor: 'pointer',
+    transition: 'color .3s',
+    '@media(min-width: 601px)': {
+      display: 'none',
+    }
   }
 };
 
@@ -118,6 +135,8 @@ Header.defaultProps = {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
+  setCollapsedSideMenu: PropTypes.func.isRequired,
+  collapsedSideMenu: PropTypes.bool.isRequired,
 };
 
 export default compose(
