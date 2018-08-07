@@ -10,16 +10,12 @@ import RoulettePlayBtn from './RoulettePlayBtn';
 import Coins from '../common/Coins'
 import { greenColor, redColor } from '../variables'
 import { toFixedIfNeed } from '../helpers/gameUtils'
-let {
-  REACT_APP_GAME_GAME_SPIN_DELAY,
-  REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION,
-  REACT_APP_ROULETTE_AUTOPLAY_DELAY,
-  REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
-} = process.env;
-REACT_APP_GAME_GAME_SPIN_DELAY = parseInt(REACT_APP_GAME_GAME_SPIN_DELAY);
-REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION = parseInt(REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION);
-REACT_APP_ROULETTE_AUTOPLAY_DELAY = parseInt(REACT_APP_ROULETTE_AUTOPLAY_DELAY);
-REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY = parseInt(REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY);
+import {
+  GAME_GAME_SPIN_DELAY,
+  ROULETTE_REWARD_ANIMATION_DURATION,
+  ROULETTE_AUTOPLAY_DELAY,
+  ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
+} from '../config';
 const SETTINGS = {
  infinite: true,
  slidesToShow: window.screen.width > 400 ? 7 : 3,
@@ -27,7 +23,7 @@ const SETTINGS = {
  arrows: false,
  draggable: false,
  centerMode: true,
- speed: REACT_APP_GAME_GAME_SPIN_DELAY,
+ speed: GAME_GAME_SPIN_DELAY,
  initialSlide: 0,
 };
 class Roulette extends Component {
@@ -60,7 +56,7 @@ class Roulette extends Component {
   setAutoPlayInterval() {
     this.setState({
       autoPlayInterval: setInterval(() => {
-        if (this.state.autoPlayIntervalCounter >= REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000) {
+        if (this.state.autoPlayIntervalCounter >= ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000) {
           this.play();
         } else {
           this.setState({
@@ -74,7 +70,7 @@ class Roulette extends Component {
     if (lowBalance || maxAttemptsReached) return;
     const autoPlayNotificationTimeout = setTimeout(
       () => this.setAutoPlayInterval(),
-      REACT_APP_ROULETTE_AUTOPLAY_DELAY - REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY
+      ROULETTE_AUTOPLAY_DELAY - ROULETTE_AUTOPLAY_NOTIFICATION_DELAY
     )
     this.setState({
       autoPlayInterval: null,
@@ -195,7 +191,7 @@ const styles = {
     left: 0,
     right: 0,
     top: 270,
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       top: 175,
     }
   },
@@ -206,14 +202,14 @@ const styles = {
     right: 0,
     top: -160,
     'font-size': '60px',
-    'animation-duration': REACT_APP_ROULETTE_REWARD_ANIMATION_DURATION,
+    'animation-duration': ROULETTE_REWARD_ANIMATION_DURATION,
     '&.win': {
       color: greenColor,
     },
     '&.lose': {
       color: redColor,
     },
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       top: -110,
       fontSize: '45px',
     }

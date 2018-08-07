@@ -7,7 +7,7 @@ import { Layout } from 'antd';
 import { Switch } from 'react-router';
 import { withLocalize } from 'react-localize-redux';
 import { compose, branch, renderComponent, lifecycle, withState } from 'recompose';
-import { withRouter } from 'react-router'
+import { withRouter, Route } from 'react-router'
 import Cookie from 'js-cookie';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
 import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
@@ -15,13 +15,17 @@ import Footer from './Footer';
 import SideMenu from './SideMenu';
 import withUser from './containers/withUser';
 import withGames from './containers/withGames';
+import localization from './localization';
 import Main from './Main';
 import Header from './Header';
 import Content from './Content';
 import Login from './Login';
 import Statistic from './Statistic';
-import Payments from './Withdraws';
-import localization from './localization';
+import Withdraws from './Withdraws';
+import Contacts from './Contacts';
+import HowToPlay from './HowToPlay';
+import Withdraw from './Withdraw';
+
 
 const Routes = ({
   classes,
@@ -42,14 +46,17 @@ const Routes = ({
           className={classNames(
             classes.content, {
             'collapsed-mode': collapsedSideMenu,
-            withoutSideBar: pathname === '/login'
+            loginPage: pathname === '/login'
           })}
         >
           <Content>
             <Switch>
               <AuthenticatedRoute exact path="/" component={Main} />
-              <NotAuthenticatedRoute exact path="/statistic" component={Statistic} />
-              <NotAuthenticatedRoute exact path="/payments" component={Payments} />
+              <AuthenticatedRoute exact path="/withdraw" component={Withdraw} />
+              <Route exact path="/statistic" component={Statistic} />
+              <Route exact path="/withdraws" component={Withdraws} />
+              <Route exact path="/contacts" component={Contacts} />
+              <Route exact path="/how-to-play" component={HowToPlay} />
               <NotAuthenticatedRoute path="/login" component={Login} />
             </Switch>
           </Content>
@@ -68,10 +75,12 @@ const styles = {
     '&.collapsed-mode': {
       'margin-left': 80,
     },
-    '&.withoutSideBar': {
-      marginLeft: '0 !important',
+    '&.loginPage': {
+      '@media(min-width: 1101px)': {
+        marginLeft: '0 !important',
+      },
     },
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       marginLeft: 80,
     }
   },
@@ -103,7 +112,7 @@ export default compose(
           { label: 'RU', code: 'ru' }
         ],
         translation: localization,
-        options: { renderToStaticMarkup },
+        options: { renderToStaticMarkup, renderInnerHtml: true },
       });
       this.props.setActiveLanguage(Cookie.get('language') || browserLanguage);
     }

@@ -49,15 +49,16 @@ class Main extends Component {
     const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
     return (
       <Fragment>
-        <PageTitle>{translate('LOTS')}:</PageTitle>
+        <PageTitle>{translate('LOTS')}</PageTitle>
+        <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
         <Slider
+          className={classes.slider}
           defaultValue={0}
           min={0}
           max={FILTERS.length - 1}
           onAfterChange={(value) => { this.setState({ filter: value }) }}
           tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
         />
-        <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus}>
             {
@@ -73,6 +74,7 @@ class Main extends Component {
                       creatorUser={creatorUser}
                       chanceToWin={chanceToWin}
                       maxAttempts={maxAttempts}
+                      amountOfAttempts={getAmountOfAttempts({ gameId })}
                       onClickPlay={connectToGame}
                       disabled={balance < risk || getAmountOfAttempts({ gameId }) >= maxAttempts}
                       gamePlayer={getGamePlayer({ gameId })}
@@ -96,7 +98,7 @@ class Main extends Component {
         <CreateGameForm
           visible={this.state.createGameMode}
           onCancel={() => this.toggleCreateGameModal(false)}
-            handleSubmit={(values) => { notifyCreateGame({ game: values }); this.toggleCreateGameModal(false) }}
+          handleSubmit={(values) => { notifyCreateGame({ game: values }); this.toggleCreateGameModal(false) }}
         />
       </Fragment>
     )
@@ -128,6 +130,9 @@ const styles = {
     textAlign: 'center',
     fontSize: '14px',
     marginTop: -5,
+  },
+  slider: {
+    marginTop: 5,
   }
 };
 

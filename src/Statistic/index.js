@@ -11,7 +11,7 @@ import PageTitle from '../common/PageTitle';
 const Statistic = ({ classes, top, translate }) => {
   return (
     <div className={classes.statistic}>
-      <PageTitle>{translate('TOP')} 50:</PageTitle>
+      <PageTitle>{translate('TOP')} 50</PageTitle>
       <List
         grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
         dataSource={top}

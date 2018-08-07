@@ -13,7 +13,8 @@ const Title = ({
 const styles = {
   title: {
     'text-align': 'center',
-    '@media(max-width: 400px)': {
+    marginBottom: 30,
+    '@media(max-width: 600px)': {
       fontSize: '20px',
     }
   },

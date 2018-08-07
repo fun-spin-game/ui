@@ -5,11 +5,9 @@ import injectSheet from 'react-jss'
 import { compose, branch, renderComponent } from 'recompose';
 import { withLocalize, Translate } from 'react-localize-redux';
 import { greenColor, lightGreenColor } from '../variables'
-let {
-  REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
-} = process.env;
+import { ROULETTE_AUTOPLAY_NOTIFICATION_DELAY } from '../config';
 
-const autoplayNotificationDelay = REACT_APP_ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000;
+const autoplayNotificationDelay = ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000;
 
 const RoulettePlayBtn = ({
   inProgress,
@@ -28,7 +26,7 @@ const RoulettePlayBtn = ({
   >
     {translate('PLAY')}! {!inProgress && autoplayIntervalStarted && <span>({ autoplayNotificationDelay - autoPlayIntervalCounter })</span>}
   </Button>
-)
+);
 
 const styles = {
   playButton: {
@@ -42,7 +40,7 @@ const styles = {
       background: lightGreenColor,
       'border-color': lightGreenColor,
     },
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       'font-size': '17px !important',
     }
   },

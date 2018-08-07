@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { branch, compose, renderComponent } from 'recompose'
+import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { Layout, Icon, Menu } from 'antd';
 import { withRouter } from 'react-router'
 import { withLocalize } from 'react-localize-redux';
 import { TOP_MENU_ITEMS } from '../Header';
+import withUser from '../containers/withUser';
+import classNames from "classnames";
 
 const { Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class SideMenu extends Component {
   render() {
@@ -20,25 +21,64 @@ class SideMenu extends Component {
       onCollapse,
       location: { pathname },
       translate,
+      userInfo,
     } = this.props;
     return (
       <Sider
-        className={`${classes.sider} ${className}`}
+        className={
+          classNames(
+            'sideMenu',
+            classes.content,
+            classes.sider,
+            className,
+            {
+              loginPage: pathname === '/login'
+            }
+          )
+        }
         collapsible
         collapsed={collapsed}
         onCollapse={onCollapse}
       >
-        <Menu theme="dark" selectedKeys={[pathname]} mode="inline">
-          <Menu.Item key="/" className={classes.menuFirstItem}>
-            <Link to="/">
-              <Icon type="smile-o" />
-              <span>{translate('LOTS')}</span>
-            </Link>
-          </Menu.Item>
-          <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>{translate('OTHERS')}...</span></span>}>
+        <Menu
+          theme="dark"
+          selectedKeys={[pathname]}
+          mode="inline"
+          className={classNames(classes.menu)}
+        >
           {
-            TOP_MENU_ITEMS.map(o => (
-              <Menu.Item className="ant-menu-item" key={o.route}>
+            userInfo && (
+              <Menu.Item
+                className={classNames(
+                  classes.menuFirstItem
+                )}
+                key={'/'}
+              >
+                <Link to={'/'}>
+                  <Icon type={'smile-o'} />
+                  <span>{translate('LOTS')}</span>
+                </Link>
+              </Menu.Item>
+            )
+          }
+          {
+            userInfo && (
+              <Menu.Item
+                className={classNames(
+                  classes.menuFirstItem
+                )}
+                key={'/withdraw'}
+              >
+                <Link to={'/withdraw'}>
+                  <Icon type={'credit-card'} />
+                  <span>{translate('WITHDRAW')}</span>
+                </Link>
+              </Menu.Item>
+            )
+          }
+          {
+            TOP_MENU_ITEMS.filter(o => o.route !== '/login' || !userInfo).map(o => (
+              <Menu.Item className={classes.topMenuDuplicateItem} key={o.route}>
                 <Link to={o.route}>
                   <Icon type={o.iconType} />
                   <span>{translate(o.translateId)}</span>
@@ -46,7 +86,6 @@ class SideMenu extends Component {
               </Menu.Item>
             ))
           }
-          </SubMenu>
         </Menu>
       </Sider>
     )
@@ -57,8 +96,16 @@ const styles = {
   sider: {
     height: '100vh',
     zIndex: 20,
+    '&.loginPage': {
+      '@media(min-width: 1101px)': {
+        display: 'none',
+      },
+    }
   },
-  menuFirstItem: {
+  menu: {
+    '& .ant-menu-item:first-child': {
+      marginTop: 0,
+    },
     'margin-top': '0 !important',
   },
   logo: {
@@ -67,16 +114,18 @@ const styles = {
     background: 'rgba(255,255,255,.2)',
     margin: '16px',
   },
+  topMenuDuplicateItem: {
+    '@media(min-width: 1101px)': {
+      display: 'none'
+    }
+  }
 };
 
 export default compose(
   withRouter,
+  withUser(),
   withLocalize,
   injectSheet(styles),
-  branch(
-    ({ location: { pathname } }) => pathname === '/login',
-    renderComponent(() => null),
-  )
 )(SideMenu);
 
 SideMenu.defaultProps = {

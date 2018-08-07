@@ -1,3 +1,5 @@
+import { FIXED_DIGITS } from '../config';
+
 export const getRisk = ({ prize, chanceToWin }) => {
   return prize * chanceToWin / (100 - chanceToWin);
 };
@@ -21,5 +23,5 @@ export const getActiveGame = ({ actions, userId, games }) => {
 export const getLastGameAction = ({ gameId, actions }) => [...actions].reverse().find(({ payload }) => gameId === payload.gameId);
 
 export const toFixedIfNeed = (val) => {
-  return parseFloat(val.toFixed(process.env.REACT_APP_FIXED_DIGITS));
+  return parseFloat(val.toFixed(FIXED_DIGITS));
 };

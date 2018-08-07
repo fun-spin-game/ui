@@ -13,45 +13,65 @@ import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
 import Tooltip from '../common/Tooltip';
 
-const getColor = (value) => {
+export const getColor = (value) => {
   const hue = ((value) * 120).toString(10);
-  return ["hsl(",hue,",85%,50%)"].join("");
-}
+  return ["hsl(", hue, ",85%,50%)"].join("");
+};
 
-const GameItem = ({
-  id,
-  classes,
-  chanceToWin,
-  prize,
-  maxAttempts,
-  gamePlayer,
-  creatorUser,
-  won,
-  lost,
-  onClickPlay,
-  risk,
-  disabled,
-  amountOfAttemptsPercentage,
-  amountOfAttempts,
-  userInfo,
-  notWonYet,
-  translate,
-}) => {
+const GameItem = (props) => {
+  const {
+    id,
+    classes,
+    style,
+    preview,
+    chanceToWin,
+    prize,
+    maxAttempts,
+    gamePlayer,
+    creatorUser,
+    won,
+    lost,
+    onClickPlay,
+    risk,
+    disabled,
+    amountOfAttemptsPercentage,
+    amountOfAttempts,
+    userInfo,
+    notWonYet,
+    translate,
+  } = props;
+  const animationClass = `animated infinite flash ${classes.flashAnimation}`;
   return (
     <div
-      className={classNames(classes.gameItem, {
-        inProgress: gamePlayer,
-        won,
-        lost,
-        disabled,
-        ownGame: creatorUser && creatorUser.id === userInfo.id
-      })}
+      style={style}
+      className={classes.gameItem}
     >
-      <div className={`game-item-content ${classes.gameItemContent}`}>
+      <div
+        className={classNames({
+          [animationClass]: gamePlayer,
+          'tada animated': won
+        })}
+      >
         <div
-          className={`${gamePlayer ? `animated infinite flash ${classes.flashAnimation}`: ''} ${won ? 'tada animated': ''}`}
+          className={classNames(
+            'game-item-content',
+            classes.gameItemContent,
+            {
+              inProgress: gamePlayer,
+              won,
+              lost,
+              disabled,
+              ownGame: creatorUser && creatorUser.id === userInfo.id,
+              preview,
+              previewChanceToWin: preview === 'chanceToWin',
+              previewPrize: preview === 'prize',
+              previewRisk: preview === 'risk',
+              previewAmountOfAttempts: preview === 'amountOfAttempts',
+              previewPlay: preview === 'play',
+            }
+          )}
         >
-          <span className={classes.chanceToWin}>
+          <span className={`chanceToWin ${classes.chanceToWin}`}>
             <Tooltip
               disable={!notWonYet}
               title={`${translate('THIS_LOT_WAS_NOT_WON_YET')}!`}
@@ -59,7 +79,7 @@ const GameItem = ({
               {chanceToWin}% {translate('CHANCE')}
             </Tooltip>
           </span>
-          <div>
+          <div className={`circle`}>
             <Circle
               className={classes.circle}
               percent={chanceToWin}
@@ -76,15 +96,12 @@ const GameItem = ({
               }}
             />
           </div>
-          {
-            true && <span className={`${classes.notWonYet}`}></span>
-          }
           <span
             className={`prize ${classes.prize} ${won ? 'fadeOutUp animated' : ''}`}
           >
             {prize} <Coins />
           </span>
-          <span className={`${classes.bid} bid  ${lost ? 'fadeOutDown animated' : ''}`}>
+          <span className={`${classes.risk} risk  ${lost ? 'fadeOutDown animated' : ''}`}>
             <Tooltip
               title={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}`}
               disable={!disabled}
@@ -92,7 +109,7 @@ const GameItem = ({
               {translate('YOU_RISK')}: {toFixedIfNeed(risk)} <Coins />
             </Tooltip>
           </span>
-          <div className={classes.playButtonContainer}>
+          <div className={`playButtonContainer ${classes.playButtonContainer}`}>
             <Button
               type="primary"
               className={`play-button ${classes.playButton}`}
@@ -101,19 +118,18 @@ const GameItem = ({
               {translate('PLAY')}!
             </Button>
           </div>
-          <div className={classes.amountOfAttempts}>
+          <div className={`amountOfAttempts ${classes.amountOfAttempts}`}>
              <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
              <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>{translate('ATTEMPTS_USED')}</small></span></div>
              <div>{(gamePlayer) && `${translate('IN_PROGRESS')}...`}</div>
           </div>
+          {
+            (gamePlayer) &&
+            <div className={`playerAvatarContainer ${classes.playerAvatarContainer}`}>
+              <Avatar className={`playerAvatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
+            </div>
+          }
         </div>
-        {
-          (gamePlayer) &&
-          <div className={classes.playerAvatarContainer}>
-            <Avatar className={`playerAvatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
-          </div>
-        }
-
       </div>
     </div>
   )
@@ -124,19 +140,23 @@ const styles = {
     'text-align': 'center',
     height: 250,
     'padding': 35,
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       transform: 'scale(.7) translate(0px, -20px)',
       height: 170,
     },
-    '&:not(.inProgress):not(.won):not(.lost):not(.disabled):not(.ownGame):hover': {
-      '& .game-item-content': {
-        transform: 'scale(1.3)',
-      },
+  },
+  gameItemContent: {
+    transition: 'all 300ms ease',
+    'transform-origin': '50% 50%',
+    position: 'relative',
+    display: 'inline-block',
+    '&:not(.inProgress):not(.won):not(.lost):not(.disabled):not(.ownGame):not(.preview):hover, &.previewPlay': {
+      transform: 'scale(1.3)',
       '& .prize': {
         top: 45,
         'font-size': '18px',
       },
-      '& .bid': {
+      '& .risk': {
         opacity: 1,
       },
       '& .play-button': {
@@ -153,9 +173,7 @@ const styles = {
           display: 'inline-block',
         },
       },
-      '& .game-item-content': {
-        transform: 'scale(1.3)',
-      },
+      transform: 'scale(1.3)',
     },
     '&.lost': {
       color: redColor,
@@ -167,13 +185,37 @@ const styles = {
       '& .creatorAvatar': {
         border: `2px solid ${greenColor}`,
       }
+    },
+    '&.preview': {
+      '& > *': {
+        opacity: .2,
+      },
+    },
+    '&.previewChanceToWin': {
+      '& > .chanceToWin, & > .circle': {
+        opacity: 1,
+      }
+    },
+    '&.previewPrize': {
+      '& > .prize': {
+        opacity: 1,
+      }
+    },
+    '&.previewRisk': {
+      '& > .risk': {
+        opacity: 1,
+      }
+    },
+    '&.previewAmountOfAttempts': {
+      '& > .amountOfAttempts': {
+        opacity: 1,
+      }
+    },
+    '&.previewPlay': {
+      '& > .playButtonContainer': {
+        opacity: 1,
+      }
     }
-  },
-  gameItemContent: {
-    transition: 'all 300ms ease',
-    'transform-origin': '50% 50%',
-    position: 'relative',
-    display: 'inline-block',
   },
   'chanceToWin': ({ notWonYet }) => ({
     'font-size': '14px',
@@ -189,7 +231,7 @@ const styles = {
     'z-index': 1,
     'white-space': 'nowrap'
   },
-  bid: ({ disabled }) => ({
+  risk: ({ disabled }) => ({
     transition: 'all 300ms ease',
     position: 'absolute',
     left: 0,
@@ -256,10 +298,9 @@ export default compose(
   withGames(),
   withProps(({
     id,
-    getAmountOfAttempts,
     maxAttempts,
+    amountOfAttempts,
   }) => {
-    const amountOfAttempts = getAmountOfAttempts({ gameId: id });
     return {
       amountOfAttempts,
       amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
@@ -272,11 +313,15 @@ GameItem.defaultProps = {
   gamePlayer: null,
   creatorUser: null,
   notWonYet: false,
+  style: {},
+  preview: null
 };
 
 GameItem.propTypes = {
   classes: PropTypes.object.isRequired,
+  preview: PropTypes.string,
   gamePlayer: PropTypes.object,
+  style: PropTypes.object,
   won: PropTypes.bool,
   disabled: PropTypes.bool,
   lost: PropTypes.bool,
@@ -289,7 +334,6 @@ GameItem.propTypes = {
   creatorUser: PropTypes.object,
   onClickPlay: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
-  getAmountOfAttempts: PropTypes.func.isRequired,
   amountOfAttemptsPercentage: PropTypes.number.isRequired,
   amountOfAttempts: PropTypes.number.isRequired,
   userInfo: PropTypes.object.isRequired,

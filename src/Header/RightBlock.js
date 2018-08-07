@@ -41,11 +41,15 @@ const styles = {
   },
   rightBlock: {
     display: 'flex',
-    marginLeft: 20,
+    marginLeft: 40,
+    '@media(max-width: 600px)': {
+      marginLeft: 0,
+    }
   },
   userName: {
+    lineHeight: 1.5,
     'margin-left': '20px',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       display: 'none',
     }
   },
@@ -55,12 +59,12 @@ const styles = {
     whiteSpace: 'nowrap',
   },
   coinsAmount: {
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       'font-size': '17px',
     }
   },
   balanceLabel: {
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       display: 'none',
     }
   },

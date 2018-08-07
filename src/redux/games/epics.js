@@ -8,6 +8,7 @@ import ws from '../../helpers/ws';
 import { getActiveGame } from '../../helpers/gameUtils';
 import Coins from '../../common/Coins';
 import Providers from '../../Providers';
+import { ACTIVE_GAME_EXPIRED_DELAY } from '../../config';
 
 const interceptorDelay = (ms) => {
   return new Promise(resolve => setTimeout(() => resolve(true), parseInt(ms)));
@@ -23,7 +24,7 @@ const wsMessageToReduxInterceptor = ({ message, state }) => {
         userId: state.user.userInfo || state.user.userInfo.id
       });
       if (activeGame && activeGame.id === message.payload.gameId) {
-        return interceptorDelay(process.env.REACT_APP_ACTIVE_GAME_EXPIRED_DELAY);
+        return interceptorDelay(ACTIVE_GAME_EXPIRED_DELAY);
       }
     }
   }

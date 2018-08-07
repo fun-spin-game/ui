@@ -35,6 +35,7 @@ const styles = {
     'margin-top': '15px',
   },
   social: {
+    marginTop: 10,
     'padding-bottom': '15px',
     display: 'flex',
     'justify-content': 'space-between',

@@ -23,7 +23,7 @@ const styles = {
   rouletteItem: {
   },
   rouletteContentMedia: {
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       'font-size': '17px !important',
       height: '80px !important',
     }

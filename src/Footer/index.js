@@ -43,7 +43,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       textAlign: 'center',
       padding: '15px 50px 10px',
       flexDirection: 'column',
@@ -52,7 +52,7 @@ const styles = {
   language: {
     marginLeft: 20,
     width: 85,
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       marginTop: 10,
     },
     '& .ant-select-selection': {
@@ -64,7 +64,7 @@ const styles = {
     }
   },
   logos: {
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       display: 'none',
     }
   }

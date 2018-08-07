@@ -7,8 +7,10 @@ const reducer = (
   { type, payload },
 ) => {
   switch (type) {
-    case 'GET_PAYMENTS_SUCCESS':
+    case 'GET_WITHDRAWS_SUCCESS':
       return { ...state, history: payload };
+    case 'CREATE_WITHDRAW_SUCCESS':
+      return { ...state, history: [...state.history, { ...payload }] };
     default:
       return state;
   }

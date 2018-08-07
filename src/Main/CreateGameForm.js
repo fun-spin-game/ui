@@ -18,8 +18,8 @@ const MIN_ATTEMPTS = 1;
 const MAX_ATTEMPTS = 20;
 const MIN_PRIZE = 1;
 const MAX_PRIZE = 1000;
-const COL_LEFT = 10;
-const COL_RIGHT = 14;
+const COL_LEFT = 11;
+const COL_RIGHT = 13;
 
 class CreateGameForm extends Component {
   constructor() {
@@ -69,20 +69,19 @@ class CreateGameForm extends Component {
         className={classes.modal}
         okText={'Create'}
       >
-        <Form id="createGame" className={classes.createGame} onSubmit={this.handleSubmit}>
+        <Form id="createGame" className={classes.createGame}>
           <FormItem>
             {getFieldDecorator('prize')(
               <div>
                 <div className={classes.label}>{translate('PRIZE')}:</div>
                 <Row>
-                  <Col span={COL_LEFT} className={classes.coinsInput}>
+                  <Col span={COL_LEFT}>
                     <InputNumber
                       min={MIN_PRIZE}
                       max={MAX_PRIZE}
                       onChange={this.onChangePrize}
                       value={this.state.prize}
-                    />
-                  <Coins />
+                    /> <Coins />
                   </Col>
                   <Col span={COL_RIGHT}>
                     <Slider
@@ -108,17 +107,15 @@ class CreateGameForm extends Component {
                       min={MIN_CHANCE_TO_WIN}
                       max={MAX_CHANCE_TO_WIN}
                       value={this.state.chanceToWin}
-                      formatter={value => `${value}%`}
-                      parser={value => value.replace('%', '')}
                       onChange={this.onChangeChanceToWin}
-                    />
+                    /> <span>%</span>
                   </Col>
                   <Col span={COL_RIGHT}>
                     <Slider
                       min={MIN_CHANCE_TO_WIN}
                       max={MAX_CHANCE_TO_WIN}
                       defaultValue={50}
-                      tipFormatter={(value) => `${value}%`}
+                      tipFormatter={(value) => <span>{value}%</span>}
                       onChange={this.onChangeChanceToWin}
                       value={this.state.chanceToWin}
                     />
@@ -170,6 +167,7 @@ class CreateGameForm extends Component {
                     {
                       notEnoughCoins && (
                         <Alert
+                          showIcon
                           className={classes.alert}
                           message={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}. ${translate('REDUCE_PRIZE_OR_AMOUNT_OF_ATTEMPTS')}`}
                           type="error"
@@ -190,14 +188,6 @@ class CreateGameForm extends Component {
 const styles = {
   createGame: {
   },
-  coinsInput: {
-    position: 'relative',
-    '& .fa-coins': {
-      position: 'absolute',
-      left: 45,
-      top: 13,
-    }
-  },
   redColor: {
     color: redColor,
   },
@@ -205,7 +195,7 @@ const styles = {
     'margin-top': '10px',
   },
   modal: {
-    '@media(max-width: 400px)': {
+    '@media(max-width: 600px)': {
       top: 0,
     },
   },

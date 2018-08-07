@@ -25,6 +25,7 @@ const styles = {
     display: 'flex',
     'justify-content': 'center',
     paddingTop: 165,
+    textAlign: 'center'
   },
 };
 
