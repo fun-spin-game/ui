@@ -44,6 +44,7 @@ const getStatusLabel = (status) => {
   }
 };
 
+/* eslint-disable react/display-name */
 const COLUMNS = [
   {
     title: <Translate id="STATUS" />,
@@ -63,7 +64,7 @@ const COLUMNS = [
     key: 'createdAt',
     render: text => <Fragment>{moment(text).format('hh:mm DD.MM.YYYY')}</Fragment>
   },
-];
+];/* eslint-enable react/display-name */
 
 const WITHDRAW_METHODS = [
   {
@@ -82,14 +83,12 @@ const Withdraw = ({
   withdraws,
   translate,
   classes,
-  userInfo: { balance, id: userId, paid },
+  userInfo: { balance, paid },
   setAmount,
   amount,
-  createWithdraw,
   method,
   setMethod,
   setRequisite,
-  requisite,
   form: { getFieldDecorator },
   handleSubmit,
 }) => {
@@ -303,5 +302,12 @@ Withdraw.propTypes = {
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
   getWithdraws: PropTypes.func.isRequired,
-  createWithdraw: PropTypes.func.isRequired,
+  userInfo: PropTypes.object.isRequired,
+  setAmount: PropTypes.func.isRequired,
+  amount: PropTypes.number.isRequired,
+  method: PropTypes.string.isRequired,
+  setMethod: PropTypes.func.isRequired,
+  setRequisite: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };

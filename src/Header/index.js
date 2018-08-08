@@ -137,6 +137,9 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,
   collapsedSideMenu: PropTypes.bool.isRequired,
+  translate: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  userInfo: PropTypes.object.isRequired,
 };
 
 export default compose(

@@ -28,7 +28,11 @@ const GameItemPreview = ({ preview }) => (
   />
 );
 
-const HowToPlay = ({ classes, top, translate }) => {
+GameItemPreview.propTypes = {
+  preview: PropTypes.bool.isRequired,
+};
+
+const HowToPlay = ({ classes, translate }) => {
   return (
     <div className={classes.howToPlay}>
       <PageTitle>{translate('HOW_TO_PLAY')}</PageTitle>

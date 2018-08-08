@@ -37,7 +37,6 @@ const GameItem = (props) => {
     amountOfAttemptsPercentage,
     amountOfAttempts,
     userInfo,
-    notWonYet,
     translate,
   } = props;
   const animationClass = `animated infinite flash ${classes.flashAnimation}`;
@@ -297,7 +296,6 @@ export default compose(
   withLocalize,
   withGames(),
   withProps(({
-    id,
     maxAttempts,
     amountOfAttempts,
   }) => {

@@ -9,7 +9,7 @@ import { compose } from 'recompose';
 const { Footer: FooterAnt } = Layout;
 const Option = Select.Option;
 
-const Footer = ({ classes, languages, activeLanguage, setActiveLanguage, translate }) => {
+const Footer = ({ classes, languages, activeLanguage, setActiveLanguage }) => {
   return (
     <FooterAnt className={classes.footer}>
       <div className={classes.logos}>

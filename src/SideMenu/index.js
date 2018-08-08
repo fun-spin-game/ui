@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { compose } from 'recompose'
@@ -138,6 +138,7 @@ SideMenu.defaultProps = {
 SideMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  userInfo: PropTypes.object.isRequired,
   className: PropTypes.string,
   collapsed: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { compose, lifecycle } from 'recompose';
+import { compose } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
 

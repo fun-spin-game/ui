@@ -10,6 +10,7 @@ import injectSheet from "react-jss";
 import PageTitle from "../common/PageTitle";
 import Coins from "../common/Coins";
 
+/* eslint-disable react/display-name */
 const COLUMNS = [
   {
     title: <Translate id="USER" />,
@@ -30,7 +31,7 @@ const COLUMNS = [
     render: text => <Fragment>{moment(text).format('hh:mm DD.MM.YYYY')}</Fragment>
   },
 ];
-
+/* eslint-enable react/display-name */
 const Withdraws = ({ withdraws, translate, classes }) => {
   const sortedWithdraws = _.sortBy(withdraws, 'createdAt')
   return (
@@ -104,5 +105,6 @@ Withdraws.propTypes = {
   withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
+  displayName: PropTypes.string.isRequired,
   getWithdraws: PropTypes.func.isRequired,
 };
