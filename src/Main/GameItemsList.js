@@ -25,16 +25,17 @@ const GameItemsList = ({ classes, sortGames, appInFocus, games, rangeFilter, set
   const sortedGames = sortGames(games);
   return <Fragment>
     <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
-    <Slider
-      className={classNames(classes.slider, { mobile: isMobile }) }
-      defaultValue={0}
-      min={0}
-      max={FILTERS.length - 1}
-      onAfterChange={(value) => { setRangeFilter(value) }}
-      tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
-    />
+
     {
-      window.innerWidth > 600 ? (
+      window.innerWidth > 600 ? (<Fragment>
+        <Slider
+          className={classNames(classes.slider, { mobile: isMobile }) }
+          defaultValue={0}
+          min={0}
+          max={FILTERS.length - 1}
+          onAfterChange={(value) => { setRangeFilter(value) }}
+          tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
+        />
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus || isMobile}>
             {
@@ -42,7 +43,7 @@ const GameItemsList = ({ classes, sortGames, appInFocus, games, rangeFilter, set
             }
           </FlipMove>
         </div>
-      ) : (
+      </Fragment>) : (
         <WindowScroller>
           {({ height, isScrolling, onChildScroll, scrollTop }) => (
             <AutoSizer disableHeight={true}>
