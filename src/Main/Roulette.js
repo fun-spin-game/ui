@@ -13,13 +13,16 @@ import { toFixedIfNeed } from '../helpers/gameUtils'
 import {
   GAME_GAME_SPIN_DELAY,
   ROULETTE_REWARD_ANIMATION_DURATION,
-  ROULETTE_AUTOPLAY_DELAY,
-  ROULETTE_AUTOPLAY_NOTIFICATION_DELAY,
 } from '../config';
+
+let slidesToShow
+if (window.innerWidth < 400) slidesToShow = 2;
+else if (window.innerWidth < 600) slidesToShow = 3;
+else slidesToShow = 7;
 
 const SETTINGS = {
  infinite: true,
- slidesToShow: window.innerWidth > 1200 ? 7 : 3,
+ slidesToShow,
  slidesToScroll: 1,
  arrows: false,
  draggable: false,
@@ -30,8 +33,6 @@ const SETTINGS = {
 class Roulette extends Component {
   constructor({ chanceToWin }) {
     super();
-    this.setAutoPlayInterval = this.setAutoPlayInterval.bind(this);
-    this.setAupoPlayNotificationTimeout = this.setAupoPlayNotificationTimeout.bind(this);
     this.play = this.play.bind(this);
     this.onSpinDone = this.onSpinDone.bind(this);
     this.state = {
@@ -41,45 +42,9 @@ class Roulette extends Component {
       resultItems: _.shuffle(_.fill(Array(chanceToWin), true)
       .concat(_.fill(Array(100 - chanceToWin), false)))
       .slice(0, 50),
-      autoPlayInterval: null,
-      autoPlayNotificationTimeout: null,
-      autoPlayIntervalCounter: 0,
     }
   }
-  componentDidMount() {
-    this.setAupoPlayNotificationTimeout(this.props);
-  }
-  componentWillUnmount() {
-    clearInterval(this.state.autoPlayInterval);
-    clearTimeout(this.state.autoPlayNotificationTimeout);
-  }
-  setAutoPlayInterval() {
-    this.setState({
-      autoPlayInterval: setInterval(() => {
-        if (this.state.autoPlayIntervalCounter >= ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000) {
-          this.play();
-        } else {
-          this.setState({
-            autoPlayIntervalCounter: this.state.autoPlayIntervalCounter + 1
-          });
-        }
-      }, 1000)
-    })
-  }
-  setAupoPlayNotificationTimeout({ lowBalance, maxAttemptsReached }) {
-    if (lowBalance || maxAttemptsReached) return;
-    const autoPlayNotificationTimeout = setTimeout(
-      () => this.setAutoPlayInterval(),
-      ROULETTE_AUTOPLAY_DELAY - ROULETTE_AUTOPLAY_NOTIFICATION_DELAY
-    )
-    this.setState({
-      autoPlayInterval: null,
-      autoPlayNotificationTimeout,
-    });
-  }
   async play() {
-    clearInterval(this.state.autoPlayInterval);
-    clearTimeout(this.state.autoPlayNotificationTimeout);
     const { onClickPlay, lowBalance, result } = this.props;
     if (lowBalance) return;
 
@@ -89,14 +54,13 @@ class Roulette extends Component {
     newResultItems[49] = result;
 
     this.resultSlider.slickGoTo(0, true);
-    this.setState({ autoPlayIntervalCounter: 0, result, resultItems: newResultItems, showReward: false });
+    this.setState({ result, resultItems: newResultItems, showReward: false });
     setTimeout(() => {
       this.resultSlider.slickGoTo(resultIndex + _.random(-0.45, 0.45, true));
       onClickPlay({ result });
     }, 100);
   }
   onSpinDone({ result }) {
-    this.setAupoPlayNotificationTimeout(this.props);
     this.setState({
       showReward: true,
       prevResult: this.state.result,
@@ -109,14 +73,13 @@ class Roulette extends Component {
       prize,
       risk,
       maxAttemptsReached,
-      inProgress,
+      spinInProgress,
       lowBalance,
     } = this.props;
     const {
       showReward,
       resultItems,
       prevResult,
-      autoPlayIntervalCounter,
     } = this.state;
     return (
       <div className={classes.roulette}>
@@ -146,10 +109,8 @@ class Roulette extends Component {
         <div className={classes.playBtnContainer}>
           <RoulettePlayBtn
             maxAttemptsReached={maxAttemptsReached}
-            inProgress={inProgress}
+            spinInProgress={spinInProgress}
             lowBalance={lowBalance}
-            autoPlayIntervalCounter={autoPlayIntervalCounter}
-            autoplayIntervalStarted={!!this.state.autoPlayInterval}
             play={this.play.bind(this)}
           />
         </div>
@@ -173,6 +134,9 @@ const styles = {
   },
   slider: {
     'box-shadow': '0px 0px 10px 0px rgba(0,0,0,0.75)',
+    '& .slick-track': {
+      willChange: 'transform',
+    }
   },
   arrows: {
     'font-size': '50px',
@@ -227,5 +191,5 @@ Roulette.propTypes = {
   onSpinFinished: PropTypes.func.isRequired,
   maxAttemptsReached: PropTypes.bool,
   lowBalance: PropTypes.bool,
-  inProgress: PropTypes.bool,
+  spinInProgress: PropTypes.bool,
 };

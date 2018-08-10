@@ -133,12 +133,13 @@ export default compose(
 
 SideMenu.defaultProps = {
   className: '',
+  userInfo: null,
 };
 
 SideMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  userInfo: PropTypes.object.isRequired,
+  userInfo: PropTypes.object,
   className: PropTypes.string,
   collapsed: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,

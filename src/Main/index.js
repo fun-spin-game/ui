@@ -1,22 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import injectSheet from 'react-jss';
-import FlipMove from 'react-flip-move';
-import { Button, Slider } from 'antd';
+import { Button } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import { compose } from 'recompose';
-import GameItem from './GameItem';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
 import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
 import PageTitle from '../common/PageTitle';
-import Coins from '../common/Coins';
-
-const FILTERS = new Array(200 / 20)
-.fill()
-.map((o, index) => ({ min: index * 20 || 1, max: (index + 1) * 20 }));
+import GameItemsList from './GameItemsList';
 
 class Main extends Component {
   constructor() {
@@ -35,56 +28,13 @@ class Main extends Component {
   render() {
     const {
       classes,
-      games,
-      connectToGame,
       notifyCreateGame,
-      getGamePlayer,
-      appInFocus,
-      userInfo: { balance },
-      isGameNotWonYet,
       translate,
-      getAmountOfAttempts,
     } = this.props;
-    const filter = FILTERS[this.state.filter];
-    const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
     return (
       <Fragment>
         <PageTitle>{translate('LOTS')}</PageTitle>
-        <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
-        <Slider
-          className={classes.slider}
-          defaultValue={0}
-          min={0}
-          max={FILTERS.length - 1}
-          onAfterChange={(value) => { this.setState({ filter: value }) }}
-          tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
-        />
-        <div className={`${classes.gameItems}`}>
-          <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus}>
-            {
-              _.sortBy(filteredGames, [({ risk }) => balance <= risk, 'prize'])
-              .map(({ prize, risk, chanceToWin, maxAttempts, creatorUser, id: gameId }) => {
-                return (
-                  <div key={gameId}>
-                    <GameItem
-                      id={gameId}
-                      prize={prize}
-                      risk={risk}
-                      notWonYet={isGameNotWonYet({ gameId })}
-                      creatorUser={creatorUser}
-                      chanceToWin={chanceToWin}
-                      maxAttempts={maxAttempts}
-                      amountOfAttempts={getAmountOfAttempts({ gameId })}
-                      onClickPlay={connectToGame}
-                      disabled={balance < risk || getAmountOfAttempts({ gameId }) >= maxAttempts}
-                      gamePlayer={getGamePlayer({ gameId })}
-                    />
-                  </div>
-                );
-              })
-            }
-          </FlipMove>
-        </div>
+        <GameItemsList />
         <div className={classes.createGameBlock}>
           <Button
             type="primary"
@@ -126,14 +76,6 @@ const styles = {
     'text-align': 'center',
     padding: '25px 0',
   },
-  filterLabel: {
-    textAlign: 'center',
-    fontSize: '14px',
-    marginTop: -5,
-  },
-  slider: {
-    marginTop: 5,
-  }
 };
 
 export default compose(
@@ -150,12 +92,8 @@ Main.defaultProps = {
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
-  getAmountOfAttempts: PropTypes.func.isRequired,
   connectToGame: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
-  getGamePlayer: PropTypes.func.isRequired,
-  appInFocus: PropTypes.bool.isRequired,
-  isGameNotWonYet: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   notifyCreateGame: PropTypes.func.isRequired,
 };

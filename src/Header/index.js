@@ -120,12 +120,13 @@ const styles = {
   trigger: {
     fontSize: '18px',
     lineHeight: '64px',
-    paddingLeft: '24px',
     cursor: 'pointer',
+    padding: '0 20px',
+    marginRight: -20,
     transition: 'color .3s',
     '@media(min-width: 601px)': {
       display: 'none',
-    }
+    },
   }
 };
 
@@ -139,7 +140,7 @@ Header.propTypes = {
   collapsedSideMenu: PropTypes.bool.isRequired,
   translate: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
-  userInfo: PropTypes.object.isRequired,
+  userInfo: PropTypes.object,
 };
 
 export default compose(

@@ -20,24 +20,22 @@ class Game extends Component {
         maxAttempts,
         risk,
         id: gameId,
-        schema: schemaEncoded
+        schema: schemaEncoded,
+        amountOfAttempts,
+        spinInProgress,
+        maxAttemptsReached,
       },
       userInfo: { balance },
       disconnectFromGame,
-      getAmountOfAttempts,
       notifyGameSpinStart,
-      isGameSpinInProgress,
     } = this.props;
-    const amountOfAttempts = getAmountOfAttempts({ gameId });
-    const maxAttemptsReached = amountOfAttempts >= maxAttempts;
     const lowBalance = balance < risk;
-    const inProgress = isGameSpinInProgress({ gameId });
     const schema = AES.decrypt(schemaEncoded, 'dAfg$1397642gsge_39').toString(enc.Utf8);
-    const result = Boolean(parseInt(schema[getAmountOfAttempts({ gameId })]));
+    const result = Boolean(parseInt(schema[amountOfAttempts]));
     return (
       <div className={classes.rouletteOverlay}>
         {
-            !inProgress && <a onClick={() => disconnectFromGame({ gameId })}>
+            !spinInProgress && <a onClick={() => disconnectFromGame({ gameId })}>
               <Icon type="close" className={classes.close} />
             </a>
         }
@@ -53,7 +51,7 @@ class Game extends Component {
           onSpinFinished={() => {}}
           maxAttemptsReached={maxAttemptsReached}
           lowBalance={lowBalance}
-          inProgress={inProgress}
+          spinInProgress={spinInProgress}
         />
         <div className={classes.attemptsBlock}>
           <Progress size="small" percent={amountOfAttempts / maxAttempts * 100} />
@@ -148,9 +146,7 @@ Game.propTypes = {
   disabledMessage: PropTypes.node,
   disabledTitle: PropTypes.node,
   disconnectFromGame: PropTypes.func.isRequired,
-  getAmountOfAttempts: PropTypes.func.isRequired,
   notifyGameSpinStart: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
-  isGameSpinInProgress: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
 };

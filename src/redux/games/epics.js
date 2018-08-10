@@ -5,29 +5,11 @@ import { notification, message } from 'antd';
 import { Observable } from 'rxjs';
 import { Translate } from 'react-localize-redux';
 import ws from '../../helpers/ws';
-import { getActiveGame } from '../../helpers/gameUtils';
 import Coins from '../../common/Coins';
 import Providers from '../../Providers';
-import { ACTIVE_GAME_EXPIRED_DELAY } from '../../config';
 
-const interceptorDelay = (ms) => {
-  return new Promise(resolve => setTimeout(() => resolve(true), parseInt(ms)));
-};
-
-const wsMessageToReduxInterceptor = ({ message, state }) => {
+const wsMessageToReduxInterceptor = ({ message }) => {
   if (message.type.indexOf('NOTIFICATION') !== -1) return false;
-  switch (message.type) {
-    case 'GAME_EXPIRED':{
-      const activeGame = getActiveGame({
-        actions: state.games.actions,
-        games: state.games.games,
-        userId: state.user.userInfo || state.user.userInfo.id
-      });
-      if (activeGame && activeGame.id === message.payload.gameId) {
-        return interceptorDelay(ACTIVE_GAME_EXPIRED_DELAY);
-      }
-    }
-  }
   return true;
 }
 
@@ -67,9 +49,10 @@ export default combineEpics(
     ignoreElements()
   ),
   (action$, state$) => action$.pipe(
-    ofType('GAME_SPIN_DONE'),
-    tap(({ payload: { result, game: { creatorUserId, risk }, user: { displayName } } }) => {
-      if (creatorUserId !== state$.value.user.userInfo.id) return;
+    ofType('GAME_UPDATED'),
+    tap(({ payload: { result, reason, game: { creatorUserId, risk, connectedUser } } }) => {
+      if (reason !== 'GAME_SPIN_DONE' || creatorUserId !== state$.value.user.userInfo.id) return;
+      const { displayName } = connectedUser;
       if (result < 0) {
         message.success(<span>
           +{risk} <Coins /> <Providers><Fragment><Translate id="USER_LOSE_IN_YOU_LOT" data={{ displayName }} />!</Fragment></Providers>

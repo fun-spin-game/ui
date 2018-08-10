@@ -16,7 +16,7 @@ const COLUMNS = [
     title: <Translate id="USER" />,
     dataIndex: 'user',
     key: 'user',
-    render: user => <Fragment><Avatar src={user.photo} /><span>&nbsp;&nbsp;&nbsp;</span>{user.displayName}</Fragment>
+    render: user => <Fragment><Avatar icon="user" src={user.photo} /><span>&nbsp;&nbsp;&nbsp;</span>{user.displayName}</Fragment>
   },
   {
     title: <Translate id="WITHDRAWN" />,
@@ -53,7 +53,7 @@ const Withdraws = ({ withdraws, translate, classes }) => {
               <List.Item>
                 <Card title={moment(createdAt).format('HH:mm DD.MM.YYYY')}>
                   <div className={classes.card}>
-                    <Avatar src={photo} className={classes.avatar} size="large" />
+                    <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
                     <div>
                       <p>{displayName}</p>
                       <span>{amount} <Coins /></span>

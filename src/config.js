@@ -4,5 +4,6 @@ export const ACTIVE_GAME_EXPIRED_DELAY = 3000;
 export const ROULETTE_AUTOPLAY_DELAY = 10000;
 export const ROULETTE_AUTOPLAY_NOTIFICATION_DELAY = 5000;
 export const FIXED_DIGITS = 1;
-export const START_BONUS = 20;
+export const START_BONUS = 10;
 export const MIN_AMOUNT_OF_WITHDRAWING = 10;
+export const GAMES_AMOUNT = 200;

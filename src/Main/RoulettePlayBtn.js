@@ -5,14 +5,9 @@ import injectSheet from 'react-jss'
 import { compose, branch, renderComponent } from 'recompose';
 import { withLocalize, Translate } from 'react-localize-redux';
 import { greenColor, lightGreenColor } from '../variables'
-import { ROULETTE_AUTOPLAY_NOTIFICATION_DELAY } from '../config';
-
-const autoplayNotificationDelay = ROULETTE_AUTOPLAY_NOTIFICATION_DELAY / 1000;
 
 const RoulettePlayBtn = ({
-  inProgress,
-  autoplayIntervalStarted,
-  autoPlayIntervalCounter,
+  spinInProgress,
   classes,
   play,
   translate,
@@ -20,11 +15,11 @@ const RoulettePlayBtn = ({
   <Button
     type="primary"
     size="large"
-    disabled={inProgress}
+    disabled={spinInProgress}
     className={`play-button ${classes.playButton}`}
     onClick={() => {play();}}
   >
-    {translate('PLAY')}! {!inProgress && autoplayIntervalStarted && <span>({ autoplayNotificationDelay - autoPlayIntervalCounter })</span>}
+    {translate('PLAY')}!
   </Button>
 );
 
@@ -75,9 +70,7 @@ export default compose(
 RoulettePlayBtn.propTypes = {
   maxAttemptsReached: PropTypes.bool.isRequired,
   lowBalance: PropTypes.bool.isRequired,
-  inProgress: PropTypes.bool.isRequired,
-  autoplayIntervalStarted: PropTypes.bool.isRequired,
-  autoPlayIntervalCounter: PropTypes.number.isRequired,
+  spinInProgress: PropTypes.bool.isRequired,
   play: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

@@ -2,7 +2,7 @@ import React from 'react';
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { compose, withProps } from 'recompose';
+import { compose } from 'recompose';
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
 import { withLocalize } from 'react-localize-redux';
@@ -27,19 +27,21 @@ const GameItem = (props) => {
     chanceToWin,
     prize,
     maxAttempts,
-    gamePlayer,
+    connectedUser,
     creatorUser,
     won,
     lost,
-    onClickPlay,
+    connectToGame,
     risk,
-    disabled,
-    amountOfAttemptsPercentage,
-    amountOfAttempts,
     userInfo,
     translate,
+    userInfo: { balance },
   } = props;
   const animationClass = `animated infinite flash ${classes.flashAnimation}`;
+  const amountOfAttempts = won + lost;
+  const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
+  const disabled = balance < risk || won + lost >= maxAttempts;
+
   return (
     <div
       style={style}
@@ -47,8 +49,7 @@ const GameItem = (props) => {
     >
       <div
         className={classNames({
-          [animationClass]: gamePlayer,
-          'tada animated': won
+          [animationClass]: connectedUser,
         })}
       >
         <div
@@ -56,9 +57,7 @@ const GameItem = (props) => {
             'game-item-content',
             classes.gameItemContent,
             {
-              inProgress: gamePlayer,
-              won,
-              lost,
+              inProgress: connectedUser,
               disabled,
               ownGame: creatorUser && creatorUser.id === userInfo.id,
               preview,
@@ -70,7 +69,7 @@ const GameItem = (props) => {
             }
           )}
         >
-          <span className={`chanceToWin ${classes.chanceToWin}`}>
+          <span className={classNames(classes.chanceToWin, 'chanceToWin')}>
             <Tooltip
               disable={true}
               title={`${translate('THIS_LOT_WAS_NOT_WON_YET')}!`}
@@ -78,7 +77,7 @@ const GameItem = (props) => {
               {chanceToWin}% {translate('CHANCE')}
             </Tooltip>
           </span>
-          <div className={`circle`}>
+          <div className={'circle'}>
             <Circle
               className={classes.circle}
               percent={chanceToWin}
@@ -96,11 +95,11 @@ const GameItem = (props) => {
             />
           </div>
           <span
-            className={`prize ${classes.prize} ${won ? 'fadeOutUp animated' : ''}`}
+            className={classNames(classes.prize, 'prize')}
           >
             {prize} <Coins />
           </span>
-          <span className={`${classes.risk} risk  ${lost ? 'fadeOutDown animated' : ''}`}>
+          <span className={classNames(classes.risk, 'risk')}>
             <Tooltip
               title={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}`}
               disable={!disabled}
@@ -108,24 +107,24 @@ const GameItem = (props) => {
               {translate('YOU_RISK')}: {toFixedIfNeed(risk)} <Coins />
             </Tooltip>
           </span>
-          <div className={`playButtonContainer ${classes.playButtonContainer}`}>
+          <div className={classNames(classes.playButtonContainer, 'playButtonContainer')}>
             <Button
               type="primary"
-              className={`play-button ${classes.playButton}`}
-              onClick={() => onClickPlay({ gameId: id })}
+              className={classNames(classes.playButton, 'playButton')}
+              onClick={() => connectToGame({ gameId: id })}
             >
               {translate('PLAY')}!
             </Button>
           </div>
-          <div className={`amountOfAttempts ${classes.amountOfAttempts}`}>
+          <div className={classNames(classes.amountOfAttempts, 'amountOfAttempts')}>
              <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
              <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>{translate('ATTEMPTS_USED')}</small></span></div>
-             <div>{(gamePlayer) && `${translate('IN_PROGRESS')}...`}</div>
+             <div>{(connectedUser) && `${translate('IN_PROGRESS')}...`}</div>
           </div>
           {
-            (gamePlayer) &&
-            <div className={`playerAvatarContainer ${classes.playerAvatarContainer}`}>
-              <Avatar className={`playerAvatar ${classes.playerAvatar}`} src={gamePlayer.photo} />
+            (connectedUser) &&
+            <div className={classNames(classes.playerAvatarContainer, 'playerAvatarContainer')}>
+              <Avatar className={classNames(classes.playerAvatar, 'playerAvatar')} icon="user" src={connectedUser.photo} />
             </div>
           }
         </div>
@@ -149,7 +148,7 @@ const styles = {
     'transform-origin': '50% 50%',
     position: 'relative',
     display: 'inline-block',
-    '&:not(.inProgress):not(.won):not(.lost):not(.disabled):not(.ownGame):not(.preview):hover, &.previewPlay': {
+    '&:not(.inProgress):not(.disabled):not(.ownGame):not(.preview):hover, &.previewPlay': {
       transform: 'scale(1.3)',
       '& .prize': {
         top: 45,
@@ -158,24 +157,10 @@ const styles = {
       '& .risk': {
         opacity: 1,
       },
-      '& .play-button': {
+      '& .playButton': {
         visibility: 'visible',
         opacity: 1,
       },
-    },
-    '&.won': {
-      color: greenColor,
-      '& .prize': {
-        transform: 'scale(1.3)',
-        '&:before': {
-          content: '"+"',
-          display: 'inline-block',
-        },
-      },
-      transform: 'scale(1.3)',
-    },
-    '&.lost': {
-      color: redColor,
     },
     '&.disabled': {
       opacity: .4
@@ -231,7 +216,6 @@ const styles = {
     'white-space': 'nowrap'
   },
   risk: ({ disabled }) => ({
-    transition: 'all 300ms ease',
     position: 'absolute',
     left: 0,
     right: 0,
@@ -282,11 +266,7 @@ const styles = {
   flashAnimation: {
     'animation-duration': '3s',
   },
-  pulseAnimation: {
-    'animation-duration': '.5s',
-    'animation-iteration-count': '2',
-  },
-  'circle': {
+  circle: {
     opacity: 1
   }
 };
@@ -295,44 +275,31 @@ export default compose(
   withUser(),
   withLocalize,
   withGames(),
-  withProps(({
-    maxAttempts,
-    amountOfAttempts,
-  }) => {
-    return {
-      amountOfAttempts,
-      amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
-    }
-  }),
+  withUser(),
   injectSheet(styles)
 )(GameItem);
 
 GameItem.defaultProps = {
-  gamePlayer: null,
+  connectedUser: null,
   creatorUser: null,
-  notWonYet: false,
   style: {},
-  preview: null
+  preview: null,
 };
 
 GameItem.propTypes = {
   classes: PropTypes.object.isRequired,
   preview: PropTypes.string,
-  gamePlayer: PropTypes.object,
   style: PropTypes.object,
-  won: PropTypes.bool,
-  disabled: PropTypes.bool,
-  lost: PropTypes.bool,
-  notWonYet: PropTypes.bool,
+  won: PropTypes.number.isRequired,
+  lost: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,
-  prize: PropTypes.number,
-  risk: PropTypes.number,
+  prize: PropTypes.number.isRequired,
+  risk: PropTypes.number.isRequired,
   maxAttempts: PropTypes.number.isRequired,
   creatorUser: PropTypes.object,
-  onClickPlay: PropTypes.func.isRequired,
+  connectToGame: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
-  amountOfAttemptsPercentage: PropTypes.number.isRequired,
-  amountOfAttempts: PropTypes.number.isRequired,
   userInfo: PropTypes.object.isRequired,
+  connectedUser: PropTypes.object,
 };

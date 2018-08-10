@@ -11,7 +11,7 @@ import PageTitle from '../common/PageTitle';
 const Statistic = ({ classes, top, translate }) => {
   return (
     <div className={classes.statistic}>
-      <PageTitle>{translate('TOP')} 50</PageTitle>
+      <PageTitle>{translate('STATISTIC')}</PageTitle>
       <List
         grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
         dataSource={top}
@@ -19,7 +19,7 @@ const Statistic = ({ classes, top, translate }) => {
           <List.Item>
             <Card title={`#${index + 1}`}>
               <div className={classes.card}>
-                <Avatar src={photo} className={classes.avatar} size="large" />
+                <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
                 <div>
                   <p>{displayName}</p>
                   <span>{Math.floor(balance / 100) * 100}+ <Coins /></span>

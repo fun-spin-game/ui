@@ -26,21 +26,27 @@ const reducer = (state = {
         games: [ ...state.games, payload.game ],
       }
     }
-    case 'GAME_SPIN_DONE':
-    case 'GAME_SPIN_START':
-    case 'GAME_USER_DISCONNECTED':
-    case 'GAME_USER_CONNECTED': {
+    case 'GAME_UPDATED': {
       return {
         ...state,
-        actions: [...state.actions, {type, payload}]
+        games: [
+          ...state.games.map(game => {
+            return game.id === payload.game.id ? payload.game : game;
+          })
+        ]
       }
     }
     case 'PLAYGROUND_UPDATED': {
       return {
         ...state,
-        actions: [...state.actions, ...payload.gameUserDisconnectGameActions],
         games: [
-          ...state.games.filter(o => payload.expiredGamesIds.indexOf(o.id) === -1),
+          ...state.games.reduce((prev, game) => {
+            if (payload.expiredGamesIds.indexOf(game.id) !== -1) return prev;
+            if (payload.gameUsersDisconnected.find(o => o.gameId === game.id && o.userId === game.connectedUserId)) {
+              return [...prev, { ...game, connectedUserId: null, connectedUser: null, lastTouchAt: null }];
+            }
+            return [...prev, game ];
+          }, []),
           ...payload.createdGames,
         ]
       }

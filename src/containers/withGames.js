@@ -6,15 +6,24 @@ import {
   notifyCreateGame,
   setAppInFocus,
 } from '../redux/games/actions';
-import { getActiveGame, getLastGameAction } from '../helpers/gameUtils';
 
 export default () => connect(
-  ({ games: { games, actions, appInFocus }, user: { userInfo } }) => {
+  ({ games: { games, appInFocus }, user: { userInfo } }) => {
+    let activeGame = null;
+    if (userInfo) {
+      activeGame = games.find(o => o.connectedUserId === userInfo.id);
+      if (activeGame) {
+        activeGame.notWonYet = activeGame.won === 0;
+        activeGame.amountOfAttempts = activeGame.won + activeGame.lost;
+        activeGame.spinInProgress = !!activeGame.spinInProgress;
+        activeGame.maxAttemptsReached = activeGame.amountOfAttempts >= activeGame.maxAttempts;
+      }
+    }
+
     return {
       appInFocus,
       games,
-      actions,
-      activeGame: userInfo ? getActiveGame({ games, actions, userId: userInfo.id }) : null,
+      activeGame,
     };
   }, (dispatch) => ({
     connectToGame({ gameId }) {
@@ -31,30 +40,6 @@ export default () => connect(
     },
     setAppInFocus(val) {
       return dispatch(setAppInFocus(val));
-    }
-  }), (stateProps, dispatchProps, ownProps) => ({
-    ...ownProps,
-    ...stateProps,
-    ...dispatchProps,
-    getAmountOfAttempts({ gameId }) {
-      return stateProps.actions
-      .filter((action) => action.type === 'GAME_SPIN_DONE' && gameId === action.payload.gameId).length;
-    },
-    getGamePlayer({ gameId }) {
-      const { actions } = stateProps;
-      const lastGameAction = getLastGameAction({ actions, gameId });
-      if (lastGameAction && lastGameAction.type !== 'GAME_USER_DISCONNECTED') return lastGameAction.payload.user;
-      else return null
-    },
-    isGameSpinInProgress({ gameId }) {
-      const { actions } = stateProps;
-      const lastGameAction = getLastGameAction({ actions, gameId });
-      return lastGameAction && lastGameAction.type === 'GAME_SPIN_START';
-    },
-    isGameNotWonYet({ gameId }) {
-      const { actions } = stateProps;
-      const wonGameAction = actions.filter(o => o.payload.gameId === gameId && o.payload.result > 0);
-      return !wonGameAction.length;
     }
   }),
 );
