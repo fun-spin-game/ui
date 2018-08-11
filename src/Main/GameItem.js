@@ -2,25 +2,24 @@ import React from 'react';
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { compose } from 'recompose';
+import { compose, withHandlers, pure } from 'recompose';
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
-import withGames from '../containers/withGames';
 import withUser from '../containers/withUser';
+import withGamesActions from '../containers/withGamesActions';
 import Tooltip from '../common/Tooltip';
 
 export const getColor = (value) => {
   const hue = ((value) * 120).toString(10);
-  return ["hsl(", hue, ",85%,50%)"].join("");
+  return ['hsl(', hue, ',85%,50%)'].join('');
 };
 
 const GameItem = (props) => {
   const {
-    id,
     classes,
     style,
     preview,
@@ -31,11 +30,11 @@ const GameItem = (props) => {
     creatorUser,
     won,
     lost,
-    connectToGame,
     risk,
-    userInfo,
     translate,
+    userInfo,
     userInfo: { balance },
+    play,
   } = props;
   const animationClass = `animated infinite flash ${classes.flashAnimation}`;
   const amountOfAttempts = won + lost;
@@ -111,7 +110,7 @@ const GameItem = (props) => {
             <Button
               type="primary"
               className={classNames(classes.playButton, 'playButton')}
-              onClick={() => connectToGame({ gameId: id })}
+              onClick={play}
             >
               {translate('PLAY')}!
             </Button>
@@ -272,11 +271,16 @@ const styles = {
 };
 
 export default compose(
-  withUser(),
   withLocalize,
-  withGames(),
   withUser(),
-  injectSheet(styles)
+  withGamesActions(),
+  withHandlers({
+    play: ({ connectToGame, id }) =>  () => {
+      connectToGame({ gameId: id })
+    }
+  }),
+  injectSheet(styles),
+  pure,
 )(GameItem);
 
 GameItem.defaultProps = {
@@ -300,6 +304,7 @@ GameItem.propTypes = {
   creatorUser: PropTypes.object,
   connectToGame: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
+  play: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
   connectedUser: PropTypes.object,
 };

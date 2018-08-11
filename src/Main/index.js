@@ -1,59 +1,49 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button } from 'antd';
 import { withLocalize } from 'react-localize-redux';
-import { compose } from 'recompose';
+import { compose, withState, withHandlers, pure, } from 'recompose';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
-import withGames from '../containers/withGames';
+import withGamesActions from '../containers/withGamesActions';
 import withUser from '../containers/withUser';
+import withGames from '../containers/withGames';
 import PageTitle from '../common/PageTitle';
 import GameItemsList from './GameItemsList';
 
-class Main extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      createGameMode: false,
-      filter: 0,
-    };
-  }
-  toggleCreateGameModal(value) {
-    this.setState({
-      createGameMode: value,
-    })
-  }
-  render() {
-    const {
-      classes,
-      notifyCreateGame,
-      translate,
-    } = this.props;
-    return (
-      <Fragment>
-        <PageTitle>{translate('LOTS')}</PageTitle>
-        <GameItemsList />
-        <div className={classes.createGameBlock}>
-          <Button
-            type="primary"
-            onClick={() => this.toggleCreateGameModal(true)}
-            className={classes.createGameBtn}
-          >
-            {translate('CREATE_LOT')}
-          </Button>
-        </div>
-        <Game />
-        <CreateGameForm
-          visible={this.state.createGameMode}
-          onCancel={() => this.toggleCreateGameModal(false)}
-          handleSubmit={(values) => { notifyCreateGame({ game: values }); this.toggleCreateGameModal(false) }}
-        />
-      </Fragment>
-    )
-  }
-}
+const Main = ({
+  classes,
+  createGame,
+  createGameMode,
+  handleSubmit,
+  cancelCreateGame,
+  translate,
+  activeGame,
+  games,
+}) => {
+  return (
+    <Fragment>
+      <PageTitle>{translate('LOTS')}</PageTitle>
+      <GameItemsList games={games} />
+      <div className={classes.createGameBlock}>
+        <Button
+          type="primary"
+          onClick={createGame}
+          className={classes.createGameBtn}
+        >
+          {translate('CREATE_LOT')}
+        </Button>
+      </div>
+      <Game activeGame={activeGame} />
+      <CreateGameForm
+        visible={createGameMode}
+        onCancel={cancelCreateGame}
+        handleSubmit={handleSubmit}
+      />
+    </Fragment>
+  );
+};
 
 const styles = {
   gameItems: {
@@ -82,7 +72,22 @@ export default compose(
   withLocalize,
   injectSheet(styles),
   withUser(),
+  withGamesActions(),
   withGames(),
+  withState('createGameMode', 'setCreateGameMode', false),
+  withHandlers({
+    handleSubmit: ({ notifyCreateGame, setCreateGameMode }) => (values) => {
+      notifyCreateGame({ game: values });
+      setCreateGameMode(false);
+    },
+    createGame: ({ setCreateGameMode }) => () => {
+      setCreateGameMode(true);
+    },
+    cancelCreateGame: ({ setCreateGameMode }) => () => {
+      setCreateGameMode(false);
+    },
+  }),
+  pure,
 )(Main);
 
 Main.defaultProps = {
@@ -91,9 +96,14 @@ Main.defaultProps = {
 
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
-  games: PropTypes.arrayOf(PropTypes.object).isRequired,
-  connectToGame: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
+  createGameMode: PropTypes.bool.isRequired,
   translate: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   notifyCreateGame: PropTypes.func.isRequired,
+  createGame: PropTypes.func.isRequired,
+  setCreateGameMode: PropTypes.func.isRequired,
+  cancelCreateGame: PropTypes.func.isRequired,
+  games: PropTypes.array.isRequired,
+  activeGame: PropTypes.object,
 };

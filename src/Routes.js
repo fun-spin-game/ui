@@ -6,15 +6,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Layout } from 'antd';
 import { Switch } from 'react-router';
 import { withLocalize } from 'react-localize-redux';
-import { compose, branch, renderComponent, lifecycle, withState, withProps } from 'recompose';
+import { compose, branch, renderComponent, lifecycle, withState, withHandlers, pure } from 'recompose';
 import { withRouter, Route } from 'react-router'
 import Cookie from 'js-cookie';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
 import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
 import Footer from './Footer';
 import SideMenu from './SideMenu';
-import withUser from './containers/withUser';
-import withGames from './containers/withGames';
 import localization from './localization';
 import Main from './Main';
 import Header from './Header';
@@ -25,7 +23,8 @@ import Withdraws from './Withdraws';
 import Contacts from './Contacts';
 import HowToPlay from './HowToPlay';
 import Withdraw from './Withdraw';
-
+import withUser from './containers/withUser';
+import withMeta from './containers/withMeta';
 
 const Routes = ({
   classes,
@@ -88,9 +87,9 @@ const styles = {
 export default compose(
   withRouter,
   withLocalize,
-  injectSheet(styles),
   withUser(),
-  withGames(),
+  withMeta(),
+  injectSheet(styles),
   lifecycle({
     componentDidMount() {
       let browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0];
@@ -110,13 +109,16 @@ export default compose(
     }
   }),
   withState('collapsedSideMenu', 'setCollapsedSideMenu', true),
-  withProps(({ setCollapsedSideMenu, collapsedSideMenu }) => ({
-    setCollapsedSideMenuFn: (val) => { setCollapsedSideMenu(typeof(val) === 'boolean' ? val : !collapsedSideMenu) }
-  })),
+  withHandlers({
+    setCollapsedSideMenuFn: ({ setCollapsedSideMenu, collapsedSideMenu }) => (val) => {
+      return setCollapsedSideMenu(typeof(val) === 'boolean' ? val : !collapsedSideMenu);
+    }
+  }),
   branch(
     ({ userInfoRequestDone }) => !userInfoRequestDone,
     renderComponent(() => null),
   ),
+  pure,
 )(Routes);
 
 Routes.propTypes = {
@@ -127,4 +129,4 @@ Routes.propTypes = {
   setCollapsedSideMenu: PropTypes.func.isRequired,
   setCollapsedSideMenuFn: PropTypes.func.isRequired,
   initialize: PropTypes.func.isRequired,
-}
+};

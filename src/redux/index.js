@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import games from './games';
+import meta from './meta';
 import { combineEpics } from 'redux-observable';
 import { localizeReducer } from 'react-localize-redux';
 import user from './user';
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   user,
   statistic,
   withdraws,
+  meta,
   localize: localizeReducer,
 });
 

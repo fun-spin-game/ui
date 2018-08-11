@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { compose } from 'recompose';
+import { compose, pure } from 'recompose';
 import { greenColor, redColor } from '../variables'
 import classNames from 'classnames'
 
@@ -57,7 +57,8 @@ const styles = {
 };
 
 export default compose(
-  injectSheet(styles)
+  injectSheet(styles),
+  pure,
 )(RouletteItem);
 
 RouletteItem.defaultProps = {

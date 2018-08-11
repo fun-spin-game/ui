@@ -6,26 +6,49 @@ import { isMobile } from 'react-device-detect';
 import FlipMove from 'react-flip-move';
 import classNames from 'classnames';
 import { AutoSizer, WindowScroller, List } from 'react-virtualized';
-import { compose, withState, withProps } from 'recompose';
-import withGames from '../containers/withGames';
+import { compose, withState, withHandlers } from 'recompose';
+import withMeta from '../containers/withMeta';
 import withUser from '../containers/withUser';
 import GameItem from './GameItem';
 import { GAMES_AMOUNT } from '../config';
 import Coins from '../common/Coins';
-import { Slider } from "antd";
+import { Slider } from 'antd';
+
+const getGameItemGameProps = ({
+  id,
+  chanceToWin,
+  prize,
+  maxAttempts,
+  connectedUser,
+  creatorUser,
+  won,
+  lost,
+  risk,
+  userInfo,
+}) => ({
+  id,
+  chanceToWin,
+  prize,
+  maxAttempts,
+  connectedUser,
+  creatorUser,
+  won,
+  lost,
+  risk,
+  userInfo,
+});
 
 const FILTERS = new Array(GAMES_AMOUNT / 20)
   .fill()
   .map((o, index) => ({ min: index * 20 || 1, max: (index + 1) * 20 }));
 
-const GameItemsList = ({ classes, sortGames, appInFocus, games, rangeFilter, setRangeFilter }) => {
+const GameItemsList = ({ classes, sortGames, appInFocus, games, rangeFilter, sliderAfterChange, tipFormatter }) => {
   const filter = FILTERS[rangeFilter];
   const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
   const sortedFilteredGames = sortGames(filteredGames);
   const sortedGames = sortGames(games);
   return <Fragment>
     <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
-
     {
       window.innerWidth > 600 ? (<Fragment>
         <Slider
@@ -33,13 +56,15 @@ const GameItemsList = ({ classes, sortGames, appInFocus, games, rangeFilter, set
           defaultValue={0}
           min={0}
           max={FILTERS.length - 1}
-          onAfterChange={(value) => { setRangeFilter(value) }}
-          tipFormatter={(value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)}
+          onAfterChange={sliderAfterChange}
+          tipFormatter={tipFormatter}
         />
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus || isMobile}>
             {
-              sortedFilteredGames.map((game) => <div key={`GameItem${game.id}`}><GameItem { ...game } /></div>)
+              sortedFilteredGames.map((game) => <div key={`GameItem${game.id}`}>
+                <GameItem { ...getGameItemGameProps(game) } />
+              </div>)
             }
           </FlipMove>
         </div>
@@ -57,7 +82,9 @@ const GameItemsList = ({ classes, sortGames, appInFocus, games, rangeFilter, set
                   rowHeight={180}
                   scrollTop={scrollTop}
                   width={width}
-                  rowRenderer={({ index, key, style }) => <div style={style} key={key}><GameItem { ...sortedGames[index] } /></div>}
+                  rowRenderer={({ index, key, style }) => <div style={style} key={key}>
+                    <GameItem { ...getGameItemGameProps(sortedGames[index]) } />
+                  </div>}
                 />
               )}
             </AutoSizer>
@@ -99,11 +126,13 @@ const styles = {
 
 export default compose(
   withUser(),
-  withGames(),
-  withProps(({ userInfo: { balance }}) => ({
-    sortGames: (games) => _.sortBy(games, [({ risk }) => balance <= risk, 'prize'])
-  })),
+  withMeta(),
   withState('rangeFilter', 'setRangeFilter', 0),
+  withHandlers({
+    sortGames: ({ userInfo: { balance }}) => (games) => _.sortBy(games, [({ risk }) => balance <= risk, 'prize']),
+    sliderAfterChange: ({ setRangeFilter }) => (value) => { setRangeFilter(value) },
+    tipFormatter: () => (value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)
+  }),
   injectSheet(styles),
 )(GameItemsList);
 
@@ -114,5 +143,7 @@ GameItemsList.propTypes = {
   rangeFilter: PropTypes.number.isRequired,
   userInfo: PropTypes.object.isRequired,
   setRangeFilter: PropTypes.func.isRequired,
+  sliderAfterChange: PropTypes.func.isRequired,
   sortGames: PropTypes.func.isRequired,
+  tipFormatter: PropTypes.func.isRequired,
 };
