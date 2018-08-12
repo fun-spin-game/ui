@@ -42,6 +42,7 @@ const Roulette = ({
   resultSlider,
   resultItems,
   showReward,
+  spinInProgress,
   prevResult,
   playBtnClicked,
 }) => {
@@ -73,7 +74,7 @@ const Roulette = ({
       <div className={classes.playBtnContainer}>
         <RoulettePlayBtn
           maxAttemptsReached={maxAttemptsReached}
-          disabled={playBtnClicked}
+          disabled={playBtnClicked || spinInProgress}
           lowBalance={lowBalance}
           play={play}
         />
@@ -208,6 +209,7 @@ Roulette.propTypes = {
   setPlayBtnClicked: PropTypes.func.isRequired,
   playBtnClicked: PropTypes.bool.isRequired,
   sliderAfterChange: PropTypes.func.isRequired,
+  spinInProgress: PropTypes.bool.isRequired,
   maxAttemptsReached: PropTypes.bool,
   lowBalance: PropTypes.bool,
   showReward: PropTypes.bool,

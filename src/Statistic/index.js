@@ -56,7 +56,6 @@ export default compose(
   withStatistic(),
   lifecycle({
     componentDidMount () {
-      console.log(22,this)
       this.props.getStatistic();
     },
   }),

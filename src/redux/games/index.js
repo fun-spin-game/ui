@@ -38,7 +38,9 @@ const reducer = (state = {
           Object.keys(state.games).reduce((prev, gameId) => {
             const game = state.games[gameId];
 
-            if (payload.expiredGamesIds.indexOf(gameId) !== -1) return prev;
+            if (payload.expiredGamesIds.indexOf(game.id) !== -1) {
+              return prev;
+            }
 
             if (payload.gameUsersDisconnected.find(o => o.gameId === game.id && o.userId === game.connectedUserId)) {
               prev[gameId] = { ...game, connectedUserId: null, connectedUser: null, lastTouchAt: null };
@@ -55,6 +57,6 @@ const reducer = (state = {
     default:
       return state
   }
-}
+};
 
 export default reducer;

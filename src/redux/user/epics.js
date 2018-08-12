@@ -3,6 +3,10 @@ import { tap, ignoreElements, mapTo } from 'rxjs/operators';
 import { notification } from 'antd';
 import ws from '../../helpers/ws';
 import { getUserInfo } from './actions';
+import { Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
+import Providers from '../Providers';
+import React from 'react';
 
 export default combineEpics(
   (action$) => action$.pipe(
@@ -19,8 +23,7 @@ export default combineEpics(
     tap(() => {
       notification.error({
         duration: 10,
-        message: 'Error',
-        description: 'Login or password is incorrect!'
+        description: <Providers><Fragment><Translate id="EMAIL_OR_PASSWORD_IS_INCORRECT" />!</Fragment></Providers>
       });
     }),
     ignoreElements()
@@ -30,8 +33,7 @@ export default combineEpics(
     tap(() => {
       notification.error({
         duration: 10,
-        message: 'Error',
-        description: 'Try another login!'
+        description: <Providers><Fragment><Translate id="THIS_EMAIL_IS_BUSY" /></Fragment></Providers>
       });
     }),
     ignoreElements()

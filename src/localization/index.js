@@ -319,5 +319,13 @@ export default {
   WALLET_NUMBER: [
     'Wallet number',
     'Номер кошелька'
+  ],
+  THIS_EMAIL_IS_BUSY: [
+    'This email is busy',
+    'Этот email занят'
+  ],
+  EMAIL_OR_PASSWORD_IS_INCORRECT: [
+    'Email or password is incorrect',
+    'Не верный email или пароль'
   ]
 };
