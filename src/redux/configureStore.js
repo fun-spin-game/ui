@@ -6,6 +6,7 @@ import logger from 'redux-logger'
 import { rootReducer, rootEpic } from './index';
 import restApiInjector from './middlewares/restApiInjector';
 import spinnerMiddleware from './middlewares/spinnerMiddleware';
+import parseActiveGameMiddleware from './middlewares/parseActiveGameMiddleware';
 
 export default ({ history }) => {
   const epicMiddleware = createEpicMiddleware();
@@ -16,6 +17,7 @@ export default ({ history }) => {
     epicMiddleware,
     routerMiddleware(history),
     spinnerMiddleware,
+    parseActiveGameMiddleware,
   ];
 
   if (process.env.NODE_ENV === 'development') middlewares.push(logger);

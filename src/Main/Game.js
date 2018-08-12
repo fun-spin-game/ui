@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
-import { AES, enc } from 'crypto-js';
 import { compose, branch, renderComponent, withHandlers, pure, lifecycle } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import Roulette from './Roulette';
@@ -18,18 +17,19 @@ const Game = ({
     prize,
     maxAttempts,
     risk,
-    schema: schemaEncoded,
-    amountOfAttempts,
+    decryptedSchema,
+    won,
+    lost,
     spinInProgress,
-    maxAttemptsReached,
   },
   userInfo: { balance },
   onClickPlay,
   closeGame,
 }) => {
+  const amountOfAttempts = won + lost;
+  const maxAttemptsReached = amountOfAttempts >= maxAttempts;
   const lowBalance = balance < risk;
-  const schema = AES.decrypt(schemaEncoded, 'dAfg$1397642gsge_39').toString(enc.Utf8);
-  const result = Boolean(parseInt(schema[amountOfAttempts]));
+  const result = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
   return (
     <div className={classes.rouletteOverlay}>
       {
@@ -120,16 +120,16 @@ export default compose(
   withSpinnersActions(),
   withUser(),
   withGamesActions(),
+  branch(
+    ({ activeGame }) => !activeGame,
+    renderComponent(() => null)
+  ),
   withHandlers({
     closeGame: ({ disconnectFromGame, activeGame: { id: gameId } }) => () => disconnectFromGame({ gameId }),
     onClickPlay: ({ notifyGameSpinStart, activeGame: { id: gameId, prize, risk } }) => ({ result }) => {
       notifyGameSpinStart({ gameId, result: result ? prize : -risk });
     }
   }),
-  branch(
-    ({ activeGame }) => !activeGame,
-    renderComponent(() => null)
-  ),
   lifecycle({
     componentDidMount () {
       this.props.setSpinnerStatus({ key: 'GAME_CHOOSE', active: false })

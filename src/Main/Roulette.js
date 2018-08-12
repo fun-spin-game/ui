@@ -139,7 +139,6 @@ const styles = {
 
 export default compose(
   injectSheet(styles),
-  withState('result', 'setResult', null),
   withState('prevResult', 'setPrevResult', null),
   withState('showReward', 'setShowReward', null),
   withState('playBtnClicked', 'setPlayBtnClicked', false),
@@ -151,20 +150,30 @@ export default compose(
     resultSlider: React.createRef(),
   }),
   withHandlers({
-    play: ({ resultSlider, resultItems, onClickPlay, lowBalance, result, setResult, setShowReward, setResultItems, setPlayBtnClicked }) => () => {
+    play: ({
+      resultSlider,
+      resultItems,
+      onClickPlay,
+      lowBalance,
+      result,
+      setShowReward,
+      setResultItems,
+      setPlayBtnClicked,
+      prize,
+      risk,
+    }) => () => {
       if (lowBalance) return;
       setPlayBtnClicked(true);
 
       const newResultItems = _.shuffle(resultItems);
       const resultIndex = 49;
-      newResultItems[49] = result;
+      newResultItems[resultIndex] = result;
 
       resultSlider.current.slickGoTo(0, true);
 
-      setResult(result);
       setShowReward(false);
       setResultItems(newResultItems);
-      onClickPlay({ result });
+      onClickPlay({ result: result ? prize : risk });
       setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)), 100);
     },
     sliderAfterChange: ({ result, setShowReward, setPrevResult, setPlayBtnClicked }) => (slideIndex) => {

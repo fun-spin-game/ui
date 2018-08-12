@@ -1,54 +1,55 @@
+import _ from 'lodash';
+
 const reducer = (state = {
   games: [],
-  actions: [],
-  appInFocus: true,
-}, { type, payload },) => {
+  activeGameId: null,
+}, { type, payload, meta = {} },) => {
   switch (type) {
-    case 'SET_APP_IN_FOCUS':
-      return { ...state, appInFocus: payload.value };
     case 'INIT_DATA': {
-      const { games, actions } = payload;
+      const { games } = payload;
       return {
         ...state,
-        games: games.map((game) => { delete game.gameActions; return game; }),
-        actions,
+        games: _.keyBy(games, 'id'),
       };
     }
     case 'GAME_EXPIRED': {
       return {
         ...state,
-        games: state.games.filter((game) => game.id !== payload.gameId),
+        games: _.omit(state.games, payload.gameId),
       }
     }
     case 'GAME_CREATED': {
       return {
         ...state,
-        games: [ ...state.games, payload.game ],
+        games: { ...state.games, [payload.game.id]: payload.game },
       }
     }
     case 'GAME_UPDATED': {
       return {
         ...state,
-        games: [
-          ...state.games.map(game => {
-            return game.id === payload.game.id ? payload.game : game;
-          })
-        ]
+        games: { ...state.games, [payload.game.id]: { ...state.games[payload.game.id], ...payload.game } },
+        activeGameId: meta.activeGameId !== undefined ? meta.activeGameId : state.activeGameId,
       }
     }
     case 'PLAYGROUND_UPDATED': {
       return {
         ...state,
-        games: [
-          ...state.games.reduce((prev, game) => {
-            if (payload.expiredGamesIds.indexOf(game.id) !== -1) return prev;
+        games: _.assign(
+          Object.keys(state.games).reduce((prev, gameId) => {
+            const game = state.games[gameId];
+
+            if (payload.expiredGamesIds.indexOf(gameId) !== -1) return prev;
+
             if (payload.gameUsersDisconnected.find(o => o.gameId === game.id && o.userId === game.connectedUserId)) {
-              return [...prev, { ...game, connectedUserId: null, connectedUser: null, lastTouchAt: null }];
+              prev[gameId] = { ...game, connectedUserId: null, connectedUser: null, lastTouchAt: null };
+              return prev
             }
-            return [...prev, game ];
-          }, []),
-          ...payload.createdGames,
-        ]
+            prev[gameId] = game;
+            return prev;
+          }, {}),
+          _.keyBy(payload.createdGames, 'id'),
+        ),
+        activeGameId: payload.gameUsersDisconnected.find(o => o.gameId === state.activeGameId) ? null : state.activeGameId,
       }
     }
     default:
