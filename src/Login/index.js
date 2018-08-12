@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { compose, withStateHandlers, branch, renderComponent } from 'recompose';
+import { compose, withStateHandlers, branch, renderComponent, pure } from 'recompose';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import withUser from '../containers/withUser';
@@ -41,7 +41,8 @@ export default compose(
         signInMode: !signInMode,
       })
     }
-  )
+  ),
+  pure
 )(Login);
 
 Login.defaultProps = {

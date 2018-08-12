@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
 import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap, ignoreElements, tap } from 'rxjs/operators';
+import { mergeMap, ignoreElements, tap, mapTo } from 'rxjs/operators';
 import { notification, message } from 'antd';
 import { Observable } from 'rxjs';
 import { Translate } from 'react-localize-redux';
 import ws from '../../helpers/ws';
 import Coins from '../../common/Coins';
-import Providers from '../../Providers';
+import Providers from '../Providers';
+import { setSpinnerStatus } from '../spinners/actions';
 
 const wsMessageToReduxInterceptor = ({ message }) => {
   if (message.type.indexOf('NOTIFICATION') !== -1) return false;
@@ -35,6 +36,12 @@ export default combineEpics(
         if (interceptorResult) observer.next(message);
       })
     })),
+  ),
+  (action$) => action$.pipe(
+    ofType(
+      'NOTIFICATION_GAME_USER_CONNECT',
+    ),
+    mapTo(setSpinnerStatus({ key: 'GAME_CHOOSE', active: true })),
   ),
   (action$) => action$.pipe(
     ofType(

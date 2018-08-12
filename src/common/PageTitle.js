@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { compose } from 'recompose'
+import { compose, pure } from 'recompose';
 
 const Title = ({
   children,
@@ -22,6 +22,7 @@ const styles = {
 
 export default compose(
   injectSheet(styles),
+  pure,
 )(Title);
 
 Title.propTypes = {

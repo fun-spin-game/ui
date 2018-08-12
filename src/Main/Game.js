@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
 import { AES, enc } from 'crypto-js';
-import { compose, branch, renderComponent, withHandlers, pure } from 'recompose';
+import { compose, branch, renderComponent, withHandlers, pure, lifecycle } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import Roulette from './Roulette';
 import withGamesActions from '../containers/withGamesActions';
 import withUser from '../containers/withUser';
+import withSpinnersActions from '../containers/withSpinnersActions';
 
 const Game = ({
   classes,
@@ -115,8 +116,8 @@ const styles = {
 };
 
 export default compose(
-  injectSheet(styles),
   withLocalize,
+  withSpinnersActions(),
   withUser(),
   withGamesActions(),
   withHandlers({
@@ -129,6 +130,12 @@ export default compose(
     ({ activeGame }) => !activeGame,
     renderComponent(() => null)
   ),
+  lifecycle({
+    componentDidMount () {
+      this.props.setSpinnerStatus({ key: 'GAME_CHOOSE', active: false })
+    },
+  }),
+  injectSheet(styles),
   pure
 )(Game);
 

@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Icon, Button, Form } from 'antd';
 import injectSheet from 'react-jss'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, pure } from 'recompose'
 import FormContainer from './FormContainer'
 import Social from './Social';
 import withUser from '../containers/withUser';
 import { Translate, withLocalize } from 'react-localize-redux';
+import Spinner from '../common/Spinner';
 
 const FormItem = Form.Item;
 
@@ -38,9 +39,11 @@ const SignIn = ({
           )}
         </FormItem>
         <Social />
-        <Button type="primary" onClick={handleSubmit}>
-          {<Translate id={'LOG_IN'} />}
-        </Button>
+        <Spinner spinnerKey="LOGIN">
+          <Button type="primary" onClick={handleSubmit}>
+            {<Translate id={'LOG_IN'} />}
+          </Button>
+        </Spinner>
         <div className={classes.linksBlock}>
           {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'REGISTER'} />}</a> {<Translate id={'NEW_USER'} />}
         </div>
@@ -76,7 +79,8 @@ export default compose(
         signIn(values);
       }
     })
-  })
+  }),
+  pure
 )(SignIn);
 
 SignIn.propTypes = {

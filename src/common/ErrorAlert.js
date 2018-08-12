@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, branch, renderComponent } from 'recompose'
+import { compose, branch, renderComponent, pure } from 'recompose'
 import { Alert } from 'antd';
 
 const ErrorAlert = ({ text }) => (
@@ -17,6 +17,7 @@ export default compose(
     ({ show }) => !show,
     renderComponent(() => null),
   ),
+  pure,
 )(ErrorAlert);
 
 ErrorAlert.propTypes = {

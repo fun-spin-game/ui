@@ -9,7 +9,6 @@ import { withLocalize } from 'react-localize-redux';
 import { blueColor, greenColor, lightGreenColor, redColor } from '../variables';
 import Coins from '../common/Coins';
 import { toFixedIfNeed } from '../helpers/gameUtils';
-import withUser from '../containers/withUser';
 import withGamesActions from '../containers/withGamesActions';
 import Tooltip from '../common/Tooltip';
 
@@ -32,15 +31,13 @@ const GameItem = (props) => {
     lost,
     risk,
     translate,
-    userInfo,
-    userInfo: { balance },
+    userId,
+    balance,
     play,
   } = props;
-  const animationClass = `animated infinite flash ${classes.flashAnimation}`;
   const amountOfAttempts = won + lost;
   const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
   const disabled = balance < risk || won + lost >= maxAttempts;
-
   return (
     <div
       style={style}
@@ -48,7 +45,7 @@ const GameItem = (props) => {
     >
       <div
         className={classNames({
-          [animationClass]: connectedUser,
+          [`animated infinite flash ${classes.flashAnimation}`]: connectedUser,
         })}
       >
         <div
@@ -58,7 +55,7 @@ const GameItem = (props) => {
             {
               inProgress: connectedUser,
               disabled,
-              ownGame: creatorUser && creatorUser.id === userInfo.id,
+              ownGame: creatorUser && creatorUser.id === userId,
               preview,
               previewChanceToWin: preview === 'chanceToWin',
               previewPrize: preview === 'prize',
@@ -116,7 +113,7 @@ const GameItem = (props) => {
             </Button>
           </div>
           <div className={classNames(classes.amountOfAttempts, 'amountOfAttempts')}>
-             <Line percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
+             <Line className={classes.attemptsline} percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
              <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>{translate('ATTEMPTS_USED')}</small></span></div>
              <div>{(connectedUser) && `${translate('IN_PROGRESS')}...`}</div>
           </div>
@@ -156,7 +153,7 @@ const styles = {
       '& .risk': {
         opacity: 1,
       },
-      '& .playButton': {
+      '& .playButtonContainer': {
         visibility: 'visible',
         opacity: 1,
       },
@@ -235,11 +232,11 @@ const styles = {
     left: 0,
     right: 0,
     top: 80,
+    opacity: 0,
+    visibility: 'hidden',
+    transition: 'all 300ms ease',
   },
   playButton: {
-    visibility: 'hidden',
-    opacity: 0,
-    transition: 'all 300ms ease',
     background: greenColor,
     'border-color': greenColor,
     '&:hover, &:focus, &:active': {
@@ -267,12 +264,14 @@ const styles = {
   },
   circle: {
     opacity: 1
+  },
+  attemptsline: {
+    width: '100%',
   }
 };
 
 export default compose(
   withLocalize,
-  withUser(),
   withGamesActions(),
   withHandlers({
     play: ({ connectToGame, id }) =>  () => {
@@ -288,6 +287,8 @@ GameItem.defaultProps = {
   creatorUser: null,
   style: {},
   preview: null,
+  userId: null,
+  balance: null,
 };
 
 GameItem.propTypes = {
@@ -305,6 +306,7 @@ GameItem.propTypes = {
   connectToGame: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,
-  userInfo: PropTypes.object.isRequired,
+  userId: PropTypes.number,
+  balance: PropTypes.number,
   connectedUser: PropTypes.object,
 };

@@ -8,8 +8,8 @@ export const getUserInfo = () => ({
     headers: { 'Content-Type': 'application/json' },
     types: [
       'GET_USER_INFO_REQUEST',
-      'GET_USER_INFO_SUCCESS',
-      'GET_USER_INFO_FAILURE'
+      { type: 'GET_USER_INFO_SUCCESS', meta: { spinnerKeys: { LOGIN: false } } },
+      { type: 'GET_USER_INFO_FAILURE', meta: { spinnerKeys: { LOGIN: false } } },
     ]
   }
 });
@@ -20,9 +20,9 @@ export const signIn = (values) => ({
     method: 'POST',
     body: JSON.stringify(values),
     types: [
-      'SIGN_IN_REQUEST',
+      { type: 'SIGN_IN_REQUEST', meta: { spinnerKeys: { LOGIN: true } } },
       'SIGN_IN_SUCCESS',
-      'SIGN_IN_FAILURE'
+      { type: 'SIGN_IN_FAILURE', meta: { spinnerKeys: { LOGIN: false } } },
     ]
   }
 });
@@ -33,9 +33,9 @@ export const signUp = (values) => ({
     method: 'POST',
     body: JSON.stringify(values),
     types: [
-      'SIGN_UP_REQUEST',
+      { type: 'SIGN_UP_REQUEST', meta: { spinnerKeys: { LOGIN: true } } },
       'SIGN_UP_SUCCESS',
-      'SIGN_UP_FAILURE'
+      { type: 'SIGN_UP_FAILURE', meta: { spinnerKeys: { LOGIN: false } } },
     ]
   }
 });

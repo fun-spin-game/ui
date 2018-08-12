@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { compose } from 'recompose';
+import { compose, pure } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
 import GameItem from "../Main/GameItem";
@@ -17,19 +17,22 @@ const GameItemPreview = ({ preview }) => (
     preview={preview}
     id={1}
     prize={30}
-    risk={30}
+    risk={1}
+    won={1}
+    lost={1}
     creatorUser={null}
     chanceToWin={50}
     maxAttempts={5}
     amountOfAttempts={2}
     onClickPlay={() => {}}
-    disabled={false}
     gamePlayer={null}
+    userId={1}
+    balance={100}
   />
 );
 
 GameItemPreview.propTypes = {
-  preview: PropTypes.bool.isRequired,
+  preview: PropTypes.string.isRequired,
 };
 
 const HowToPlay = ({ classes, translate }) => {
@@ -102,6 +105,7 @@ const styles = {
 export default compose(
   withLocalize,
   injectSheet(styles),
+  pure,
 )(HowToPlay);
 
 HowToPlay.defaultProps = {

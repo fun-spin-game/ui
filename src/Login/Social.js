@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import injectSheet from 'react-jss'
 import { Translate } from 'react-localize-redux';
+import { pure, compose } from 'recompose';
 
 const Social = ({ classes }) => {
   const { REACT_APP_BASE_REST_URL } = process.env;
@@ -43,7 +44,7 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Social);
+export default compose(injectSheet(styles), pure)(Social);
 
 Social.propTypes = {
   classes: PropTypes.object.isRequired,

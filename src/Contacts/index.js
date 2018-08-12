@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { compose } from 'recompose';
+import { compose, pure } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
 
@@ -23,6 +23,7 @@ const styles = {
 export default compose(
   withLocalize,
   injectSheet(styles),
+  pure,
 )(Contacts);
 
 Contacts.defaultProps = {

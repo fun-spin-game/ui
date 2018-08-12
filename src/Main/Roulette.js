@@ -17,7 +17,8 @@ import {
 
 let slidesToShow
 if (window.innerWidth < 400) slidesToShow = 2;
-else if (window.innerWidth < 600) slidesToShow = 3;
+else if (window.innerWidth < 1200) slidesToShow = 3;
+else if (window.innerWidth < 1400) slidesToShow = 5;
 else slidesToShow = 7;
 
 const SETTINGS = {
@@ -35,7 +36,6 @@ const Roulette = ({
   prize,
   risk,
   maxAttemptsReached,
-  spinInProgress,
   lowBalance,
   play,
   sliderAfterChange,
@@ -43,6 +43,7 @@ const Roulette = ({
   resultItems,
   showReward,
   prevResult,
+  playBtnClicked,
 }) => {
   return (
     <div className={classes.roulette}>
@@ -72,7 +73,7 @@ const Roulette = ({
       <div className={classes.playBtnContainer}>
         <RoulettePlayBtn
           maxAttemptsReached={maxAttemptsReached}
-          spinInProgress={spinInProgress}
+          disabled={playBtnClicked}
           lowBalance={lowBalance}
           play={play}
         />
@@ -141,6 +142,7 @@ export default compose(
   withState('result', 'setResult', null),
   withState('prevResult', 'setPrevResult', null),
   withState('showReward', 'setShowReward', null),
+  withState('playBtnClicked', 'setPlayBtnClicked', false),
   withState('resultItems', 'setResultItems', ({ chanceToWin }) => _.shuffle(_.fill(Array(chanceToWin), true)
     .concat(_.fill(Array(100 - chanceToWin), false)))
     .slice(0, 50)),
@@ -149,8 +151,9 @@ export default compose(
     resultSlider: React.createRef(),
   }),
   withHandlers({
-    play: ({ resultSlider, resultItems, onClickPlay, lowBalance, result, setResult, setShowReward, setResultItems }) => () => {
+    play: ({ resultSlider, resultItems, onClickPlay, lowBalance, result, setResult, setShowReward, setResultItems, setPlayBtnClicked }) => () => {
       if (lowBalance) return;
+      setPlayBtnClicked(true);
 
       const newResultItems = _.shuffle(resultItems);
       const resultIndex = 49;
@@ -164,10 +167,11 @@ export default compose(
       onClickPlay({ result });
       setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)), 100);
     },
-    sliderAfterChange: ({ result, setShowReward, setPrevResult }) => (slideIndex) => {
+    sliderAfterChange: ({ result, setShowReward, setPrevResult, setPlayBtnClicked }) => (slideIndex) => {
       if (slideIndex) {
         setPrevResult(result);
         setShowReward(true);
+        setPlayBtnClicked(false);
       }
     }
   }),
@@ -193,10 +197,11 @@ Roulette.propTypes = {
   prevResult: PropTypes.bool,
   onClickPlay: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,
+  setPlayBtnClicked: PropTypes.func.isRequired,
+  playBtnClicked: PropTypes.bool.isRequired,
   sliderAfterChange: PropTypes.func.isRequired,
   maxAttemptsReached: PropTypes.bool,
   lowBalance: PropTypes.bool,
   showReward: PropTypes.bool,
-  spinInProgress: PropTypes.bool,
   resultItems: PropTypes.array.isRequired,
 };

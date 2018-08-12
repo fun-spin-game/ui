@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { compose, branch, renderComponent, withHandlers } from 'recompose';
+import { compose, branch, renderComponent, withHandlers, pure } from 'recompose';
 import { Icon, Avatar } from 'antd';
 import withUser from '../containers/withUser';
 import Coins from '../common/Coins';
@@ -96,5 +96,6 @@ export default compose(
     logout: ({ logout }) => () => {
       logout();
     }
-  })
+  }),
+  pure
 )(RightBlock);

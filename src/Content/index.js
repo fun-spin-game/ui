@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
-import injectSheet from 'react-jss'
+import injectSheet from 'react-jss';
+import { compose, pure } from 'recompose';
 
 const { Content: ContentAnt } = Layout;
 
@@ -20,6 +21,7 @@ class Content extends Component {
 
 const styles = {
   contentWrapper: {
+    position: 'relative',
     '@media (min-width: 601px)': {
       padding: '0 50px',
     }
@@ -32,7 +34,7 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Content);
+export default compose(injectSheet(styles), pure)(Content);
 
 Content.defaultProps = {
   className: '',

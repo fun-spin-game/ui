@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import injectSheet from 'react-jss'
-import { compose, branch, renderComponent } from 'recompose';
+import { compose, branch, renderComponent, pure } from 'recompose';
 import { withLocalize, Translate } from 'react-localize-redux';
 import { greenColor, lightGreenColor } from '../variables'
 
 const RoulettePlayBtn = ({
-  spinInProgress,
+  disabled,
   classes,
   play,
   translate,
@@ -15,9 +15,9 @@ const RoulettePlayBtn = ({
   <Button
     type="primary"
     size="large"
-    disabled={spinInProgress}
+    disabled={disabled}
     className={`play-button ${classes.playButton}`}
-    onClick={() => {play();}}
+    onClick={play}
   >
     {translate('PLAY')}!
   </Button>
@@ -65,12 +65,13 @@ export default compose(
     ({ maxAttemptsReached }) => maxAttemptsReached,
     renderComponent(() => (<Text><Translate id="GAME_COMPLETED" />!</Text>)),
   ),
+  pure,
 )(RoulettePlayBtn);
 
 RoulettePlayBtn.propTypes = {
   maxAttemptsReached: PropTypes.bool.isRequired,
   lowBalance: PropTypes.bool.isRequired,
-  spinInProgress: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   play: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

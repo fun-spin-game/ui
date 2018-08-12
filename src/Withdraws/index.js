@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Avatar, Card, List, Table } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
-import { compose, lifecycle } from "recompose";
-import { withLocalize, Translate } from "react-localize-redux";
-import withWithdraws from "../containers/withWithdraws";
-import injectSheet from "react-jss";
-import PageTitle from "../common/PageTitle";
-import Coins from "../common/Coins";
+import { compose, lifecycle, pure } from 'recompose';
+import { withLocalize, Translate } from 'react-localize-redux';
+import withWithdraws from '../containers/withWithdraws';
+import injectSheet from 'react-jss';
+import PageTitle from '../common/PageTitle';
+import Coins from '../common/Coins';
+import Spinner from '../common/Spinner';
 
 /* eslint-disable react/display-name */
 const COLUMNS = [
@@ -37,34 +38,38 @@ const Withdraws = ({ withdraws, translate, classes }) => {
   return (
     <div className={classes.withdraws}>
       <PageTitle>{translate('LAST_WITHDRAWS')}</PageTitle>
-      {
-        window.screen.width > 600 ? (
-          <Table
-            dataSource={sortedWithdraws}
-            columns={COLUMNS}
-            pagination={false}
-            rowKey={(o) => o.createdAt}
-          />
-        ) : (
-          <List
-            grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
-            dataSource={sortedWithdraws}
-            renderItem={({ createdAt, amount, user: { displayName, photo } }) => (
-              <List.Item>
-                <Card title={moment(createdAt).format('HH:mm DD.MM.YYYY')}>
-                  <div className={classes.card}>
-                    <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
-                    <div>
-                      <p>{displayName}</p>
-                      <span>{amount} <Coins /></span>
-                    </div>
-                  </div>
-                </Card>
-              </List.Item>
-            )}
-          />
-        )
-      }
+      <Spinner spinnerKey="REST_API.GET_WITHDRAWS_REQUEST" overlay={true} transparentOverlay={true}>
+        <Fragment>
+          {
+            window.screen.width > 600 ? (
+              <Table
+                dataSource={sortedWithdraws}
+                columns={COLUMNS}
+                pagination={false}
+                rowKey={(o) => o.createdAt}
+              />
+            ) : (
+              <List
+                grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
+                dataSource={sortedWithdraws}
+                renderItem={({ createdAt, amount, user: { displayName, photo } }) => (
+                  <List.Item>
+                    <Card title={moment(createdAt).format('HH:mm DD.MM.YYYY')}>
+                      <div className={classes.card}>
+                        <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
+                        <div>
+                          <p>{displayName}</p>
+                          <span>{amount} <Coins /></span>
+                        </div>
+                      </div>
+                    </Card>
+                  </List.Item>
+                )}
+              />
+            )
+          }
+        </Fragment>
+      </Spinner>
     </div>
   )
 };
@@ -96,6 +101,7 @@ export default compose(
     },
   }),
   injectSheet(styles),
+  pure,
 )(Withdraws);
 
 Withdraws.defaultProps = {
@@ -105,6 +111,5 @@ Withdraws.propTypes = {
   withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
-  displayName: PropTypes.string.isRequired,
   getWithdraws: PropTypes.func.isRequired,
 };

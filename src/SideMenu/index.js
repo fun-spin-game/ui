@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
-import { compose } from 'recompose'
+import { compose, pure } from 'recompose'
 import { Link } from 'react-router-dom'
 import { Layout, Icon, Menu } from 'antd';
 import { withRouter } from 'react-router'
 import { withLocalize } from 'react-localize-redux';
 import { TOP_MENU_ITEMS } from '../Header';
 import withUser from '../containers/withUser';
-import classNames from "classnames";
+import classNames from 'classnames';
 
 const { Sider } = Layout;
 
@@ -129,6 +129,7 @@ export default compose(
   withUser(),
   withLocalize,
   injectSheet(styles),
+  pure
 )(SideMenu);
 
 SideMenu.defaultProps = {

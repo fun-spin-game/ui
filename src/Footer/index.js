@@ -4,7 +4,7 @@ import injectSheet from 'react-jss'
 import { Layout, Select } from 'antd';
 import Cookie from 'js-cookie'
 import { withLocalize } from 'react-localize-redux';
-import { compose } from 'recompose';
+import { compose, pure } from 'recompose';
 
 const { Footer: FooterAnt } = Layout;
 const Option = Select.Option;
@@ -84,4 +84,5 @@ Footer.propTypes = {
 export default compose(
   withLocalize,
   injectSheet(styles),
+  pure,
 )(Footer);

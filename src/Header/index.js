@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Layout, Menu, Icon } from 'antd';
 import { withLocalize } from 'react-localize-redux';
-import { compose } from 'recompose';
+import { compose, pure } from 'recompose';
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import withUser from '../containers/withUser';
@@ -148,4 +148,5 @@ export default compose(
   withUser(),
   withLocalize,
   injectSheet(styles),
+  pure,
 )(Header);

@@ -15,14 +15,14 @@ import {
 } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
-import { compose, lifecycle, withState, withProps } from "recompose";
-import { withLocalize, Translate } from "react-localize-redux";
-import withWithdraws from "../containers/withWithdraws";
-import withUser from "../containers/withUser";
-import injectSheet from "react-jss";
-import PageTitle from "../common/PageTitle";
-import Coins from "../common/Coins";
-import { redColor, greenColor } from "../variables";
+import { compose, lifecycle, withState, withProps, pure } from 'recompose';
+import { withLocalize, Translate } from 'react-localize-redux';
+import withWithdraws from '../containers/withWithdraws';
+import withUser from '../containers/withUser';
+import injectSheet from 'react-jss';
+import PageTitle from '../common/PageTitle';
+import Coins from '../common/Coins';
+import { redColor, greenColor } from '../variables';
 import { START_BONUS, MIN_AMOUNT_OF_WITHDRAWING } from '../config';
 
 const FormItem = Form.Item;
@@ -292,6 +292,7 @@ export default compose(
     },
   }),
   injectSheet(styles),
+  pure,
 )(Withdraw);
 
 Withdraw.defaultProps = {

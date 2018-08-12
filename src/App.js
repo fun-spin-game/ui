@@ -1,13 +1,143 @@
 import React from 'react';
-import Providers, { history } from './Providers';
-import Routes from './Routes';
+import Providers, { history } from './redux/Providers';
+import { Layout } from 'antd';
+import SideMenu from './SideMenu';
+import Header from './Header';
+import classNames from 'classnames';
+import Content from './Content';
+import { Route, Switch, withRouter } from 'react-router';
+import AuthenticatedRoute from './common/AuthenticatedRoute';
+import Main from './Main';
+import Withdraw from './Withdraw';
+import Statistic from './Statistic';
+import Withdraws from './Withdraws';
+import Contacts from './Contacts';
+import HowToPlay from './HowToPlay';
+import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
+import Login from './Login';
+import Footer from './Footer';
+import { branch, compose, lifecycle, pure, renderComponent, withHandlers, withState } from 'recompose';
+import { withLocalize } from 'react-localize-redux';
+import withUser from './containers/withUser';
+import withMeta from './containers/withMeta';
+import injectSheet from 'react-jss';
+import localization from './localization';
+import { renderToStaticMarkup } from 'react-dom/server';
+import Cookie from 'js-cookie';
+import Spinner from './common/Spinner';
+import PropTypes from 'prop-types';
 
-const App = () => {
+
+const AppComp = ({
+  classes,
+  collapsedSideMenu,
+  setCollapsedSideMenuFn,
+  location: { pathname },
+}) => {
+  return (
+    <Layout className="layout">
+      <SideMenu
+        collapsed={collapsedSideMenu}
+        setCollapsedSideMenu={setCollapsedSideMenuFn}
+      />
+      <Layout>
+        <Header collapsedSideMenu={collapsedSideMenu} setCollapsedSideMenu={setCollapsedSideMenuFn} />
+        <div
+          className={classNames(
+            classes.content, {
+              'collapsed-mode': collapsedSideMenu,
+              loginPage: pathname === '/login'
+            })}
+        >
+          <Content>
+            <Switch>
+              <AuthenticatedRoute exact path="/" component={Main} />
+              <AuthenticatedRoute exact path="/withdraw" component={Withdraw} />
+              <Route exact path="/statistic" component={Statistic} />
+              <Route exact path="/withdraws" component={Withdraws} />
+              <Route exact path="/contacts" component={Contacts} />
+              <Route exact path="/how-to-play" component={HowToPlay} />
+              <NotAuthenticatedRoute path="/login" component={Login} />
+            </Switch>
+          </Content>
+          <Footer />
+          <Spinner spinnerKey="GAME_CHOOSE" overlay={true} noFadeIn={true} fixed={true} />
+        </div>
+      </Layout>
+    </Layout>
+  );
+};
+
+const styles = {
+  content: {
+    'margin-top': 64,
+    marginLeft: 200,
+    transition: 'all .2s',
+    '&.collapsed-mode': {
+      'margin-left': 80,
+    },
+    '&.loginPage': {
+      '@media(min-width: 1101px)': {
+        marginLeft: '0 !important',
+      },
+    },
+    '@media(max-width: 600px)': {
+      marginLeft: '0 !important',
+    }
+  },
+};
+
+const App = compose(
+  withRouter,
+  withLocalize,
+  withUser(),
+  withMeta(),
+  injectSheet(styles),
+  lifecycle({
+    componentDidMount() {
+      let browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0];
+      if (browserLanguage !== 'ru') browserLanguage = 'gb';
+      this.props.getUserInfo();
+      window.onblur = () => this.props.setAppInFocus(false);
+      window.onfocus = () => this.props.setAppInFocus(true);
+      this.props.initialize({
+        languages: [
+          { label: 'EN', code: 'gb' },
+          { label: 'RU', code: 'ru' }
+        ],
+        translation: localization,
+        options: { renderToStaticMarkup, renderInnerHtml: true },
+      });
+      this.props.setActiveLanguage(Cookie.get('language') || browserLanguage);
+    }
+  }),
+  withState('collapsedSideMenu', 'setCollapsedSideMenu', true),
+  withHandlers({
+    setCollapsedSideMenuFn: ({ setCollapsedSideMenu, collapsedSideMenu }) => (val) => {
+      return setCollapsedSideMenu(typeof(val) === 'boolean' ? val : !collapsedSideMenu);
+    }
+  }),
+  branch(
+    ({ userInfoRequestDone }) => !userInfoRequestDone,
+    renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
+  ),
+  pure,
+)(AppComp);
+
+AppComp.propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  collapsedSideMenu: PropTypes.bool.isRequired,
+  setCollapsedSideMenu: PropTypes.func.isRequired,
+  setCollapsedSideMenuFn: PropTypes.func.isRequired,
+  initialize: PropTypes.func.isRequired,
+};
+
+export default () => {
   return (
     <Providers>
-      <Routes history={history} />
+      <App history={history} />
     </Providers>
   );
-}
-
-export default App;
+};
