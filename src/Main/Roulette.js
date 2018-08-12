@@ -15,7 +15,7 @@ import {
   ROULETTE_REWARD_ANIMATION_DURATION,
 } from '../config';
 
-let slidesToShow
+let slidesToShow;
 if (window.innerWidth < 400) slidesToShow = 2;
 else if (window.innerWidth < 1200) slidesToShow = 3;
 else if (window.innerWidth < 1400) slidesToShow = 5;
@@ -159,26 +159,25 @@ export default compose(
       setShowReward,
       setResultItems,
       setPlayBtnClicked,
-      prize,
-      risk,
+      setPrevResult,
     }) => () => {
       if (lowBalance) return;
+      resultSlider.current.slickGoTo(0, true);
+
       setPlayBtnClicked(true);
 
       const newResultItems = _.shuffle(resultItems);
       const resultIndex = 49;
+
       newResultItems[resultIndex] = result;
-
-      resultSlider.current.slickGoTo(0, true);
-
       setShowReward(false);
+      setPrevResult(result);
       setResultItems(newResultItems);
-      onClickPlay({ result: result ? prize : risk });
+      onClickPlay({ result });
       setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)), 100);
     },
-    sliderAfterChange: ({ result, setShowReward, setPrevResult, setPlayBtnClicked }) => (slideIndex) => {
+    sliderAfterChange: ({ setShowReward, setPlayBtnClicked }) => (slideIndex) => {
       if (slideIndex) {
-        setPrevResult(result);
         setShowReward(true);
         setPlayBtnClicked(false);
       }
