@@ -41,7 +41,7 @@ const Withdraws = ({ withdraws, translate, classes }) => {
       <Spinner spinnerKey="REST_API.GET_WITHDRAWS_REQUEST" overlay={true} transparentOverlay={true}>
         <Fragment>
           {
-            window.screen.width > 600 ? (
+            window.innerWidth > 666 ? (
               <Table
                 dataSource={sortedWithdraws}
                 columns={COLUMNS}

@@ -29,6 +29,7 @@ const Game = ({
   const amountOfAttempts = won + lost;
   const maxAttemptsReached = amountOfAttempts >= maxAttempts;
   const lowBalance = balance < risk;
+  console.log('decryptedSchema', decryptedSchema)
   const result = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
   return (
     <div className={classes.rouletteOverlay}>
@@ -74,7 +75,7 @@ const styles = {
     'font-size': '35px',
     color: 'white',
     'text-align': 'center',
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       'font-size': '17px',
     }
   },
@@ -91,7 +92,7 @@ const styles = {
     '& .ant-progress-bg': {
       height: '2px !important',
     },
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       'margin-top': 55,
       'font-size': '15px',
     }
@@ -101,7 +102,7 @@ const styles = {
     top: 20,
     right: 20,
     'font-size': '50px',
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       top: 20,
       right: 15,
       'font-size': '35px',

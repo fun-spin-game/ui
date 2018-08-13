@@ -9,21 +9,21 @@ const getLum = ({ coefficient }) => {
   return 100 - (20 + 60 * coefficient) + '%';
 };
 
-const RouletteItem = ({ classes, children }) => (
-  <div className={classes.rouletteItem}>
+const RouletteItem = ({ classes, children }) => {
+  return (<div className={classes.rouletteItem}>
     <div className={classNames(classes.rouletteContent, classes.rouletteContentMedia)}>
       <div>
         {children}
       </div>
     </div>
-  </div>
-);
+  </div>);
+}
 
 const styles = {
   rouletteItem: {
   },
   rouletteContentMedia: {
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       'font-size': '17px !important',
       height: '80px !important',
     }

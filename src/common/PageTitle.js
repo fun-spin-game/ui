@@ -14,7 +14,7 @@ const styles = {
   title: {
     'text-align': 'center',
     marginBottom: 30,
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       fontSize: '20px',
     }
   },

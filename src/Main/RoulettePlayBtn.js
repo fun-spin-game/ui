@@ -35,7 +35,7 @@ const styles = {
       background: lightGreenColor,
       'border-color': lightGreenColor,
     },
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       'font-size': '17px !important',
     }
   },

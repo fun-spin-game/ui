@@ -16,7 +16,7 @@ import {
 } from '../config';
 
 let slidesToShow;
-if (window.innerWidth < 400) slidesToShow = 2;
+if (window.innerWidth < 400) slidesToShow = 1;
 else if (window.innerWidth < 1200) slidesToShow = 3;
 else if (window.innerWidth < 1400) slidesToShow = 5;
 else slidesToShow = 7;
@@ -113,7 +113,7 @@ const styles = {
     left: 0,
     right: 0,
     top: 270,
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       top: 175,
     }
   },
@@ -131,7 +131,7 @@ const styles = {
     '&.lose': {
       color: redColor,
     },
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       top: -110,
       fontSize: '45px',
     }
@@ -163,6 +163,7 @@ export default compose(
       setPrevResult,
     }) => () => {
       if (lowBalance) return;
+      onClickPlay({ result });
       resultSlider.current.slickGoTo(0, true);
 
       setPlayBtnClicked(true);
@@ -173,9 +174,10 @@ export default compose(
       newResultItems[resultIndex] = result;
       setShowReward(false);
       setPrevResult(result);
-      setResultItems(newResultItems);
-      onClickPlay({ result });
-      setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)), 100);
+
+      setResultItems(newResultItems, () => {
+        setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)));
+      });
     },
     sliderAfterChange: ({ setShowReward, setPlayBtnClicked }) => (slideIndex) => {
       if (slideIndex) {

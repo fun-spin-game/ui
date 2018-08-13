@@ -22,7 +22,7 @@ class Content extends Component {
 const styles = {
   contentWrapper: {
     position: 'relative',
-    '@media (min-width: 601px)': {
+    '@media (min-width: 667pxpx)': {
       padding: '0 50px',
     }
   },

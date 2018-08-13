@@ -137,7 +137,7 @@ const styles = {
     'text-align': 'center',
     height: 250,
     'padding': 35,
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       transform: 'scale(.7) translate(0px, -20px)',
       height: 170,
     },

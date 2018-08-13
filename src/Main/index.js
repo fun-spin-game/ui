@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Button } from 'antd';
+import { Icon } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import { compose, withState, withHandlers, pure, } from 'recompose';
 import Game from './Game';
@@ -24,17 +24,11 @@ const Main = ({
 }) => {
   return (
     <Fragment>
-      <PageTitle>{translate('LOTS')}</PageTitle>
+      <PageTitle>
+        {translate('LOTS')}
+        <a className={classes.createGameBtn} onClick={createGame}><Icon size="large" type="plus-circle-o" /></a>
+      </PageTitle>
       <GameItemsList games={games} />
-      <div className={classes.createGameBlock}>
-        <Button
-          type="primary"
-          onClick={createGame}
-          className={classes.createGameBtn}
-        >
-          {translate('CREATE_LOT')}
-        </Button>
-      </div>
       <Game activeGame={activeGame} />
       <CreateGameForm
         visible={createGameMode}
@@ -62,9 +56,16 @@ const styles = {
   title: {
     'text-align': 'center',
   },
-  createGameBlock: {
-    'text-align': 'center',
-    padding: '25px 0',
+  createGameBtn: {
+    float: 'right',
+    '@media(max-width: 666px)': {
+      position: 'fixed',
+      fontSize: 25,
+      right: 8,
+      top: 80,
+      padding: '0 10px',
+      zIndex: 10,
+    }
   },
 };
 

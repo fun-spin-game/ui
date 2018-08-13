@@ -13,8 +13,7 @@ const FormItem = Form.Item;
 
 const MIN_CHANCE_TO_WIN = 5;
 const MAX_CHANCE_TO_WIN = 95;
-const MIN_ATTEMPTS = 1;
-const MAX_ATTEMPTS = 10;
+const MAX_ATTEMPTS = 3;
 const MIN_PRIZE = 1;
 const MAX_PRIZE = 1000;
 const COL_LEFT = 11;
@@ -28,7 +27,6 @@ const CreateGameForm = ({
   onCancel,
   translate,
   setChanceToWin,
-  setMaxAttempts,
   setPrize,
   prizeTipFormatter,
   chanceTipFormatter,
@@ -108,32 +106,6 @@ const CreateGameForm = ({
         <FormItem>
           {getFieldDecorator('prize')(
             <div>
-              <div className={classes.label}>{translate('MAX_AMOUNT_OF_ATTEMPTS')}:</div>
-              <Row>
-                <Col span={COL_LEFT}>
-                  <InputNumber
-                    min={MIN_ATTEMPTS}
-                    max={MAX_ATTEMPTS}
-                    value={maxAttempts}
-                    onChange={setMaxAttempts}
-                  />
-                </Col>
-                <Col span={COL_RIGHT}>
-                  <Slider
-                    min={MIN_ATTEMPTS}
-                    max={MAX_ATTEMPTS}
-                    defaultValue={50}
-                    onChange={setMaxAttempts}
-                    value={maxAttempts}
-                  />
-                </Col>
-              </Row>
-            </div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('prize')(
-            <div>
               <Row>
                 <Col span={12}>
                   <div className={classes.label}>{translate('YOU_CAN_WIN')}: {toFixedIfNeed(getRisk({ prize, chanceToWin }) * maxAttempts)} <Coins /></div>
@@ -175,7 +147,7 @@ const styles = {
     'margin-top': '10px',
   },
   modal: {
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       top: 0,
     },
   },
@@ -186,7 +158,7 @@ export default compose(
   withUser(),
   Form.create(),
   withState('chanceToWin', 'setChanceToWin', 50),
-  withState('maxAttempts', 'setMaxAttempts', 1),
+  withState('maxAttempts', 'setMaxAttempts', MAX_ATTEMPTS),
   withState('prize', 'setPrize', MIN_PRIZE),
   withHandlers({
     getCreatorRisk: () => ({ prize, maxAttempts }) => {
@@ -211,7 +183,6 @@ CreateGameForm.propTypes = {
   translate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   setChanceToWin: PropTypes.func.isRequired,
-  setMaxAttempts: PropTypes.func.isRequired,
   setPrize: PropTypes.func.isRequired,
   prizeTipFormatter: PropTypes.func.isRequired,
   chanceTipFormatter: PropTypes.func.isRequired,

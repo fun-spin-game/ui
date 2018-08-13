@@ -228,7 +228,7 @@ const styles = {
       fontSize: '12px',
     },
     '& .statusLabel': {
-      '@media(max-width: 600px)': {
+      '@media(max-width: 666px)': {
         display: 'none',
       }
     }
@@ -252,12 +252,12 @@ const styles = {
     fontSize: '16px'
   },
   table: {
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       display: 'none',
     }
   },
   list: {
-    '@media(min-width: 601px)': {
+    '@media(min-width: 667pxpx)': {
       display: 'none',
     }
   },

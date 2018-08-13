@@ -59,7 +59,7 @@ const GameItemsList = ({
 }) => {
   return <Spinner show={!games.length} overlay={true} transparentOverlay={true}>
     {
-      window.innerWidth > 600 ? (<Fragment>
+      window.innerWidth > 666 ? (<Fragment>
         <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
         <Slider
           className={classNames(classes.slider, { mobile: isMobile }) }

@@ -81,7 +81,7 @@ const styles = {
         marginLeft: '0 !important',
       },
     },
-    '@media(max-width: 600px)': {
+    '@media(max-width: 666px)': {
       marginLeft: '0 !important',
     }
   },

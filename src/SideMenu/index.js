@@ -95,7 +95,7 @@ const styles = {
     left: 0,
     top: 64,
     '&.collapsed': {
-      '@media(max-width: 600px)': {
+      '@media(max-width: 666px)': {
         display: 'none',
       },
     },
