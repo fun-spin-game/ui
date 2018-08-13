@@ -24,7 +24,7 @@ const Statistic = ({ classes, top, translate }) => {
                   <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
                   <div>
                     <p>{displayName}</p>
-                    <span>{Math.floor(balance / 100) * 100}+ <Coins /></span>
+                    <span>{Math.ceil(balance / 100) * 100}+ <Coins /></span>
                   </div>
                 </div>
               </Card>
