@@ -257,7 +257,7 @@ const styles = {
   },
   creatorAvatarContainer: {
     position: 'absolute',
-    left: 125,
+    left: 0,
     top: 0,
   },
   creatorAvatar: {
