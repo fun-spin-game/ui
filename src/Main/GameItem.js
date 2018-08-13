@@ -118,9 +118,15 @@ const GameItem = (props) => {
              <div>{(connectedUser) && `${translate('IN_PROGRESS')}...`}</div>
           </div>
           {
-            (connectedUser) &&
+            connectedUser &&
             <div className={classNames(classes.playerAvatarContainer, 'playerAvatarContainer')}>
               <Avatar className={classNames(classes.playerAvatar, 'playerAvatar')} icon="user" src={connectedUser.photo} />
+            </div>
+          }
+          {
+            creatorUser &&
+            <div className={classes.creatorAvatarContainer}>
+              <Avatar size="small" className={`creatorAvatar ${classes.creatorAvatar}`} icon="user" src={creatorUser.photo} />
             </div>
           }
         </div>
