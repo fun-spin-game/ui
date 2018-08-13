@@ -38,6 +38,7 @@ const GameItem = (props) => {
   const amountOfAttempts = won + lost;
   const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
   const disabled = balance < risk || won + lost >= maxAttempts;
+  const ownGame = creatorUser && creatorUser.id === userId;
   return (
     <div
       style={style}
@@ -55,7 +56,7 @@ const GameItem = (props) => {
             {
               inProgress: connectedUser,
               disabled,
-              ownGame: creatorUser && creatorUser.id === userId,
+              ownGame,
               preview,
               previewChanceToWin: preview === 'chanceToWin',
               previewPrize: preview === 'prize',
@@ -123,9 +124,13 @@ const GameItem = (props) => {
               <Avatar className={classNames(classes.playerAvatar, 'playerAvatar')} icon="user" src={connectedUser.photo} />
             </div>
           }
-          <div className={classes.creatorAvatarContainer}>
-            <Avatar size="small" className={`creatorAvatar ${classes.creatorAvatar}`} icon="user" src={creatorUser ? creatorUser.photo : null} />
-          </div>
+          {
+            ownGame &&
+            <div className={classes.creatorAvatarContainer}>
+              <Avatar size="small" className={`creatorAvatar ${classes.creatorAvatar}`} icon="user"
+                      src={creatorUser ? creatorUser.photo : null}/>
+            </div>
+          }
         </div>
       </div>
     </div>
