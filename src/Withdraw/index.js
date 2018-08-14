@@ -257,7 +257,7 @@ const styles = {
     }
   },
   list: {
-    '@media(min-width: 667pxpx)': {
+    '@media(min-width: 667px)': {
       display: 'none',
     }
   },

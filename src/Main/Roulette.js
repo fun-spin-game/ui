@@ -15,22 +15,16 @@ import {
   ROULETTE_REWARD_ANIMATION_DURATION,
 } from '../config';
 
-let slidesToShow;
-if (window.innerWidth < 400) slidesToShow = 1;
-else if (window.innerWidth < 1200) slidesToShow = 3;
-else if (window.innerWidth < 1400) slidesToShow = 5;
-else slidesToShow = 7;
-
 const SETTINGS = {
- infinite: true,
- slidesToShow,
- slidesToScroll: 1,
- arrows: false,
- draggable: false,
- centerMode: true,
- speed: GAME_GAME_SPIN_DELAY,
- initialSlide: 0,
+  infinite: true,
+  slidesToScroll: 1,
+  arrows: false,
+  draggable: false,
+  centerMode: true,
+  speed: GAME_GAME_SPIN_DELAY,
+  initialSlide: 0,
 };
+
 const Roulette = ({
   classes,
   prize,
@@ -46,6 +40,13 @@ const Roulette = ({
   prevResult,
   playBtnClicked,
 }) => {
+  let slidesToShow;
+  if (window.innerWidth < 400) slidesToShow = 1;
+  else if (window.innerWidth < 1200) slidesToShow = 3;
+  else if (window.innerWidth < 1400) slidesToShow = 5;
+  else slidesToShow = 7;
+  SETTINGS.slidesToShow = slidesToShow;
+
   return (
     <div className={classes.roulette}>
       <div className={classes.arrows}>

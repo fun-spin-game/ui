@@ -29,7 +29,6 @@ const Game = ({
   const amountOfAttempts = won + lost;
   const maxAttemptsReached = amountOfAttempts >= maxAttempts;
   const lowBalance = balance < risk;
-  console.log('decryptedSchema', decryptedSchema)
   const result = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
   return (
     <div className={classes.rouletteOverlay}>

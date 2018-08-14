@@ -109,7 +109,7 @@ const styles = {
     height: '31px',
     background: 'rgba(255,255,255,.2)',
     margin: '16px',
-    '@media(min-width: 667pxpx)': {
+    '@media(min-width: 667px)': {
       'margin-left': '-25px',
     }
   },
@@ -124,7 +124,7 @@ const styles = {
     padding: '0 20px',
     marginRight: -20,
     transition: 'color .3s',
-    '@media(min-width: 667pxpx)': {
+    '@media(min-width: 667px)': {
       display: 'none',
     },
   }

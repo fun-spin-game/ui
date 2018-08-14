@@ -21,12 +21,13 @@ const Main = ({
   translate,
   activeGame,
   games,
+  userInfo: { createdGame },
 }) => {
   return (
     <Fragment>
       <PageTitle>
         {translate('LOTS')}
-        <a className={classes.createGameBtn} onClick={createGame}><Icon size="large" type="plus-circle-o" /></a>
+        { !createdGame && <a className={classes.createGameBtn} onClick={createGame}><Icon size="large" type="plus-circle-o" /></a> }
       </PageTitle>
       <GameItemsList games={games} />
       <Game activeGame={activeGame} />
