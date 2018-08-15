@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38b6d3fa-d4e7-493f-a74c-b23bb8d44ae4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Header/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Header/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/CreateGameForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CreateGameForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SideMenu/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideMenu/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/localization/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/localization/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/megakassa_3bf03eb40e25.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -41,10 +34,11 @@
           <entry key="gitignore" value="1" />
           <entry key="html" value="3" />
           <entry key="js" value="404" />
-          <entry key="json" value="6" />
+          <entry key="json" value="7" />
           <entry key="png" value="3" />
           <entry key="production" value="3" />
           <entry key="ts" value="1" />
+          <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -52,9 +46,9 @@
           <entry key="CSS" value="5" />
           <entry key="HTML" value="3" />
           <entry key="Image" value="3" />
-          <entry key="JSON" value="10" />
+          <entry key="JSON" value="11" />
           <entry key="JavaScript" value="404" />
-          <entry key="PLAIN_TEXT" value="13" />
+          <entry key="PLAIN_TEXT" value="14" />
           <entry key="TypeScript" value="1" />
         </counts>
       </usages-collector>
@@ -136,7 +130,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Header/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="83">
@@ -144,6 +138,20 @@
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/manifest.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/megakassa_3bf03eb40e25.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -177,27 +185,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
               <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/CreateGameForm.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="104" column="39" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/localization/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="330" column="17" selection-start-line="330" selection-start-column="2" selection-end-line="330" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -267,7 +254,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/configureStore.js" />
         <option value="$PROJECT_DIR$/src/Providers.js" />
         <option value="$PROJECT_DIR$/src/Routes.js" />
         <option value="$PROJECT_DIR$/src/redux/Providers.js" />
@@ -318,6 +304,7 @@
         <option value="$PROJECT_DIR$/src/SideMenu/index.js" />
         <option value="$PROJECT_DIR$/src/Login/index.js" />
         <option value="$PROJECT_DIR$/src/Header/index.js" />
+        <option value="$PROJECT_DIR$/public/megakassa_3bf03eb40e25.txt" />
       </list>
     </option>
   </component>
@@ -542,17 +529,18 @@
       <workItem from="1533384507172" duration="6000" />
       <workItem from="1533384573999" duration="406000" />
       <workItem from="1533385280406" duration="183468000" />
-      <workItem from="1534086592066" duration="39101000" />
+      <workItem from="1534086592066" duration="39974000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="222981000" />
+    <option name="totallyTimeSpent" value="223854000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.1987315" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.1987315" />
       <window_info id="Structure" order="1" sideWeight="0.50120485" side_tool="true" weight="0.1987315" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -564,7 +552,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.6843374" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.41807228" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
@@ -580,23 +568,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/common/Coins.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Footer/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="86" column="7" selection-start-line="86" selection-start-column="7" selection-end-line="86" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Header/RightBlock.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1335">
@@ -995,6 +966,16 @@
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/manifest.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/megakassa_3bf03eb40e25.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
         </state>
       </provider>
     </entry>
