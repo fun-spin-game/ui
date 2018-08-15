@@ -331,5 +331,25 @@ export default {
   ATTEMPTS_AMOUNT: [
     'Attempts amount',
     'Количество попыток'
-  ]
+  ],
+  TRY_YOUR_LOCK: [
+    'Try your luck',
+    'Испытай удачу'
+  ],
+  PURCHASES_HISTORY: [
+    'Purchases history',
+    'История покупок'
+  ],
+  BY_COINS: [
+    'By coins',
+    'Купить монеты'
+  ],
+  PURCHASE: [
+    'Purchase',
+    'Покупка'
+  ],
+  PURCHASES: [
+    'Purchases',
+    'Покупки'
+  ],
 };

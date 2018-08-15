@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
+import { Link } from 'react-router-dom';
 import { compose, branch, renderComponent, withHandlers, pure } from 'recompose';
 import { Icon, Avatar } from 'antd';
 import withUser from '../containers/withUser';
@@ -14,9 +15,9 @@ const RightBlock = ({ classes, logout, userInfo, translate }) => {
       <span className={classes.balance}>
         <span className={classes.balanceLabel}>{translate('BALANCE')}:</span>
         <span className={classes.balanceAmount}>
-          <Coins /> <span className={classes.coinsAmount}>{toFixedIfNeed(userInfo.balance)}</span> <a>
+          <Coins /> <span className={classes.coinsAmount}>{toFixedIfNeed(userInfo.balance)}</span> <Link to="/by-coins">
           <Icon type="plus-circle-o" />
-          </a>
+          </Link>
         </span>
       </span>
       <div className={classes.userBlock}>

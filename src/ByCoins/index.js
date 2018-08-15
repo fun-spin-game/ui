@@ -9,21 +9,18 @@ import {
   InputNumber,
   Slider,
   Form,
-  Alert,
-  Select,
-  Input,
 } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import { compose, lifecycle, withState, withProps, pure } from 'recompose';
 import { withLocalize, Translate } from 'react-localize-redux';
-import withWithdraws from '../containers/withWithdraws';
 import withUser from '../containers/withUser';
 import injectSheet from 'react-jss';
 import PageTitle from '../common/PageTitle';
 import Coins from '../common/Coins';
 import { redColor, greenColor } from '../variables';
-import { START_BONUS, MIN_AMOUNT_OF_WITHDRAWING } from '../config';
+import { MIN_AMOUNT_OF_PURCHASE, MAX_AMOUNT_OF_PURCHASE } from '../config';
+import withPurchases from '../containers/withPurchases';
 
 const FormItem = Form.Item;
 
@@ -66,131 +63,54 @@ const COLUMNS = [
   },
 ];/* eslint-enable react/display-name */
 
-const WITHDRAW_METHODS = [
-  {
-    value: 'visa/mastercard',
-    label: 'Visa/Mastercard',
-    fieldPlaceholderTranslateId: 'CARD_NUMBER',
-  },
-  {
-    value: 'webMoney',
-    label: 'WebMoney',
-    fieldPlaceholderTranslateId: 'WALLET_NUMBER',
-  },
-];
-
-const Withdraw = ({
-  withdraws,
+const ByCoins = ({
+  purchases,
   translate,
   classes,
-  userInfo: { balance, paid },
   setAmount,
   amount,
-  method,
-  setMethod,
-  setRequisite,
-  form: { getFieldDecorator },
   handleSubmit,
 }) => {
-  const sortedWithdraws = _.sortBy(withdraws, 'createdAt');
-  const maxValue = Math.floor(balance - MIN_AMOUNT_OF_WITHDRAWING >= START_BONUS ? balance - START_BONUS : 0);
-  const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING + START_BONUS;
-  const paidNotEnough = paid < START_BONUS;
+  const sortedWithdraws = _.sortBy(purchases, 'createdAt');
   return (
-    <div className={classes.withdrawing}>
-      <PageTitle>{translate('WITHDRAWING')}</PageTitle>
-      <Form id="withdrawing" className={classes.withdrawingForm}>
-        {
-          !paidNotEnough && lowBalance && (
-            <FormItem>
-              <Alert
-                showIcon
-                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW', { n: START_BONUS + MIN_AMOUNT_OF_WITHDRAWING })}`}
-                type="error"
-              />
-            </FormItem>
-          )
-        }
-        {
-          paidNotEnough && (
-            <FormItem>
-              <Alert
-                showIcon
-                message={`${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_BY_AT_LEAST_N_COINS', { n: START_BONUS })}`}
-                type="warning"
-              />
-            </FormItem>
-          )
-        }
-        {
-          !paidNotEnough && !lowBalance && (
-            <FormItem>
-              <Alert
-                showIcon
-                message={`${translate('YOU_HAVE_N_COINS_START_BONUS_WHICH_IMPOSSIBLE_TO_WITHDRAW', { n: START_BONUS })}`}
-                type="info"
-              />
-            </FormItem>
-          )
-        }
+    <div className={classes.purchase}>
+      <PageTitle>{translate('BY_COINS')}</PageTitle>
+      <Form id="purchase" className={classes.purchaseForm}>
         <FormItem>
           <div>
             <InputNumber
               step={1}
-              defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
-              min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={maxValue}
+              defaultValue={MIN_AMOUNT_OF_PURCHASE}
+              min={MIN_AMOUNT_OF_PURCHASE}
+              max={MAX_AMOUNT_OF_PURCHASE}
               onChange={setAmount}
               value={amount}
-              disabled={paidNotEnough || lowBalance}
             /> $
             <div className={classes.rate}>1 <Coins /> = 1$</div>
           </div>
           <div>
             <Slider
               step={1}
-              defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
-              min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={maxValue}
+              defaultValue={MIN_AMOUNT_OF_PURCHASE}
+              min={MIN_AMOUNT_OF_PURCHASE}
+              max={MAX_AMOUNT_OF_PURCHASE}
               tipFormatter={(value) => (<span>{value} <Coins /></span>)}
               onChange={(val) => setAmount(val)}
               value={amount}
-              disabled={paidNotEnough || lowBalance}
             />
           </div>
-        </FormItem>
-        <FormItem>
-          <Select value={method} onChange={(val) => setMethod(val)}>
-            {
-              WITHDRAW_METHODS.map(o => (
-                <Select.Option key={JSON.stringify(o)} value={o.value}>{o.label}</Select.Option>
-              ))
-            }
-          </Select>
-        </FormItem>
-        <FormItem>
-
-          {getFieldDecorator('requisite', {
-            rules: [{ required: true, message: <span>{translate('THIS_FIELD_IS_REQUIRED')}</span> }],
-          })(
-            <Input
-              placeholder={translate(WITHDRAW_METHODS.find(o => o.value === method).fieldPlaceholderTranslateId)}
-              onChange={(e) => setRequisite(e.target.value)}
-            />
-          )}
         </FormItem>
         <FormItem className={classes.btnBlock}>
           <Button
             type="primary"
             htmlType="submit"
-            disabled={paidNotEnough || lowBalance}
             onClick={handleSubmit}
           >
-            {translate('WITHDRAW')}
+            {translate('BY_COINS')}
           </Button>
         </FormItem>
       </Form>
-        <h3>{translate('WITHDRAWN_HISTORY')}:</h3>
+        <h3>{translate('PURCHASES_HISTORY')}:</h3>
         <Table
           dataSource={sortedWithdraws}
           columns={COLUMNS}
@@ -222,7 +142,7 @@ const Withdraw = ({
 };
 
 const styles = {
-  withdrawing: {
+  purchase: {
     '& .ant-card-body': {
       paddingLeft: 15,
     },
@@ -235,7 +155,7 @@ const styles = {
       }
     }
   },
-  withdrawingForm: {
+  purchaseForm: {
     maxWidth: 400,
   },
   card: {
@@ -273,44 +193,39 @@ const styles = {
 };
 export default compose(
   withLocalize,
-  withWithdraws(),
+  withPurchases(),
   withUser(),
   withState('amount', 'setAmount', 0),
-  withState('method', 'setMethod', WITHDRAW_METHODS[0].value),
-  withState('requisite', 'setRequisite', ''),
   Form.create(),
-  withProps(({ form, userInfo: { userId }, amount, method, requisite, createWithdraw }) => ({
+  withProps(({ form, userInfo: { userId }, amount, createPurchase }) => ({
     handleSubmit: () => {
       form.validateFields((err) => {
         if (!err) {
-          createWithdraw({ userId, amount, method, requisite });
+          createPurchase({ userId, amount });
         }
       });
     },
   })),
   lifecycle({
     componentDidMount () {
-      this.props.getWithdraws({ filter: { userId: this.props.userInfo.id } });
+      this.props.getPurchases({ filter: { userId: this.props.userInfo.id } });
     },
   }),
   injectSheet(styles),
   pure,
-)(Withdraw);
+)(ByCoins);
 
-Withdraw.defaultProps = {
+ByCoins.defaultProps = {
 };
 
-Withdraw.propTypes = {
-  withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
+ByCoins.propTypes = {
+  purchases: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
-  getWithdraws: PropTypes.func.isRequired,
+  getPurchases: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
   amount: PropTypes.number.isRequired,
-  method: PropTypes.string.isRequired,
-  setMethod: PropTypes.func.isRequired,
-  setRequisite: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

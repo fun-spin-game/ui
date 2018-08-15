@@ -4,6 +4,7 @@ import injectSheet from 'react-jss'
 import { compose, withStateHandlers, branch, renderComponent, pure } from 'recompose';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import { Translate, withLocalize } from 'react-localize-redux';
 import withUser from '../containers/withUser';
 
 const Form = branch(
@@ -15,7 +16,10 @@ const Form = branch(
 const Login = ({ classes, toggleSignInMode, signInMode }) => {
   return (
     <div className={classes.content}>
-      <Form signInMode={signInMode} toggleSignInMode={toggleSignInMode} />
+      <h3 className={classes.title}><Translate id="TRY_YOUR_LOCK" />!</h3>
+      <div className={classes.formWrapper}>
+        <Form signInMode={signInMode} toggleSignInMode={toggleSignInMode} />
+      </div>
     </div>
   )
 }
@@ -23,10 +27,23 @@ const Login = ({ classes, toggleSignInMode, signInMode }) => {
 const styles = {
   content: {
     display: 'flex',
+    flexDirection: 'column',
     'justify-content': 'center',
-    paddingTop: 100,
+    marginTop: 30,
     textAlign: 'center'
   },
+  title: {
+    fontFamily: 'Lobster',
+    fontSize: 60,
+    color: '#001529',
+    '@media(max-width: 400px)': {
+      fontSize: 40,
+    }
+  },
+  formWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
 };
 
 export default compose(
@@ -42,6 +59,7 @@ export default compose(
       })
     }
   ),
+  withLocalize,
   pure
 )(Login);
 

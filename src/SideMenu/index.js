@@ -23,6 +23,11 @@ const SIDE_MENU_ITEMS = [
     translateId: 'WITHDRAW',
     iconType: 'credit-card',
   },
+  {
+    route: '/by-coins',
+    translateId: 'BY_COINS',
+    iconType: 'shopping-cart',
+  },
 ];
 
 class SideMenu extends Component {

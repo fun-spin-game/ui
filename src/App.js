@@ -9,6 +9,7 @@ import { Route, Switch, withRouter } from 'react-router';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
 import Main from './Main';
 import Withdraw from './Withdraw';
+import ByCoins from './ByCoins';
 import Statistic from './Statistic';
 import Withdraws from './Withdraws';
 import Contacts from './Contacts';
@@ -53,6 +54,7 @@ const AppComp = ({
             <Switch>
               <AuthenticatedRoute exact path="/" component={Main} />
               <AuthenticatedRoute exact path="/withdraw" component={Withdraw} />
+              <AuthenticatedRoute exact path="/by-coins" component={ByCoins} />
               <Route exact path="/statistic" component={Statistic} />
               <Route exact path="/withdraws" component={Withdraws} />
               <Route exact path="/contacts" component={Contacts} />
