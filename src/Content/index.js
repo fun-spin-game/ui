@@ -29,7 +29,7 @@ const styles = {
   content: {
     background: '#fff',
     padding: 20,
-    minHeight: '100vh',
+    minHeight: 'calc(100vh - 66px - 80px)',
     width: '100%'
   }
 };

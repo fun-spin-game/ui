@@ -8,16 +8,9 @@ import Coins from '../common/Coins'
 import { redColor } from '../variables'
 import { getRisk, toFixedIfNeed } from '../helpers/gameUtils'
 import withUser from '../containers/withUser';
+import { MAX_ATTEMPTS, MIN_CHANCE_TO_WIN, MAX_CHANCE_TO_WIN, MIN_PRIZE, MAX_PRIZE, COL_LEFT, COL_RIGHT } from '../config';
 
 const FormItem = Form.Item;
-
-const MIN_CHANCE_TO_WIN = 5;
-const MAX_CHANCE_TO_WIN = 95;
-const MAX_ATTEMPTS = 3;
-const MIN_PRIZE = 1;
-const MAX_PRIZE = 1000;
-const COL_LEFT = 11;
-const COL_RIGHT = 13;
 
 const CreateGameForm = ({
   classes,
@@ -77,7 +70,7 @@ const CreateGameForm = ({
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('prize')(
+          {getFieldDecorator('chanceToWin')(
             <div>
               <div className={classes.label}>{translate('CHANCE_OF_WINNING')}:</div>
               <Row>
@@ -104,11 +97,26 @@ const CreateGameForm = ({
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('prize')(
+          <div>
+            <div className={classes.label}>{translate('ATTEMPTS_AMOUNT')}: {MAX_ATTEMPTS}</div>
+          </div>
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('youCanWin')(
             <div>
               <Row>
                 <Col span={12}>
                   <div className={classes.label}>{translate('YOU_CAN_WIN')}: {toFixedIfNeed(getRisk({ prize, chanceToWin }) * maxAttempts)} <Coins /></div>
+                </Col>
+              </Row>
+            </div>
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('risk')(
+            <div>
+              <Row>
+                <Col span={12}>
                   <div className={classes.label}>
                     {translate('YOU_RISK')}:<span> </span>
                     <span className={notEnoughCoins ? classes.redColor : ''}>

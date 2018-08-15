@@ -46,7 +46,7 @@ class SideMenu extends Component {
             className,
             {
               collapsed: collapsed,
-              loginPage: pathname === '/login'
+              notAuthenticated: !userInfo,
             }
           )
         }
@@ -88,7 +88,7 @@ class SideMenu extends Component {
 
 const styles = {
   sider: {
-    height: '100vh',
+    height: 'calc(100vh - 66px)',
     zIndex: 20,
     overflow: 'auto',
     position: 'fixed',
@@ -99,7 +99,7 @@ const styles = {
         display: 'none',
       },
     },
-    '&.loginPage': {
+    '&.notAuthenticated': {
       '@media(min-width: 1101px)': {
         display: 'none',
       },

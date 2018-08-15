@@ -24,7 +24,7 @@ const styles = {
   content: {
     display: 'flex',
     'justify-content': 'center',
-    paddingTop: 165,
+    paddingTop: 100,
     textAlign: 'center'
   },
 };

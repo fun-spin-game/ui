@@ -32,7 +32,7 @@ const AppComp = ({
   classes,
   collapsedSideMenu,
   setCollapsedSideMenuFn,
-  location: { pathname },
+  userInfo,
 }) => {
   return (
     <Layout className="layout">
@@ -46,7 +46,7 @@ const AppComp = ({
           className={classNames(
             classes.content, {
               'collapsed-mode': collapsedSideMenu,
-              loginPage: pathname === '/login'
+              notAuthenticated: !userInfo,
             })}
         >
           <Content>
@@ -76,7 +76,7 @@ const styles = {
     '&.collapsed-mode': {
       'margin-left': 80,
     },
-    '&.loginPage': {
+    '&.notAuthenticated': {
       '@media(min-width: 1101px)': {
         marginLeft: '0 !important',
       },
@@ -128,6 +128,7 @@ AppComp.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  userInfo: PropTypes.object.isRequired,
   collapsedSideMenu: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,
   setCollapsedSideMenuFn: PropTypes.func.isRequired,

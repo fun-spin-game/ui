@@ -49,7 +49,9 @@ const Header = ({
 }) => {
   return (
     <HeaderAnt className={classes.header}>
-      <div className={classes.logo} />
+      <div className={classes.logo}>
+        <Link to="/">FunSpin</Link>
+      </div>
       <div className={classes.headerContent}>
         <Menu
           theme="dark"
@@ -105,12 +107,20 @@ const styles = {
     },
   },
   logo: {
-    width: '100px',
-    height: '31px',
-    background: 'rgba(255,255,255,.2)',
+    fontFamily: 'Satisfy',
+    fontSize: 32,
+    alignSelf: 'center',
+    // background: 'rgba(255,255,255,.2)',
     margin: '16px',
     '@media(min-width: 667px)': {
       'margin-left': '-25px',
+    },
+    '& > a': {
+      textDecoration: 'none',
+      color: 'white',
+    },
+    '@media(max-width: 600px)': {
+      fontSize: 20,
     }
   },
   headerContent: {

@@ -327,5 +327,9 @@ export default {
   EMAIL_OR_PASSWORD_IS_INCORRECT: [
     'Email or password is incorrect',
     'Не верный email или пароль'
+  ],
+  ATTEMPTS_AMOUNT: [
+    'Attempts amount',
+    'Количество попыток'
   ]
 };
