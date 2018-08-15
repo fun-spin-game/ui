@@ -177,7 +177,7 @@ export default compose(
       setPrevResult(result);
 
       setResultItems(newResultItems, () => {
-        setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)));
+        setTimeout(() => resultSlider.current.slickGoTo(resultIndex + _.random(-0.45, 0.45, true)), 100);
       });
     },
     sliderAfterChange: ({ setShowReward, setPlayBtnClicked }) => (slideIndex) => {

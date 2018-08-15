@@ -12,7 +12,7 @@ const userReducer = (
       return { ...state, userInfo: payload, userInfoRequestDone: true };
     case 'GET_USER_INFO_FAILURE':
       return { ...state, userInfoRequestDone: true };
-    case 'LOGOUT_SUCCESS':
+    case 'LOGOUT_REQUEST':
       return { ...state, userInfo: null };
     case 'USER_UPDATED':
       return { ...state, userInfo: payload };

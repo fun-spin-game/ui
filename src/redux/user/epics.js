@@ -20,20 +20,28 @@ export default combineEpics(
   ),
   (action$) => action$.pipe(
     ofType('SIGN_IN_FAILURE'),
-    tap(() => {
+    tap((action) => {
       notification.error({
         duration: 10,
-        description: <Providers><Fragment><Translate id="EMAIL_OR_PASSWORD_IS_INCORRECT" />!</Fragment></Providers>
+        description: <Providers>
+          <Fragment>
+            <Translate id={ action.payload.status === 400 ? 'EMAIL_OR_PASSWORD_IS_INCORRECT' : 'SERVER_ERROR'} />
+          </Fragment>
+        </Providers>
       });
     }),
     ignoreElements()
   ),
   (action$) => action$.pipe(
     ofType('SIGN_UP_FAILURE'),
-    tap(() => {
+    tap((action) => {
       notification.error({
         duration: 10,
-        description: <Providers><Fragment><Translate id="THIS_EMAIL_IS_BUSY" /></Fragment></Providers>
+        description: <Providers>
+          <Fragment>
+            <Translate id={ action.payload.status === 400 ? 'THIS_EMAIL_IS_BUSY' : 'SERVER_ERROR'} />
+          </Fragment>
+        </Providers>
       });
     }),
     ignoreElements()

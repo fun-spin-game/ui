@@ -85,7 +85,7 @@ const ByCoins = ({
               max={MAX_AMOUNT_OF_PURCHASE}
               onChange={setAmount}
               value={amount}
-            /> $
+            /> <Coins />
             <div className={classes.rate}>1 <Coins /> = 1$</div>
           </div>
           <div>

@@ -130,7 +130,7 @@ AppComp.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  userInfo: PropTypes.object.isRequired,
+  userInfo: PropTypes.object,
   collapsedSideMenu: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,
   setCollapsedSideMenuFn: PropTypes.func.isRequired,

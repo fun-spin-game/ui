@@ -19,17 +19,20 @@ export default combineEpics(
     ofType('GET_USER_INFO_SUCCESS'),
     mergeMap(() => Observable.create(observer => {
       ws.init()
-      .on('close', () => notification.error({
-        key: 'CONNECTION_LOST',
-        description: (
-          <Providers>
-            <Fragment>
-              <Translate id="CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT" />...
-            </Fragment>
-          </Providers>
-        ),
-        duration: 0,
-      }))
+      .on('close', () => {
+        if (state$.value.user.userInfo)
+          notification.error({
+            key: 'CONNECTION_LOST',
+            description: (
+              <Providers>
+                <Fragment>
+                  <Translate id="CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT" />...
+                </Fragment>
+              </Providers>
+            ),
+            duration: 0,
+          });
+      })
       .on('open', () => notification.close( 'CONNECTION_LOST'))
       .on('message', async (message) => {
         const interceptorResult = await wsMessageToReduxInterceptor({ message, state: state$.value });

@@ -352,4 +352,8 @@ export default {
     'Purchases',
     'Покупки'
   ],
+  SERVER_ERROR: [
+    'Purchases',
+    'Покупки'
+  ],
 };
