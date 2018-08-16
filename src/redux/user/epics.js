@@ -11,7 +11,9 @@ import React from 'react';
 export default combineEpics(
   (action$) => action$.pipe(
     ofType('LOGOUT_REQUEST'),
-    tap(() => ws.instance.socket.close()),
+    tap(() => {
+      ws.instance.socket.close();
+    }),
     ignoreElements()
   ),
   (action$) => action$.pipe(

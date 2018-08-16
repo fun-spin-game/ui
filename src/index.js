@@ -14,5 +14,9 @@ import "flag-icon-css/css/flag-icon.css";
 import 'react-virtualized/styles.css'
 
 import './index.css';
+import ws from './helpers/ws';
+
+ws.init();
+
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

@@ -18,7 +18,7 @@ export default combineEpics(
   (action$, state$) => action$.pipe(
     ofType('GET_USER_INFO_SUCCESS'),
     mergeMap(() => Observable.create(observer => {
-      ws.init()
+      ws.instance
       .on('close', () => {
         if (state$.value.user.userInfo)
           notification.error({
