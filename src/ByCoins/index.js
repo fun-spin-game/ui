@@ -12,7 +12,8 @@ import {
 } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
-import { compose, lifecycle, withState, withProps, pure } from 'recompose';
+import cryptoJs from 'crypto-js';
+import { compose, lifecycle, withState, pure, withProps } from 'recompose';
 import { withLocalize, Translate } from 'react-localize-redux';
 import withUser from '../containers/withUser';
 import injectSheet from 'react-jss';
@@ -69,7 +70,7 @@ const ByCoins = ({
   classes,
   setAmount,
   amount,
-  handleSubmit,
+  purchaseUrl,
 }) => {
   const sortedWithdraws = _.sortBy(purchases, 'createdAt');
   return (
@@ -80,7 +81,6 @@ const ByCoins = ({
           <div>
             <InputNumber
               step={1}
-              defaultValue={MIN_AMOUNT_OF_PURCHASE}
               min={MIN_AMOUNT_OF_PURCHASE}
               max={MAX_AMOUNT_OF_PURCHASE}
               onChange={setAmount}
@@ -91,7 +91,6 @@ const ByCoins = ({
           <div>
             <Slider
               step={1}
-              defaultValue={MIN_AMOUNT_OF_PURCHASE}
               min={MIN_AMOUNT_OF_PURCHASE}
               max={MAX_AMOUNT_OF_PURCHASE}
               tipFormatter={(value) => (<span>{value} <Coins /></span>)}
@@ -101,13 +100,13 @@ const ByCoins = ({
           </div>
         </FormItem>
         <FormItem className={classes.btnBlock}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={handleSubmit}
-          >
-            {translate('BY_COINS')}
-          </Button>
+          <a href={purchaseUrl}>
+            <Button
+              type="primary"
+            >
+              {translate('BY_COINS')}
+            </Button>
+          </a>
         </FormItem>
       </Form>
         <h3>{translate('PURCHASES_HISTORY')}:</h3>
@@ -195,17 +194,19 @@ export default compose(
   withLocalize,
   withPurchases(),
   withUser(),
-  withState('amount', 'setAmount', 0),
+  withState('amount', 'setAmount', MIN_AMOUNT_OF_PURCHASE),
+  withProps(({ amount, userInfo }) => {
+    const purchaseId = `${userInfo.id}_${_.random(100000)}`;
+    return {
+      purchaseUrl: `http://www.free-kassa.ru/merchant/cash.php?
+      m=87104&
+      oa=${amount}&
+      o=${purchaseId}&
+      us_userId=${userInfo.id}&
+      s=${cryptoJs.MD5(`87104:${amount}:srodx8li:${purchaseId}`).toString()}`
+    }
+  }),
   Form.create(),
-  withProps(({ form, userInfo: { userId }, amount, createPurchase }) => ({
-    handleSubmit: () => {
-      form.validateFields((err) => {
-        if (!err) {
-          createPurchase({ userId, amount });
-        }
-      });
-    },
-  })),
   lifecycle({
     componentDidMount () {
       this.props.getPurchases({ filter: { userId: this.props.userInfo.id } });
@@ -227,5 +228,5 @@ ByCoins.propTypes = {
   setAmount: PropTypes.func.isRequired,
   amount: PropTypes.number.isRequired,
   form: PropTypes.object.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  purchaseUrl: PropTypes.string.isRequired,
 };

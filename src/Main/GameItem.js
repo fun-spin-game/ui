@@ -282,7 +282,8 @@ export default compose(
   withLocalize,
   withGamesActions(),
   withHandlers({
-    play: ({ connectToGame, id }) =>  () => {
+    play: ({ connectToGame, id, preview }) =>  () => {
+      if (preview) return;
       connectToGame({ gameId: id })
     }
   }),
