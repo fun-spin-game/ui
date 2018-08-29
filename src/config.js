@@ -11,5 +11,5 @@ export const MIN_PRIZE = 1;
 export const MAX_PRIZE = 1000;
 export const COL_LEFT = 11;
 export const COL_RIGHT = 13;
-export const MIN_AMOUNT_OF_PURCHASE = 10;
+export const MIN_AMOUNT_OF_PURCHASE = 1;
 export const MAX_AMOUNT_OF_PURCHASE = 5000;
