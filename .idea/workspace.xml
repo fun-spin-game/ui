@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38b6d3fa-d4e7-493f-a74c-b23bb8d44ae4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/withGameConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/gameConfig/actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/gameConfig/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ByCoins/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ByCoins/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/CreateGameForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CreateGameForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/GameItemsList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/GameItemsList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Roulette.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Roulette.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Withdraw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Withdraw/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/withUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/withUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/localization/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/localization/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/user/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/user/actions.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -74,7 +59,7 @@
           <entry key="env" value="97" />
           <entry key="eslintrc" value="39" />
           <entry key="html" value="13" />
-          <entry key="js" value="30128" />
+          <entry key="js" value="30162" />
           <entry key="json" value="101" />
           <entry key="production" value="13" />
         </counts>
@@ -84,7 +69,7 @@
           <entry key="CSS" value="72" />
           <entry key="HTML" value="13" />
           <entry key="JSON" value="140" />
-          <entry key="JavaScript" value="30128" />
+          <entry key="JavaScript" value="30162" />
           <entry key="PLAIN_TEXT" value="110" />
         </counts>
       </usages-collector>
@@ -140,7 +125,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main/Game.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="236">
@@ -176,11 +161,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/localization/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="302" selection-start-line="302" selection-end-line="302" />
+            <state relative-caret-position="180">
+              <caret line="352" column="19" selection-start-line="352" selection-start-column="19" selection-end-line="352" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -328,8 +313,8 @@
         <option value="$PROJECT_DIR$/src/redux/user/actions.js" />
         <option value="$PROJECT_DIR$/src/containers/withUser.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/localization/index.js" />
         <option value="$PROJECT_DIR$/src/Main/Game.js" />
+        <option value="$PROJECT_DIR$/src/localization/index.js" />
       </list>
     </option>
   </component>
@@ -607,12 +592,12 @@
       <workItem from="1534449731505" duration="621000" />
       <workItem from="1534687522754" duration="1788000" />
       <workItem from="1534886729686" duration="120000" />
-      <workItem from="1534922012434" duration="21054000" />
+      <workItem from="1534922012434" duration="22107000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="261388000" />
+    <option name="totallyTimeSpent" value="262441000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1015,13 +1000,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/localization/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="302" selection-start-line="302" selection-end-line="302" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Game.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -1029,6 +1007,13 @@
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/localization/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="352" column="19" selection-start-line="352" selection-start-column="19" selection-end-line="352" selection-end-column="19" />
         </state>
       </provider>
     </entry>

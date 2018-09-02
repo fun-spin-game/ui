@@ -349,8 +349,8 @@ export default {
     'Покупки'
   ],
   SERVER_ERROR: [
-    'Purchases',
-    'Покупки'
+    'Server error',
+    'Ошибка сервера'
   ],
   DEMO_MODE_FINISHED: [
     'Demo mode finished',
