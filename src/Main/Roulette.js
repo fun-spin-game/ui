@@ -10,20 +10,7 @@ import RoulettePlayBtn from './RoulettePlayBtn';
 import Coins from '../common/Coins'
 import { greenColor, redColor } from '../variables'
 import { toFixedIfNeed } from '../helpers/gameUtils'
-import {
-  GAME_GAME_SPIN_DELAY,
-  ROULETTE_REWARD_ANIMATION_DURATION,
-} from '../config';
-
-const SETTINGS = {
-  infinite: true,
-  slidesToScroll: 1,
-  arrows: false,
-  draggable: false,
-  centerMode: true,
-  speed: GAME_GAME_SPIN_DELAY,
-  initialSlide: 0,
-};
+import withGameConfig from '../containers/withGameConfig';
 
 const Roulette = ({
   classes,
@@ -39,7 +26,18 @@ const Roulette = ({
   spinInProgress,
   prevResult,
   playBtnClicked,
+  gameConfig: { GAME_SPIN_DELAY },
 }) => {
+  const SETTINGS = {
+    infinite: true,
+    slidesToScroll: 1,
+    arrows: false,
+    draggable: false,
+    centerMode: true,
+    speed: GAME_SPIN_DELAY,
+    initialSlide: 0,
+  };
+
   let slidesToShow;
   if (window.innerWidth < 400) slidesToShow = 1;
   else if (window.innerWidth < 1200) slidesToShow = 3;
@@ -125,7 +123,6 @@ const styles = {
     right: 0,
     top: -160,
     'font-size': '60px',
-    'animation-duration': ROULETTE_REWARD_ANIMATION_DURATION,
     '&.win': {
       color: greenColor,
     },
@@ -140,6 +137,7 @@ const styles = {
 };
 
 export default compose(
+  withGameConfig(),
   injectSheet(styles),
   withState('prevResult', 'setPrevResult', null),
   withState('showReward', 'setShowReward', null),
@@ -201,6 +199,7 @@ Roulette.defaultProps = {
 
 Roulette.propTypes = {
   classes: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object.isRequired,
   resultSlider: PropTypes.object.isRequired,
   prize: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,

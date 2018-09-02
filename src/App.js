@@ -1,6 +1,6 @@
 import React from 'react';
 import Providers, { history } from './redux/Providers';
-import { Layout } from 'antd';
+import { Layout, notification, Button } from 'antd';
 import SideMenu from './SideMenu';
 import Header from './Header';
 import classNames from 'classnames';
@@ -21,6 +21,7 @@ import { branch, compose, lifecycle, pure, renderComponent, withHandlers, withSt
 import { withLocalize } from 'react-localize-redux';
 import withUser from './containers/withUser';
 import withMeta from './containers/withMeta';
+import withGameConfig from './containers/withGameConfig';
 import injectSheet from 'react-jss';
 import localization from './localization';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -94,12 +95,14 @@ const App = compose(
   withLocalize,
   withUser(),
   withMeta(),
+  withGameConfig(),
   injectSheet(styles),
   lifecycle({
     componentDidMount() {
       let browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0];
       if (browserLanguage !== 'ru') browserLanguage = 'gb';
       this.props.getUserInfo();
+      this.props.getGameConfig();
       window.onblur = () => this.props.setAppInFocus(false);
       window.onfocus = () => this.props.setAppInFocus(true);
       this.props.initialize({
@@ -120,20 +123,50 @@ const App = compose(
     }
   }),
   branch(
-    ({ userInfoRequestDone }) => !userInfoRequestDone,
+    ({ userInfoRequestDone, gameConfig }) => !userInfoRequestDone || !gameConfig,
     renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
   ),
+  lifecycle({
+    componentDidMount() {
+      const { userInfo, gameConfig, translate, confirmDemoModeFinished } = this.props;
+      if (!userInfo) return;
+      if (userInfo.paid >= gameConfig.REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
+        notification.info({
+          duration: null,
+          message: translate('DEMO_MODE_FINISHED'),
+          description: `${translate('NOW_YOU_CAN_WITHDRAW_YOU_MANY')}. ${translate('EVERYTHING_THAT_YOU_EARN_IN_DEMO_MODE_WAS_DISCARDED')}`,
+          key: 'demoModeFinished',
+          onClose: () => confirmDemoModeFinished(),
+          btn: (
+            <Button type="primary" onClick={() => {
+              notification.close('demoModeFinished');
+              confirmDemoModeFinished();
+            }}>
+              {translate('CONFIRM')}
+            </Button>
+          ),
+        });
+      }
+    }
+  }),
   pure,
 )(AppComp);
+
+AppComp.defaultProps = {
+  gameConfig: null,
+};
 
 AppComp.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object,
   userInfo: PropTypes.object,
   collapsedSideMenu: PropTypes.bool.isRequired,
   setCollapsedSideMenu: PropTypes.func.isRequired,
   setCollapsedSideMenuFn: PropTypes.func.isRequired,
+  getGameConfig: PropTypes.func.isRequired,
+  getUserInfo: PropTypes.func.isRequired,
   initialize: PropTypes.func.isRequired,
 };
 

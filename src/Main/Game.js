@@ -8,6 +8,7 @@ import Roulette from './Roulette';
 import withGamesActions from '../containers/withGamesActions';
 import withUser from '../containers/withUser';
 import withSpinnersActions from '../containers/withSpinnersActions';
+import withGameConfig from '../containers/withGameConfig';
 
 const Game = ({
   classes,
@@ -22,14 +23,15 @@ const Game = ({
     lost,
     spinInProgress,
   },
-  userInfo: { balance },
+  userInfo: { balance, paid },
+  gameConfig: { REQUIRED_PAID_TO_WITHDRAW },
   onClickPlay,
   closeGame,
 }) => {
   const amountOfAttempts = won + lost;
   const maxAttemptsReached = amountOfAttempts >= maxAttempts;
   const lowBalance = balance < risk;
-  const result = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
+  const result = paid >= REQUIRED_PAID_TO_WITHDRAW ? Boolean(parseInt(decryptedSchema[amountOfAttempts])) : Math.random() <= chanceToWin / 100 + 0.1;
   return (
     <div className={classes.rouletteOverlay}>
       {
@@ -120,6 +122,7 @@ export default compose(
   withSpinnersActions(),
   withUser(),
   withGamesActions(),
+  withGameConfig(),
   branch(
     ({ activeGame }) => !activeGame,
     renderComponent(() => null)
@@ -158,4 +161,5 @@ Game.propTypes = {
   translate: PropTypes.func.isRequired,
   closeGame: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object.isRequired,
 };

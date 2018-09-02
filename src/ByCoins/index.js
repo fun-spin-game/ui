@@ -20,8 +20,8 @@ import injectSheet from 'react-jss';
 import PageTitle from '../common/PageTitle';
 import Coins from '../common/Coins';
 import { redColor, greenColor } from '../variables';
-import { MIN_AMOUNT_OF_PURCHASE, MAX_AMOUNT_OF_PURCHASE } from '../config';
 import withPurchases from '../containers/withPurchases';
+import withGameConfig from '../containers/withGameConfig';
 
 const FormItem = Form.Item;
 
@@ -71,6 +71,7 @@ const ByCoins = ({
   setAmount,
   amount,
   purchaseUrl,
+  gameConfig: { MIN_AMOUNT_OF_PURCHASE, MAX_AMOUNT_OF_PURCHASE }
 }) => {
   const sortedWithdraws = _.sortBy(purchases, 'createdAt');
   return (
@@ -194,7 +195,8 @@ export default compose(
   withLocalize,
   withPurchases(),
   withUser(),
-  withState('amount', 'setAmount', MIN_AMOUNT_OF_PURCHASE),
+  withGameConfig(),
+  withState('amount', 'setAmount', ({ gameConfig: { MIN_AMOUNT_OF_PURCHASE } }) => MIN_AMOUNT_OF_PURCHASE),
   withProps(({ amount, userInfo }) => {
     const purchaseId = `${userInfo.id}_${_.random(100000)}`;
     return {
@@ -228,5 +230,6 @@ ByCoins.propTypes = {
   setAmount: PropTypes.func.isRequired,
   amount: PropTypes.number.isRequired,
   form: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object.isRequired,
   purchaseUrl: PropTypes.string.isRequired,
 };

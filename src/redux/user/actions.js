@@ -51,3 +51,18 @@ export const logout = () => ({
     ]
   }
 });
+
+export const confirmDemoModeFinished = () => {
+  return {
+    [RSAA]: {
+      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/demo-mode-finished-confirmation`,
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      types: [
+        'CONFIRM_DEMO_MODE_FINISHED_REQUEST',
+        'CONFIRM_DEMO_MODE_FINISHED_SUCCESS',
+        'CONFIRM_DEMO_MODE_FINISHED_FAILURE'
+      ]
+    }
+  };
+};

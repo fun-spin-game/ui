@@ -8,9 +8,12 @@ import Coins from '../common/Coins'
 import { redColor } from '../variables'
 import { getRisk, toFixedIfNeed } from '../helpers/gameUtils'
 import withUser from '../containers/withUser';
-import { MAX_ATTEMPTS, MIN_CHANCE_TO_WIN, MAX_CHANCE_TO_WIN, MIN_PRIZE, MAX_PRIZE, COL_LEFT, COL_RIGHT } from '../config';
+import withGameConfig from '../containers/withGameConfig';
 
 const FormItem = Form.Item;
+
+const COL_LEFT = 11;
+const COL_RIGHT = 13;
 
 const CreateGameForm = ({
   classes,
@@ -28,6 +31,7 @@ const CreateGameForm = ({
   maxAttempts,
   getCreatorRisk,
   form: { getFieldDecorator },
+  gameConfig: { MIN_PRIZE, MAX_PRIZE, MIN_CHANCE_TO_WIN, MAX_CHANCE_TO_WIN, MAX_ATTEMPTS }
 }) => {
   const creatorRisk = getCreatorRisk({ prize, maxAttempts });
   const notEnoughCoins = creatorRisk > balance;
@@ -164,10 +168,11 @@ const styles = {
 export default compose(
   withLocalize,
   withUser(),
+  withGameConfig(),
   Form.create(),
   withState('chanceToWin', 'setChanceToWin', 50),
-  withState('maxAttempts', 'setMaxAttempts', MAX_ATTEMPTS),
-  withState('prize', 'setPrize', MIN_PRIZE),
+  withState('maxAttempts', 'setMaxAttempts', ({ gameConfig: { MAX_ATTEMPTS } }) => MAX_ATTEMPTS),
+  withState('prize', 'setPrize', ({ gameConfig: { MIN_PRIZE } }) => MIN_PRIZE),
   withHandlers({
     getCreatorRisk: () => ({ prize, maxAttempts }) => {
       return toFixedIfNeed(prize * maxAttempts);
@@ -185,6 +190,7 @@ CreateGameForm.defaultProps = {
 
 CreateGameForm.propTypes = {
   form: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   userInfo: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,

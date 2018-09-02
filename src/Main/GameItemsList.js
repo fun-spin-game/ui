@@ -11,7 +11,6 @@ import { compose, withState, withHandlers, lifecycle, pure, withProps } from 're
 import withMeta from '../containers/withMeta';
 import withUser from '../containers/withUser';
 import GameItem from './GameItem';
-import { GAMES_AMOUNT } from '../config';
 import Coins from '../common/Coins';
 import Spinner from '../common/Spinner';
 
@@ -42,7 +41,7 @@ const getGameItemGameProps = ({
   balance,
 });
 
-const FILTERS = new Array(GAMES_AMOUNT / 20)
+const FILTERS = new Array(10)
   .fill()
   .map((o, index) => ({ min: index * 20 || 1, max: (index + 1) * 20 }));
 

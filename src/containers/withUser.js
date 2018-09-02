@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getUserInfo, logout, signIn, signUp } from '../redux/user/actions';
+import { getUserInfo, logout, signIn, signUp, confirmDemoModeFinished } from '../redux/user/actions';
 
 export default () => connect(
   ({
@@ -24,6 +24,9 @@ export default () => connect(
       },
       signUp(values) {
         return dispatch(signUp(values));
+      },
+      confirmDemoModeFinished() {
+        return dispatch(confirmDemoModeFinished());
       }
     };
   }

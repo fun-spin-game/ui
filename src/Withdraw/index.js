@@ -19,11 +19,11 @@ import { compose, lifecycle, withState, withProps, pure } from 'recompose';
 import { withLocalize, Translate } from 'react-localize-redux';
 import withWithdraws from '../containers/withWithdraws';
 import withUser from '../containers/withUser';
+import withGameConfig from '../containers/withGameConfig';
 import injectSheet from 'react-jss';
 import PageTitle from '../common/PageTitle';
 import Coins from '../common/Coins';
 import { redColor, greenColor } from '../variables';
-import { START_BONUS, MIN_AMOUNT_OF_WITHDRAWING } from '../config';
 
 const FormItem = Form.Item;
 
@@ -91,11 +91,11 @@ const Withdraw = ({
   setRequisite,
   form: { getFieldDecorator },
   handleSubmit,
+  gameConfig: { REQUIRED_PAID_TO_WITHDRAW, MIN_AMOUNT_OF_WITHDRAWING }
 }) => {
   const sortedWithdraws = _.sortBy(withdraws, 'createdAt');
-  const maxValue = Math.floor(balance - MIN_AMOUNT_OF_WITHDRAWING >= START_BONUS ? balance - START_BONUS : 0);
-  const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING + START_BONUS;
-  const paidNotEnough = paid < START_BONUS;
+  const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
+  const paidNotEnough = paid < REQUIRED_PAID_TO_WITHDRAW;
   return (
     <div className={classes.withdrawing}>
       <PageTitle>{translate('WITHDRAWING')}</PageTitle>
@@ -105,7 +105,7 @@ const Withdraw = ({
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW', { n: START_BONUS + MIN_AMOUNT_OF_WITHDRAWING })}`}
+                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW', { n: MIN_AMOUNT_OF_WITHDRAWING })}`}
                 type="error"
               />
             </FormItem>
@@ -116,19 +116,8 @@ const Withdraw = ({
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_BY_AT_LEAST_N_COINS', { n: START_BONUS })}`}
+                message={`${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_BY_AT_LEAST_N_COINS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
                 type="warning"
-              />
-            </FormItem>
-          )
-        }
-        {
-          !paidNotEnough && !lowBalance && (
-            <FormItem>
-              <Alert
-                showIcon
-                message={`${translate('YOU_HAVE_N_COINS_START_BONUS_WHICH_IMPOSSIBLE_TO_WITHDRAW', { n: START_BONUS })}`}
-                type="info"
               />
             </FormItem>
           )
@@ -139,7 +128,7 @@ const Withdraw = ({
               step={1}
               defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
               min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={maxValue}
+              max={balance}
               onChange={setAmount}
               value={amount}
               disabled={paidNotEnough || lowBalance}
@@ -151,7 +140,7 @@ const Withdraw = ({
               step={1}
               defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
               min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={maxValue}
+              max={balance}
               tipFormatter={(value) => (<span>{value} <Coins /></span>)}
               onChange={(val) => setAmount(val)}
               value={amount}
@@ -275,6 +264,7 @@ export default compose(
   withLocalize,
   withWithdraws(),
   withUser(),
+  withGameConfig(),
   withState('amount', 'setAmount', 0),
   withState('method', 'setMethod', WITHDRAW_METHODS[0].value),
   withState('requisite', 'setRequisite', ''),
@@ -312,5 +302,6 @@ Withdraw.propTypes = {
   setMethod: PropTypes.func.isRequired,
   setRequisite: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

@@ -300,10 +300,6 @@ export default {
     'To be able to withdraw you should by at least ${n} coins',
     'Что бы получить возможность выводить деньги, вам необходимо купить как минимум ${n} монет',
   ],
-  YOU_HAVE_N_COINS_START_BONUS_WHICH_IMPOSSIBLE_TO_WITHDRAW: [
-    'You have ${n} coins of start bonus which impossible to withdraw',
-    'У вас есть ${n} монет стартового бонуса, которые нельзя вывевести'
-  ],
   THIS_FIELD_IS_REQUIRED: [
     'This field is required',
     'Это поле обязательно для заполнения'
@@ -356,4 +352,20 @@ export default {
     'Purchases',
     'Покупки'
   ],
+  DEMO_MODE_FINISHED: [
+    'Demo mode finished',
+    'Демонстрационный режим окночен'
+  ],
+  NOW_YOU_CAN_WITHDRAW_YOU_MANY: [
+    'Now you can withdraw you money',
+    'Теперь вы можете выводить ваши деньги'
+  ],
+  EVERYTHING_THAT_YOU_EARN_IN_DEMO_MODE_WAS_DISCARDED: [
+    'Everything that you earn in demo mode was discarded',
+    'Все, что вы заработали в демонстрационном режиме было обнулено',
+  ],
+  CONFIRM: [
+    'Confirm',
+    'Подтвердить',
+  ]
 };
