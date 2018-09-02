@@ -270,11 +270,11 @@ export default compose(
   withState('method', 'setMethod', WITHDRAW_METHODS[0].value),
   withState('requisite', 'setRequisite', ''),
   Form.create(),
-  withProps(({ form, userInfo: { userId }, amount, method, requisite, createWithdraw }) => ({
+  withProps(({ form, amount, method, requisite, createWithdraw }) => ({
     handleSubmit: () => {
       form.validateFields((err) => {
         if (!err) {
-          createWithdraw({ userId, amount, method, requisite });
+          createWithdraw({ amount, method, requisite });
         }
       });
     },

@@ -16,10 +16,10 @@ export const getWithdraws = ({ filter }) => {
   };
 };
 
-export const createWithdraw = ({ userId, amount, method, requisite }) => {
+export const createWithdraw = ({ amount, method, requisite }) => {
   return {
     [RSAA]: {
-      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/user/${userId}/payments`,
+      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/payments`,
       credentials: 'include',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

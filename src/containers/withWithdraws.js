@@ -14,8 +14,8 @@ export default () => connect(
       getWithdraws({ filter } = {}) {
         return dispatch(getWithdraws({ filter }));
       },
-      createWithdraw({ userId, amount, method, requisite }) {
-        return dispatch(createWithdraw({ userId, amount, method, requisite }))
+      createWithdraw({ amount, method, requisite }) {
+        return dispatch(createWithdraw({ amount, method, requisite }))
       }
     };
   }
