@@ -96,6 +96,7 @@ const Withdraw = ({
   const sortedWithdraws = _.sortBy(withdraws, 'createdAt');
   const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
   const paidNotEnough = paid < REQUIRED_PAID_TO_WITHDRAW;
+  const maxValue = Math.floor(balance);
   return (
     <div className={classes.withdrawing}>
       <PageTitle>{translate('WITHDRAWING')}</PageTitle>
@@ -128,7 +129,7 @@ const Withdraw = ({
               step={1}
               defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
               min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={balance}
+              max={maxValue}
               onChange={setAmount}
               value={amount}
               disabled={paidNotEnough || lowBalance}
@@ -140,7 +141,7 @@ const Withdraw = ({
               step={1}
               defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
               min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={balance}
+              max={maxValue}
               tipFormatter={(value) => (<span>{value} <Coins /></span>)}
               onChange={(val) => setAmount(val)}
               value={amount}

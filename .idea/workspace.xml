@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38b6d3fa-d4e7-493f-a74c-b23bb8d44ae4" name="Default Changelist" comment="" />
+    <list default="true" id="38b6d3fa-d4e7-493f-a74c-b23bb8d44ae4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/build/create-game.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/game.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/megakassa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/megakassa_3bf03eb40e25.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Withdraw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Withdraw/index.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -31,7 +39,7 @@
           <entry key="eslintrc" value="4" />
           <entry key="gitignore" value="1" />
           <entry key="html" value="3" />
-          <entry key="js" value="486" />
+          <entry key="js" value="487" />
           <entry key="json" value="11" />
           <entry key="png" value="3" />
           <entry key="production" value="5" />
@@ -45,7 +53,7 @@
           <entry key="HTML" value="3" />
           <entry key="Image" value="3" />
           <entry key="JSON" value="15" />
-          <entry key="JavaScript" value="486" />
+          <entry key="JavaScript" value="487" />
           <entry key="PLAIN_TEXT" value="19" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -56,7 +64,7 @@
           <entry key="env" value="97" />
           <entry key="eslintrc" value="39" />
           <entry key="html" value="13" />
-          <entry key="js" value="30162" />
+          <entry key="js" value="30218" />
           <entry key="json" value="101" />
           <entry key="production" value="13" />
         </counts>
@@ -66,7 +74,7 @@
           <entry key="CSS" value="72" />
           <entry key="HTML" value="13" />
           <entry key="JSON" value="140" />
-          <entry key="JavaScript" value="30162" />
+          <entry key="JavaScript" value="30218" />
           <entry key="PLAIN_TEXT" value="110" />
         </counts>
       </usages-collector>
@@ -158,22 +166,22 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/localization/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="142">
               <caret line="352" column="19" selection-start-line="352" selection-start-column="19" selection-end-line="352" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Statistic/index.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Withdraw/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
+            <state relative-caret-position="803">
+              <caret line="143" column="27" selection-start-line="143" selection-start-column="27" selection-end-line="143" selection-end-column="27" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#40#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -195,7 +203,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>LOGOUT</find>
       <find>logout</find>
       <find>cookie</find>
       <find>GET_USER_INFO_SUCCESS</find>
@@ -225,6 +232,7 @@
       <find>props</find>
       <find>result</find>
       <find>START_BONUS</find>
+      <find>Purchases</find>
     </findStrings>
     <replaceStrings>
       <replace>Rules</replace>
@@ -301,7 +309,6 @@
         <option value="$PROJECT_DIR$/src/redux/index.js" />
         <option value="$PROJECT_DIR$/src/containers/withGameConfig.js" />
         <option value="$PROJECT_DIR$/src/redux/gameConfig/index.js" />
-        <option value="$PROJECT_DIR$/src/Withdraw/index.js" />
         <option value="$PROJECT_DIR$/src/config.js" />
         <option value="$PROJECT_DIR$/src/Main/GameItemsList.js" />
         <option value="$PROJECT_DIR$/src/ByCoins/index.js" />
@@ -312,6 +319,7 @@
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/Main/Game.js" />
         <option value="$PROJECT_DIR$/src/localization/index.js" />
+        <option value="$PROJECT_DIR$/src/Withdraw/index.js" />
       </list>
     </option>
   </component>
@@ -589,18 +597,18 @@
       <workItem from="1534449731505" duration="621000" />
       <workItem from="1534687522754" duration="1788000" />
       <workItem from="1534886729686" duration="120000" />
-      <workItem from="1534922012434" duration="22711000" />
+      <workItem from="1534922012434" duration="23462000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263045000" />
+    <option name="totallyTimeSpent" value="263796000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.1987315" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.1987315" />
       <window_info id="Structure" order="1" sideWeight="0.50120485" side_tool="true" weight="0.1987315" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -612,7 +620,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.35903615" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.35903615" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
@@ -913,16 +921,6 @@
         <state relative-caret-position="-70" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Withdraw/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1560">
-          <caret line="104" column="22" lean-forward="true" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Statistic/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -1009,8 +1007,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/localization/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="142">
           <caret line="352" column="19" selection-start-line="352" selection-start-column="19" selection-end-line="352" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Withdraw/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="803">
+          <caret line="143" column="27" selection-start-line="143" selection-start-column="27" selection-end-line="143" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
