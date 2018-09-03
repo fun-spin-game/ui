@@ -1,5 +1,6 @@
 import { AES, enc } from 'crypto-js';
-
+window.AES = AES;
+window.enc = enc;
 export default (store) => (next) => (action) => {
   const state = store.getState();
   const { user: { userInfo } } = state;
