@@ -129,8 +129,8 @@ export default compose(
   ),
   withHandlers({
     closeGame: ({ disconnectFromGame, activeGame: { id: gameId } }) => () => disconnectFromGame({ gameId }),
-    onClickPlay: ({ notifyGameSpinStart, activeGame: { id: gameId, prize, risk } }) => ({ result }) => {
-      notifyGameSpinStart({ gameId, result: result ? prize : -risk });
+    onClickPlay: ({ notifyGameSpinStart, activeGame: { id: gameId } }) => ({ result }) => {
+      notifyGameSpinStart({ gameId, result });
     }
   }),
   lifecycle({

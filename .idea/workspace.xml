@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38b6d3fa-d4e7-493f-a74c-b23bb8d44ae4" name="Default Changelist" comment="" />
+    <list default="true" id="38b6d3fa-d4e7-493f-a74c-b23bb8d44ae4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/config/webpack.config.prod.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/webpack.config.prod.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Game.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -31,7 +34,7 @@
           <entry key="eslintrc" value="4" />
           <entry key="gitignore" value="1" />
           <entry key="html" value="3" />
-          <entry key="js" value="491" />
+          <entry key="js" value="492" />
           <entry key="json" value="11" />
           <entry key="png" value="3" />
           <entry key="production" value="5" />
@@ -45,7 +48,7 @@
           <entry key="HTML" value="3" />
           <entry key="Image" value="3" />
           <entry key="JSON" value="15" />
-          <entry key="JavaScript" value="491" />
+          <entry key="JavaScript" value="492" />
           <entry key="PLAIN_TEXT" value="19" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -56,7 +59,7 @@
           <entry key="env" value="97" />
           <entry key="eslintrc" value="39" />
           <entry key="html" value="13" />
-          <entry key="js" value="30223" />
+          <entry key="js" value="30230" />
           <entry key="json" value="101" />
           <entry key="production" value="13" />
         </counts>
@@ -66,7 +69,7 @@
           <entry key="CSS" value="72" />
           <entry key="HTML" value="13" />
           <entry key="JSON" value="140" />
-          <entry key="JavaScript" value="30223" />
+          <entry key="JavaScript" value="30230" />
           <entry key="PLAIN_TEXT" value="110" />
         </counts>
       </usages-collector>
@@ -104,8 +107,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="20" column="19" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="19" />
+            <state relative-caret-position="346">
+              <caret line="131" column="65" selection-start-line="131" selection-start-column="65" selection-end-line="131" selection-end-column="65" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -114,22 +117,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/redux/middlewares/parseActiveGameMiddleware.js">
+        <entry file="file://$PROJECT_DIR$/config/webpack.config.prod.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="94" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="94" />
+            <state relative-caret-position="152">
+              <caret line="22" column="67" selection-start-line="22" selection-start-column="67" selection-end-line="22" selection-end-column="67" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/RoulettePlayBtn.js">
+        <entry file="file://$PROJECT_DIR$/src/redux/middlewares/parseActiveGameMiddleware.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="18" column="30" lean-forward="true" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="150">
+              <caret line="10" column="94" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="94" />
             </state>
           </provider>
         </entry>
@@ -189,7 +189,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Cookie.set('language', value);</find>
       <find>WS</find>
       <find>WS.init</find>
       <find>// console.log</find>
@@ -219,6 +218,7 @@
       <find>createWithdraw</find>
       <find>cryp</find>
       <find>decryptedSchema</find>
+      <find>shouldUseSourceMap</find>
     </findStrings>
     <replaceStrings>
       <replace>Rules</replace>
@@ -255,7 +255,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Login/Social.js" />
         <option value="$PROJECT_DIR$/src/Login/SignIn.js" />
         <option value="$PROJECT_DIR$/src/redux/spinners/index.js" />
         <option value="$PROJECT_DIR$/src/containers/withSpinners.js" />
@@ -301,11 +300,12 @@
         <option value="$PROJECT_DIR$/src/redux/user/actions.js" />
         <option value="$PROJECT_DIR$/src/containers/withUser.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/Main/Game.js" />
         <option value="$PROJECT_DIR$/src/localization/index.js" />
         <option value="$PROJECT_DIR$/src/redux/withdraws/actions.js" />
         <option value="$PROJECT_DIR$/src/containers/withWithdraws.js" />
         <option value="$PROJECT_DIR$/src/Withdraw/index.js" />
+        <option value="$PROJECT_DIR$/src/Main/Game.js" />
+        <option value="$PROJECT_DIR$/config/webpack.config.prod.js" />
       </list>
     </option>
   </component>
@@ -348,6 +348,11 @@
             <path>
               <item name="cases" type="b2602c69:ProjectViewProjectNode" />
               <item name="cases" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cases" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cases" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cases" type="b2602c69:ProjectViewProjectNode" />
@@ -548,18 +553,18 @@
       <workItem from="1534449731505" duration="621000" />
       <workItem from="1534687522754" duration="1788000" />
       <workItem from="1534886729686" duration="120000" />
-      <workItem from="1534922012434" duration="25827000" />
+      <workItem from="1534922012434" duration="27048000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="266161000" />
+    <option name="totallyTimeSpent" value="267382000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.1987315" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.1987315" />
       <window_info id="Structure" order="1" sideWeight="0.50120485" side_tool="true" weight="0.1987315" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -571,7 +576,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.35903615" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.35903615" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
@@ -587,9 +592,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/manifest.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -956,20 +958,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/middlewares/parseActiveGameMiddleware.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="94" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="19" />
+        <state relative-caret-position="346">
+          <caret line="131" column="65" selection-start-line="131" selection-start-column="65" selection-end-line="131" selection-end-column="65" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/redux/middlewares/parseActiveGameMiddleware.js">
+    <entry file="file://$PROJECT_DIR$/config/webpack.config.prod.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="94" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="94" />
+        <state relative-caret-position="152">
+          <caret line="22" column="67" selection-start-line="22" selection-start-column="67" selection-end-line="22" selection-end-column="67" />
         </state>
       </provider>
     </entry>
