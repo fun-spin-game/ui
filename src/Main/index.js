@@ -59,6 +59,7 @@ const styles = {
   },
   createGameBtn: {
     float: 'right',
+    marginLeft: -28,
     '@media(max-width: 666px)': {
       position: 'fixed',
       fontSize: 25,
