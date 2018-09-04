@@ -76,7 +76,7 @@ const ByCoins = ({
   const sortedWithdraws = _.sortBy(purchases, 'createdAt');
   return (
     <div className={classes.purchase}>
-      <PageTitle>{translate('BY_COINS')}</PageTitle>
+      <PageTitle>{translate('TOP_UP_THE_BALANCE')}</PageTitle>
       <Form id="purchase" className={classes.purchaseForm}>
         <FormItem>
           <div>
@@ -87,7 +87,6 @@ const ByCoins = ({
               onChange={setAmount}
               value={amount}
             /> <Coins />
-            <div className={classes.rate}>1 <Coins /> = 1$</div>
           </div>
           <div>
             <Slider
@@ -105,7 +104,7 @@ const ByCoins = ({
             <Button
               type="primary"
             >
-              {translate('BY_COINS')}
+              {translate('OK')}
             </Button>
           </a>
         </FormItem>

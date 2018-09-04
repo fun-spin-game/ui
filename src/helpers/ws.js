@@ -1,4 +1,3 @@
-const MAX_RECONNECT_ATTEMPTS = 5;
 
 export default class WS {
   static init(...args) {
@@ -24,7 +23,6 @@ export default class WS {
     this.socket.onerror = this.onError;
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
-    this.socket.reconnectInterval = null;
     this.socket.reconnectCounter = 20;
   }
 
@@ -50,22 +48,10 @@ export default class WS {
     this.socket.onclose = null;
     this.socket.onopen = null;
     this.socket.onerror = null;
-    if (!this.reconnectInterval) {
-      this.reconnectInterval = setInterval(() => {
-        // console.log('ws reconnect');
-        this.connect.call(this);
-        this.reconnectCounter += 1;
-        if (this.reconnectCounter >= MAX_RECONNECT_ATTEMPTS) {
-          clearInterval(this.reconnectInterval);
-          this.reconnectCounter = 0;
-        }
-      }, 5000);
-    }
+
     if (onClose) onClose();
   }
   onOpen() {
-    clearInterval(this.reconnectInterval);
-    this.reconnectInterval = null;
     // console.log('ws opened');
     const {  onOpen } = this.callbacks;
     if (onOpen) onOpen();

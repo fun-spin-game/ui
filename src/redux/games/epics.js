@@ -26,7 +26,7 @@ export default combineEpics(
             description: (
               <Providers>
                 <Fragment>
-                  <Translate id="CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT" />...
+                  <Translate id="CONNECTION_WITH_SERVER_LOST_TRY_REFRESH_THE_PAGE" />...
                 </Fragment>
               </Providers>
             ),

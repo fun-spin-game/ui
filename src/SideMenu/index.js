@@ -25,7 +25,7 @@ const SIDE_MENU_ITEMS = [
   },
   {
     route: '/by-coins',
-    translateId: 'BY_COINS',
+    translateId: 'TOP_UP_THE_BALANCE',
     iconType: 'shopping-cart',
   },
 ];

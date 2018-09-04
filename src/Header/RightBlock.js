@@ -50,6 +50,9 @@ const styles = {
       display: 'none',
     }
   },
+  balance: {
+    color: 'gold',
+  },
   balanceAmount: {
     'font-size': '20px',
     'margin-left': '10px',

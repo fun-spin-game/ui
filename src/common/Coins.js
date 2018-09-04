@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { pure, compose} from 'recompose';
 
-const Coins = ({ classes }) => {
+const Coins = () => {
   return (
-    <i className={`fa fa-coins ${classes.coins}`} />
+    <span>$</span>
   );
 };
 

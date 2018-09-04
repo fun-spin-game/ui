@@ -47,9 +47,9 @@ export default {
     'Passwors do not match',
     'Пароли не совпадают',
   ],
-  CONNECTION_WITH_SERVER_LOST_TRYINT_TO_RECONNECT: [
-    'Conection with server is lost. Trying to reconnect',
-    'Пропала связь с сервером. Пытаемся восстановить',
+  CONNECTION_WITH_SERVER_LOST_TRY_REFRESH_THE_PAGE: [
+    'Conection with server is lost. Trying refresh the page',
+    'Пропала связь с сервером. Попробуйте обновить страницу',
   ],
   USER_LOSE_IN_YOU_LOT: [
     'User ${displayName} lose in you lot!',
@@ -292,21 +292,17 @@ export default {
     'Empty',
     'Пусто',
   ],
-  YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW: [
-    'You should have at least ${n} coins to withdraw',
-    'Вы должны иметь как минимум ${n} монет для вывода средств',
+  YOU_SHOULD_HAVE_AT_LEAST_N_DOLLARS_TO_WITHDRAW: [
+    'You should have at least ${n} dollars to withdraw',
+    'Вы должны иметь как минимум ${n} долларов для вывода средств',
   ],
-  TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_BY_AT_LEAST_N_COINS: [
-    'To be able to withdraw you should by at least ${n} coins',
-    'Что бы получить возможность выводить деньги, вам необходимо купить как минимум ${n} монет',
+  TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS: [
+    'To be able to withdraw you should top up the balance for ${n} dollars',
+    'Что бы получить возможность выводить деньги, вам необходимо пополнить баланс на ${n} долларов',
   ],
   THIS_FIELD_IS_REQUIRED: [
     'This field is required',
     'Это поле обязательно для заполнения'
-  ],
-  MIINIMUM_AMOUNT_OF_WITHDRAWING_IS_N_COINS: [
-    'Minimum amount to withdrow is ${n} coins',
-    'Минимальное количество вывода ${n} монет'
   ],
   CARD_NUMBER: [
     'Card number',
@@ -336,9 +332,13 @@ export default {
     'Purchases history',
     'История покупок'
   ],
-  BY_COINS: [
-    'By coins',
-    'Купить монеты'
+  TOP_UP_THE_BALANCE: [
+    'Top up the balance',
+    'Пополнить баланс'
+  ],
+  OK: [
+    'OK',
+    'OK'
   ],
   PURCHASE: [
     'Purchase',

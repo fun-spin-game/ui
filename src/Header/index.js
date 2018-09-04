@@ -111,7 +111,7 @@ const styles = {
     fontSize: 32,
     alignSelf: 'center',
     // background: 'rgba(255,255,255,.2)',
-    margin: '16px',
+    marginRight: '16px',
     '@media(min-width: 667px)': {
       'margin-left': '-25px',
     },

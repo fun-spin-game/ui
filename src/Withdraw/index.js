@@ -106,7 +106,7 @@ const Withdraw = ({
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW', { n: MIN_AMOUNT_OF_WITHDRAWING })}`}
+                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_DOLLARS_TO_WITHDRAW', { n: MIN_AMOUNT_OF_WITHDRAWING })}`}
                 type="error"
               />
             </FormItem>
@@ -117,7 +117,7 @@ const Withdraw = ({
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_BY_AT_LEAST_N_COINS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
+                message={`${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
                 type="warning"
               />
             </FormItem>
@@ -134,7 +134,6 @@ const Withdraw = ({
               value={amount}
               disabled={paidNotEnough || lowBalance}
             /> $
-            <div className={classes.rate}>1 <Coins /> = 1$</div>
           </div>
           <div>
             <Slider
@@ -159,7 +158,6 @@ const Withdraw = ({
           </Select>
         </FormItem>
         <FormItem>
-
           {getFieldDecorator('requisite', {
             rules: [{ required: true, message: <span>{translate('THIS_FIELD_IS_REQUIRED')}</span> }],
           })(
