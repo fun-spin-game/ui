@@ -367,5 +367,9 @@ export default {
   CONFIRM: [
     'Confirm',
     'Подтвердить',
-  ]
+  ],
+  YOUR_REQUEST_TO_WITHDRAW_WILL_BE_HANDLED_IN_THE_NEAREST_TIME: [
+    'Your reqquest to withdraw will be handled in the nearest time',
+    'Ваш запрос на вывод средств будет обработан в ближайшее время',
+  ],
 };

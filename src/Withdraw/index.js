@@ -171,8 +171,8 @@ const Withdraw = ({
           <Button
             type="primary"
             htmlType="submit"
-            disabled={paidNotEnough || lowBalance}
             onClick={handleSubmit}
+            disabled={paidNotEnough || lowBalance}
           >
             {translate('WITHDRAW')}
           </Button>
@@ -264,7 +264,7 @@ export default compose(
   withWithdraws(),
   withUser(),
   withGameConfig(),
-  withState('amount', 'setAmount', 0),
+  withState('amount', 'setAmount', ({ gameConfig: { MIN_AMOUNT_OF_WITHDRAWING } }) => MIN_AMOUNT_OF_WITHDRAWING),
   withState('method', 'setMethod', WITHDRAW_METHODS[0].value),
   withState('requisite', 'setRequisite', ''),
   Form.create(),
