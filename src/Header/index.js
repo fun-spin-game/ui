@@ -121,6 +121,7 @@ const styles = {
     },
     '@media(max-width: 600px)': {
       fontSize: 20,
+      marginLeft: 10
     }
   },
   headerContent: {

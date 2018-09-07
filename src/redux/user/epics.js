@@ -21,6 +21,13 @@ export default combineEpics(
     mapTo(getUserInfo())
   ),
   (action$) => action$.pipe(
+    ofType('GET_USER_INFO_SUCCESS'),
+    tap(() => {
+      ws.init();
+    }),
+    ignoreElements(),
+  ),
+  (action$) => action$.pipe(
     ofType('SIGN_IN_FAILURE'),
     tap((action) => {
       notification.error({
