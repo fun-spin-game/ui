@@ -46,7 +46,7 @@ const styles = {
   },
   overlay: {
     position: ({ fixed }) => fixed ? 'fixed' : 'absolute',
-    zIndex: 10000,
+    zIndex: 10,
     left: 0,
     right: 0,
     top: 0,
