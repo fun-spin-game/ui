@@ -372,4 +372,32 @@ export default {
     'Your reqquest to withdraw will be handled in the nearest time',
     'Ваш запрос на вывод средств будет обработан в ближайшее время',
   ],
+  DEMO_MODE: [
+    'Demo mode',
+    'Демонстрационный режим'
+  ],
+  DEMO_MODE_ACTIVATED_YOU_RECEIVED_N_DOLLARS_AS_A_START_BONUS: [
+    'Demo mode activated. You received ${n}$ as a start bonus',
+    'Вы находитесть в демонстрационном режиме. Вы получили ${n}$ как старовый бонус'
+  ],
+  WITHDRAW_MONEY_IN_DEMO_MODE_IS_IMPOSSIBLE: [
+    'Withdraw money in demo mode is impossible',
+    'В демонстрационном режиме невозможно выводить выиграные деньги'
+  ],
+  TO_END_UP_DEMO_MODE_YOU_SHOULD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS: [
+    'To end up demo mode you should top up the balance at leask for ${n} dollars',
+    'Что бы завершить демонстрационный режим, необходимо пополнить баланс как минимум на ${n} долларов'
+  ],
+  WELCOME: [
+    'Welcome',
+    'Добро пожаловать'
+  ],
+  HAVE_A_GOOD_GAME: [
+    'Have a good game',
+    'Удачной игры'
+  ],
+  YOU_ARE_IN_DEMO_MODE: [
+    'You are in demo mode',
+    'Вы находитесь в демонстрационном режиме'
+  ],
 };

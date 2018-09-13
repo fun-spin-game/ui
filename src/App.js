@@ -1,6 +1,6 @@
 import React from 'react';
 import Providers, { history } from './redux/Providers';
-import { Layout, notification, Button } from 'antd';
+import { Layout } from 'antd';
 import SideMenu from './SideMenu';
 import Header from './Header';
 import classNames from 'classnames';
@@ -126,29 +126,6 @@ const App = compose(
     ({ userInfoRequestDone, gameConfig }) => !userInfoRequestDone || !gameConfig,
     renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
   ),
-  lifecycle({
-    componentDidMount() {
-      const { userInfo, gameConfig, translate, confirmDemoModeFinished } = this.props;
-      if (!userInfo) return;
-      if (userInfo.paid >= gameConfig.REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
-        notification.info({
-          duration: null,
-          message: translate('DEMO_MODE_FINISHED'),
-          description: `${translate('NOW_YOU_CAN_WITHDRAW_YOU_MANY')}. ${translate('EVERYTHING_THAT_YOU_EARN_IN_DEMO_MODE_WAS_DISCARDED')}`,
-          key: 'demoModeFinished',
-          onClose: () => confirmDemoModeFinished(),
-          btn: (
-            <Button type="primary" onClick={() => {
-              notification.close('demoModeFinished');
-              confirmDemoModeFinished();
-            }}>
-              {translate('CONFIRM')}
-            </Button>
-          ),
-        });
-      }
-    }
-  }),
   pure,
 )(AppComp);
 

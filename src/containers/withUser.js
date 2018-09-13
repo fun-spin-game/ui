@@ -1,5 +1,12 @@
 import { connect } from 'react-redux';
-import { getUserInfo, logout, signIn, signUp, confirmDemoModeFinished } from '../redux/user/actions';
+import {
+  getUserInfo,
+  logout,
+  signIn,
+  signUp,
+  confirmDemoModeFinished,
+  confirmDemoModeActivated,
+} from '../redux/user/actions';
 
 export default () => connect(
   ({
@@ -27,6 +34,9 @@ export default () => connect(
       },
       confirmDemoModeFinished() {
         return dispatch(confirmDemoModeFinished());
+      },
+      confirmDemoModeActivated() {
+        return dispatch(confirmDemoModeActivated());
       }
     };
   }

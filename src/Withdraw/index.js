@@ -117,7 +117,7 @@ const Withdraw = ({
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
+                message={`${translate('YOU_ARE_IN_DEMO_MODE')}. ${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
                 type="warning"
               />
             </FormItem>

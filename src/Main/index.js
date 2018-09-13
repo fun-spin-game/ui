@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Icon } from 'antd';
+import { Icon, Button, Modal } from 'antd';
 import { withLocalize } from 'react-localize-redux';
-import { compose, withState, withHandlers, pure, } from 'recompose';
+import { compose, withState, withHandlers, pure, lifecycle } from 'recompose';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
 import withGamesActions from '../containers/withGamesActions';
 import withUser from '../containers/withUser';
 import withGames from '../containers/withGames';
+import withGameConfig from '../containers/withGameConfig';
 import PageTitle from '../common/PageTitle';
 import GameItemsList from './GameItemsList';
 
@@ -89,6 +90,60 @@ export default compose(
     cancelCreateGame: ({ setCreateGameMode }) => () => {
       setCreateGameMode(false);
     },
+  }),
+  withGameConfig(),
+  lifecycle({
+    componentDidMount() {
+      const {
+        userInfo,
+        gameConfig: {
+          REQUIRED_PAID_TO_WITHDRAW,
+          START_USER_BALANCE,
+        },
+        translate,
+        confirmDemoModeFinished,
+        confirmDemoModeActivated,
+      } = this.props;
+      if (!userInfo) return;
+      if (userInfo.paid >= REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
+        Modal.info({
+          title: translate('DEMO_MODE_FINISHED'),
+          content: `${translate('NOW_YOU_CAN_WITHDRAW_YOU_MANY')}. ${translate('EVERYTHING_THAT_YOU_EARN_IN_DEMO_MODE_WAS_DISCARDED')}`,
+          onOk() {
+            confirmDemoModeFinished();
+          },
+          footer: [
+            <Button key="submit" type="primary" onClick={() => {
+              confirmDemoModeFinished();
+            }}>
+              {translate('CONFIRM')}
+            </Button>
+          ]
+        })
+      }
+      if (!userInfo.demoModeActivatedConfirmation) {
+        Modal.info({
+          title: `${translate('WELCOME')}!`,
+          content: <div>
+            - {translate('DEMO_MODE_ACTIVATED_YOU_RECEIVED_N_DOLLARS_AS_A_START_BONUS', { n: START_USER_BALANCE })}.<br/><br/>
+            - {translate('WITHDRAW_MONEY_IN_DEMO_MODE_IS_IMPOSSIBLE')}.<br/><br/>
+            - {translate('TO_END_UP_DEMO_MODE_YOU_SHOULD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}.<br/><br/><br/>
+            {translate('HAVE_A_GOOD_GAME')}!
+          </div>,
+          onOk() {
+            confirmDemoModeActivated()
+          },
+          footer: [
+            <Button
+              key="submit"
+              type="primary"
+            >
+              {translate('OK')}
+            </Button>
+          ]
+        })
+      }
+    }
   }),
   pure,
 )(Main);

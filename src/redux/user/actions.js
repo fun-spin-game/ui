@@ -66,3 +66,18 @@ export const confirmDemoModeFinished = () => {
     }
   };
 };
+
+export const confirmDemoModeActivated = () => {
+  return {
+    [RSAA]: {
+      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/demo-mode-activated-confirmation`,
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      types: [
+        'CONFIRM_DEMO_MODE_ACTIVATED_REQUEST',
+        'CONFIRM_DEMO_MODE_ACTIVATED_SUCCESS',
+        'CONFIRM_DEMO_MODE_ACTIVATED_FAILURE'
+      ]
+    }
+  };
+};
