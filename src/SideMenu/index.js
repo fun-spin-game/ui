@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { compose, pure } from 'recompose'
+import { isMobile } from 'react-device-detect';
+import classNames from 'classnames';
 import { Link } from 'react-router-dom'
 import { Layout, Icon, Menu } from 'antd';
 import { withRouter } from 'react-router'
 import { withLocalize } from 'react-localize-redux';
 import { TOP_MENU_ITEMS } from '../Header';
 import withUser from '../containers/withUser';
-import classNames from 'classnames';
+
 
 const { Sider } = Layout;
 
@@ -50,12 +52,12 @@ class SideMenu extends Component {
             classes.sider,
             className,
             {
-              collapsed: collapsed,
+              collapsed,
               notAuthenticated: !userInfo,
             }
           )
         }
-        collapsible
+        collapsible={isMobile ? true : false}
         collapsed={collapsed}
         onCollapse={setCollapsedSideMenu}
       >
@@ -93,7 +95,7 @@ class SideMenu extends Component {
 
 const styles = {
   sider: {
-    height: 'calc(100vh - 66px)',
+    height: 'calc(100vh - 64px)',
     zIndex: 20,
     overflow: 'auto',
     position: 'fixed',

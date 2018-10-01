@@ -22,9 +22,6 @@ class Content extends Component {
 const styles = {
   contentWrapper: {
     position: 'relative',
-    '@media (min-width: 667px)': {
-      padding: '0 50px',
-    }
   },
   content: {
     background: '#fff',

@@ -1,12 +1,18 @@
 import React from 'react';
-import Providers, { history } from './redux/Providers';
-import { Layout } from 'antd';
-import SideMenu from './SideMenu';
-import Header from './Header';
+import { isMobile } from 'react-device-detect';
+import { Layout, Modal, Button } from 'antd';
+import { renderToStaticMarkup } from 'react-dom/server';
 import classNames from 'classnames';
-import Content from './Content';
+import Cookie from 'js-cookie';
+import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router';
+import { branch, compose, lifecycle, pure, renderComponent, withHandlers, withState } from 'recompose';
+import injectSheet from 'react-jss';
+import { withLocalize } from 'react-localize-redux';
+import Content from './Content';
+import Providers, { history } from './redux/Providers';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
+import Home from './Home';
 import Main from './Main';
 import Withdraw from './Withdraw';
 import ByCoins from './ByCoins';
@@ -14,20 +20,17 @@ import Statistic from './Statistic';
 import Withdraws from './Withdraws';
 import Contacts from './Contacts';
 import HowToPlay from './HowToPlay';
+import SideMenu from './SideMenu';
+import Header from './Header';
 import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
 import Login from './Login';
 import Footer from './Footer';
-import { branch, compose, lifecycle, pure, renderComponent, withHandlers, withState } from 'recompose';
-import { withLocalize } from 'react-localize-redux';
 import withUser from './containers/withUser';
 import withMeta from './containers/withMeta';
 import withGameConfig from './containers/withGameConfig';
-import injectSheet from 'react-jss';
 import localization from './localization';
-import { renderToStaticMarkup } from 'react-dom/server';
-import Cookie from 'js-cookie';
 import Spinner from './common/Spinner';
-import PropTypes from 'prop-types';
+
 
 
 const AppComp = ({
@@ -39,21 +42,25 @@ const AppComp = ({
   return (
     <Layout className="layout">
       <SideMenu
-        collapsed={collapsedSideMenu}
+        collapsed={isMobile ? collapsedSideMenu : false}
         setCollapsedSideMenu={setCollapsedSideMenuFn}
       />
       <Layout>
-        <Header collapsedSideMenu={collapsedSideMenu} setCollapsedSideMenu={setCollapsedSideMenuFn} />
+        <Header
+          collapsedSideMenu={isMobile ? collapsedSideMenu : false}
+          setCollapsedSideMenu={setCollapsedSideMenuFn}
+        />
         <div
           className={classNames(
             classes.content, {
-              'collapsed-mode': collapsedSideMenu,
+              'collapsed-mode': isMobile ? collapsedSideMenu : false,
               notAuthenticated: !userInfo,
             })}
         >
           <Content>
             <Switch>
               <AuthenticatedRoute exact path="/" component={Main} />
+              <Route exact path="/home" component={Home} />
               <AuthenticatedRoute exact path="/withdraw" component={Withdraw} />
               <AuthenticatedRoute exact path="/by-coins" component={ByCoins} />
               <Route exact path="/statistic" component={Statistic} />
@@ -126,6 +133,35 @@ const App = compose(
     ({ userInfoRequestDone, gameConfig }) => !userInfoRequestDone || !gameConfig,
     renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
   ),
+  lifecycle({
+    componentDidMount() {
+      const {
+        userInfo,
+        gameConfig: {
+          REQUIRED_PAID_TO_WITHDRAW,
+        },
+        translate,
+        confirmDemoModeFinished,
+      } = this.props;
+      if (!userInfo) return;
+      if (userInfo.paid >= REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
+        Modal.info({
+          title: translate('DEMO_MODE_FINISHED'),
+          content: `${translate('NOW_YOU_CAN_PLAY_FOR_REAL_MONEY_AND_WITHDRAW_THEM')}!`,
+          onOk() {
+            confirmDemoModeFinished();
+          },
+          footer: [
+            <Button key="submit" type="primary" onClick={() => {
+              confirmDemoModeFinished();
+            }}>
+              {translate('CONFIRM')}
+            </Button>
+          ]
+        })
+      }
+    }
+  }),
   pure,
 )(AppComp);
 

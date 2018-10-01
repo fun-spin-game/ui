@@ -101,26 +101,8 @@ export default compose(
           START_USER_BALANCE,
         },
         translate,
-        confirmDemoModeFinished,
         confirmDemoModeActivated,
       } = this.props;
-      if (!userInfo) return;
-      if (userInfo.paid >= REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
-        Modal.info({
-          title: translate('DEMO_MODE_FINISHED'),
-          content: `${translate('NOW_YOU_CAN_WITHDRAW_YOU_MANY')}. ${translate('EVERYTHING_THAT_YOU_EARN_IN_DEMO_MODE_WAS_DISCARDED')}`,
-          onOk() {
-            confirmDemoModeFinished();
-          },
-          footer: [
-            <Button key="submit" type="primary" onClick={() => {
-              confirmDemoModeFinished();
-            }}>
-              {translate('CONFIRM')}
-            </Button>
-          ]
-        })
-      }
       if (!userInfo.demoModeActivatedConfirmation) {
         Modal.info({
           title: `${translate('WELCOME')}!`,

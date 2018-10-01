@@ -50,6 +50,7 @@
     "react-flip-move": "^3.0.2",
     "react-jss": "^8.6.1",
     "react-localize-redux": "^3.3.0",
+    "react-particles-js": "^2.3.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

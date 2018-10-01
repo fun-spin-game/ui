@@ -324,7 +324,7 @@ export default {
     'Attempts amount',
     'Количество попыток'
   ],
-  TRY_YOUR_LOCK: [
+  TRY_YOUR_LUCK: [
     'Try your luck',
     'Испытай удачу'
   ],
@@ -356,9 +356,9 @@ export default {
     'Demo mode finished',
     'Демонстрационный режим окночен'
   ],
-  NOW_YOU_CAN_WITHDRAW_YOU_MANY: [
-    'Now you can withdraw you money',
-    'Теперь вы можете выводить ваши деньги'
+  NOW_YOU_CAN_PLAY_FOR_REAL_MONEY_AND_WITHDRAW_THEM: [
+    'Now you can play for real money and withdraw them',
+    'Теперь вы можете играть на реальные деньги и выводить их'
   ],
   EVERYTHING_THAT_YOU_EARN_IN_DEMO_MODE_WAS_DISCARDED: [
     'Everything that you earn in demo mode was discarded',
@@ -399,5 +399,13 @@ export default {
   YOU_ARE_IN_DEMO_MODE: [
     'You are in demo mode',
     'Вы находитесь в демонстрационном режиме'
+  ],
+  HOME: [
+    'Home',
+    'Главная'
+  ],
+  MANAGE_LUCK_AND_EARN_MONEY: [
+    'Manage luck and earn money',
+    'Управляй удачей и зарабатывай'
   ],
 };

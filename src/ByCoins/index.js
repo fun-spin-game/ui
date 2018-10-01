@@ -204,7 +204,7 @@ export default compose(
       oa=${amount}&
       o=${purchaseId}&
       us_userId=${userInfo.id}&
-      s=${cryptoJs.MD5(`87104:${amount}:srodx8li:${purchaseId}`).toString()}`
+      s=${cryptoJs.MD5(`87104:${amount}:${process.env.REACT_APP_FREE_KASSA_SECRET}:${purchaseId}`).toString()}`
     }
   }),
   Form.create(),

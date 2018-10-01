@@ -13,7 +13,6 @@ const Footer = ({ classes, languages, activeLanguage, setActiveLanguage }) => {
   return (
     <FooterAnt className={classes.footer}>
       <div className={classes.logos}>
-          <img src="/megakassa.png" alt=""/>
       </div>
       <div>© 2018 fun-spin.com</div>
       <div>
@@ -51,7 +50,7 @@ const styles = {
   },
   language: {
     marginLeft: 20,
-    width: 85,
+    width: 100,
     '@media(max-width: 666px)': {
       marginTop: 10,
     },
@@ -64,6 +63,7 @@ const styles = {
     }
   },
   logos: {
+    width: 100,
     '@media(max-width: 666px)': {
       display: 'none',
     }

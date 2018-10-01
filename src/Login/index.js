@@ -16,7 +16,7 @@ const Form = branch(
 const Login = ({ classes, toggleSignInMode, signInMode }) => {
   return (
     <div className={classes.content}>
-      <h3 className={classes.title}><Translate id="TRY_YOUR_LOCK" />!</h3>
+      <h3 className={classes.title}><Translate id="TRY_YOUR_LUCK" />!</h3>
       <div className={classes.formWrapper}>
         <Form signInMode={signInMode} toggleSignInMode={toggleSignInMode} />
       </div>
@@ -29,7 +29,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     'justify-content': 'center',
-    marginTop: 30,
     textAlign: 'center'
   },
   title: {

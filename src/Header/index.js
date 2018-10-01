@@ -11,6 +11,11 @@ import RightBlock from './RightBlock';
 
 export const TOP_MENU_ITEMS = [
   {
+    route: '/home',
+    translateId: 'HOME',
+    iconType: 'home',
+  },
+  {
     route: '/login',
     translateId: 'REGISTRATION',
     iconType: 'solution',
