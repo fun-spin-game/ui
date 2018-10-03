@@ -24,6 +24,7 @@ import injectSheet from 'react-jss';
 import PageTitle from '../common/PageTitle';
 import Coins from '../common/Coins';
 import { redColor, greenColor } from '../variables';
+import { DATE_FORMAT } from '../config';
 
 const FormItem = Form.Item;
 
@@ -62,7 +63,7 @@ const COLUMNS = [
     title: <Translate id="DATE" />,
     dataIndex: 'createdAt',
     key: 'createdAt',
-    render: text => <Fragment>{moment(text).format('hh:mm DD.MM.YYYY')}</Fragment>
+    render: text => <Fragment>{moment(text).format(DATE_FORMAT)}</Fragment>
   },
 ];/* eslint-enable react/display-name */
 
@@ -194,7 +195,7 @@ const Withdraw = ({
           dataSource={sortedWithdraws}
           renderItem={({ createdAt, amount, status }) => (
             <List.Item>
-              <Card title={moment(createdAt).format('HH:mm DD.MM.YYYY')}>
+              <Card title={moment(createdAt).format(DATE_FORMAT)}>
                 <div className={classes.card}>
                   <span className={classes.status}>{getStatusLabel(status)}</span>
                   <div className={classes.amount}>

@@ -2,69 +2,46 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
-import { Row, Col, Button, Tabs } from 'antd';
+import { Row, Col } from 'antd';
 import Particles from 'react-particles-js';
 import { compose, pure } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
+import { default as HowToPlayCommon } from '../common/HowToPlay';
+import StartToPlay from './StartToPlay';
 import { blueColor, lightGrayColor, darkColor } from '../variables';
 import particles from './particles';
-
-const TabPane = Tabs.TabPane;
+import { default as WithdrawsCommon } from '../common/Withdraws';
 
 const ADVANTAGES = [
   {
-    textKey: 'В отличае от других, подобных игр, вы сами можете контролировать свой шанс на победу!',
+    textKey: 'WHY_IT_WORTH_TO_START_REASON_1',
     iconClass: 'fas fa-dice',
   },
   {
-    textKey: 'Если вы обладаете выдержкой и терпением - вы можете иметь хороший и стабильный доход, превышающий стандартную зарплату в странах СНГ!',
+    textKey: 'WHY_IT_WORTH_TO_START_REASON_2',
     iconClass: 'fas fa-hand-holding-usd',
   },
   {
-    textKey: 'Все честно! В наших интересах привлечь новых игроков, дав им реальную возможность зароботка, без обмана. В свою очередь мы берем небольшую комиссию в при каждом выводе средств.',
+    textKey: 'WHY_IT_WORTH_TO_START_REASON_3',
     iconClass: 'fas fa-heart',
   }
 ];
 
 const ACHIEVEMENTS = [
   {
-    textKey: 'выплачено игокам за все время',
+    textKey: 'OUR_ACHIEVEMENTS_1_DESCRIPTION',
     unitKey: '$',
     iconClass: 'fas fa-hand-holding-usd',
   },
   {
-    textKey: 'каждый день получают свою первую выплату',
-    unitKey: 'новых игроков',
+    textKey: 'OUR_ACHIEVEMENTS_2_DESCRIPTION',
+    unitKey: 'OUR_ACHIEVEMENTS_2_TEXT',
     iconClass: 'fas fas fa-money-bill',
   },
   {
-    textKey: 'онлайн в среднем за день',
-    unitKey: 'человек',
+    textKey: 'OUR_ACHIEVEMENTS_3_DESCRIPTION',
+    unitKey: 'OUR_ACHIEVEMENTS_3_TEXT',
     iconClass: 'fas fas fa-users',
-  },
-];
-
-const HOW_TO_PLAY = [
-  {
-    tabTitileKey: 'Регистрация',
-    tabSteps: [
-      {
-        imageUrl: '/registration-screen.png',
-        stepItemsKeys: [
-          'Перейдите на страницу регистрации из главного меню, после чего, заполните простую форму, содержащую в себе 3 поля для ввода данных:',
-          '- Поле "email" - адресс вашей электронной почты',
-          '- Поле "пароль" - придумайте пароль, который вы будете вводить при входе в игру',
-          '- Поле "повторите ваш пароль" - повторите придуманный вами пароль',
-        ]
-      },
-      {
-        imageUrl: '/demo-mode-activated.png',
-        stepItemsKeys: [
-          'После заполнения всех полей нажмите кнопку "Регистрация".',
-          'Регистрация будет завершена и вы будете перенаправлены на главную страницу, где увидите уведомление об активации демонстрационного режима'
-        ]
-      },
-    ],
   },
 ];
 
@@ -88,13 +65,13 @@ const Home = ({ classes, translate }) => {
         <Row gutter={16}>
           <Col span={12}>
             <div className={classes.advantages}>
-              <h2>Особенности:</h2>
+              <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
               <div className={classes.advantagesList}>
                 {
                   ADVANTAGES.map(o => (
                     <div key={o.textKey} className={classes.advantagesItem}>
                       <i className={classNames(o.iconClass, classes.advantageIcon)}></i>
-                      <div className={classes.advantageText}>{o.textKey}</div>
+                      <div className={classes.advantageText}>{translate(o.textKey)}</div>
                     </div>
                   ))
                 }
@@ -111,73 +88,33 @@ const Home = ({ classes, translate }) => {
           </Col>
         </Row>
       </div>
-      <div className={classNames(classes.block, classes.startPlayBlock)}>
-        <Button type="primary" className={classes.startPlayBtn} size="large">Начать играть!</Button>
-      </div>
+      <StartToPlay />
       <div className={classNames(classes.block, classes.achievementsBlock)}>
-        <h2>Наши достижения:</h2>
+        <h2>{translate('OUR_ACHIEVEMENTS')}:</h2>
         <div className={classes.achievementsList}>
           {
             ACHIEVEMENTS.map(o => (
               <div key={o.textKey} className={classes.achievementsItem}>
                 <i className={classNames(o.iconClass, classes.achievementIcon)}></i>
                 <div className={classes.achievementText}>
-                  56213 <span className={classes.achievementUnit}>{o.unitKey}</span>
+                  56213 <span className={classes.achievementUnit}>{translate(o.unitKey)}</span>
                 </div>
-                <div className={classes.achievementDescription}>{o.textKey}</div>
+                <div className={classes.achievementDescription}>{translate(o.textKey)}</div>
               </div>
             ))
           }
         </div>
       </div>
       <div className={classNames(classes.block, classes.howToPlayBlock)}>
-        <h2>Как играть:</h2>
-        <Tabs defaultActiveKey={HOW_TO_PLAY[0].tabTitileKey} className={classes.howToPlayTabs}>
-          {
-            HOW_TO_PLAY.map((tab)=> (
-              <TabPane
-                tab={tab.tabTitileKey}
-                key={tab.tabTitileKey}
-                className={classes.howToPlayTab}
-              >
-                {
-                  tab.tabSteps.map((step, stepIndex) => (
-                    <div
-                      key={`step${stepIndex}`}
-                      className={classNames(
-                        classes.howToPlayStep,
-                        {
-                          [classes.stepOdd]: stepIndex % 2 === 0,
-                          [classes.stepEven]: stepIndex % 2 !== 0,
-                        }
-                      )}
-                    >
-                      <div>
-                        <img src={step.imageUrl} className={classNames(classes.howToPlayImage, 'howToPlayImage')} />
-                      </div>
-                      <div className={classes.howToPlayText}>
-                        <div className={classes.stepNumber}>Шаг {stepIndex + 1}</div>
-                        {
-                          step.stepItemsKeys.map(text => (
-                            <div key={text}>{text}</div>
-                          ))
-                        }
-                      </div>
-                    </div>
-                  ))
-                }
-              </TabPane>
-            ))
-          }
-          <TabPane tab="Игровой процесс" key="2">
-          </TabPane>
-          <TabPane tab="Пополнение счета" key="3">Content of Tab Pane 3</TabPane>
-          <TabPane tab="Вывод средств" key="4">Content of Tab Pane 3</TabPane>
-        </Tabs>
+        <h2>{translate('HOW_TO_PLAY')}:</h2>
+        <HowToPlayCommon />
       </div>
-      <div className={classNames(classes.block, classes.startPlayBlock)}>
-        <Button type="primary" size="large">Начать играть!</Button>
+      <StartToPlay />
+      <div className={classNames(classes.block, classes.withdrawsBlock)}>
+        <h2>{translate('LAST_WITHDRAWS')}</h2>
+        <WithdrawsCommon />
       </div>
+      <StartToPlay />
     </div>
   )
 };
@@ -199,14 +136,8 @@ const styles = {
     margin: '0 -20px',
     padding: '40px 20px',
     '& > h2': {
-      marginBottom: 50,
+      marginBottom: 40,
     }
-  },
-  startPlayBlock: {
-    textAlign: 'center',
-  },
-  startPlayBtn: {
-
   },
   advantagesList: {
     textAlign: 'left',
@@ -265,41 +196,15 @@ const styles = {
     background: 'white',
     paddingBottom: 0,
   },
-  howToPlayTabs: {
-    marginLeft: -20,
-    marginRight: -20,
+  withdrawsBlock: {
+    background: 'white',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+    '& .ant-table-tbody > tr > td, & .ant-table-thead > tr:first-child > th': {
+      padding: '16px 40px',
+    },
   },
-  howToPlayImage: {
-    maxWidth: 400,
-    display: 'inline-block',
-    marginBottom: 5,
-    boxShadow: '2px 2px 10px -3px rgba(0,0,0,0.3)',
-  },
-  howToPlayStep: {
-    display: 'flex',
-    marginTop: 50,
-    padding: '50px 20px',
-  },
-  howToPlayText: {
-    textAlign: 'left'
-  },
-  stepOdd: {
-    flexDirection: 'row',
-    '& .howToPlayImage': {
-      marginRight: 50,
-    }
-  },
-  stepEven: {
-    flexDirection: 'row-reverse',
-    background: lightGrayColor,
-    '& .howToPlayImage': {
-      marginLight: 50,
-    }
-  },
-  stepNumber: {
-    fontWeight: 'bold',
-    fontSize: 20,
-  }
 };
 
 export default compose(

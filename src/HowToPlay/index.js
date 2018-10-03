@@ -4,7 +4,8 @@ import injectSheet from 'react-jss';
 import { compose, pure } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
-import GameItem from "../Main/GameItem";
+import { default as HowToPlayCommon } from '../common/HowToPlay';
+import GameItem from '../Main/GameItem';
 
 const GameItemPreview = ({ preview }) => (
   <GameItem
@@ -40,48 +41,7 @@ const HowToPlay = ({ classes, translate }) => {
     <div className={classes.howToPlay}>
       <PageTitle>{translate('HOW_TO_PLAY')}</PageTitle>
       <div>
-        <p>- {translate('HOW_TO_PLAY_1')}</p>
-        <p>- {translate('HOW_TO_PLAY_2')}:</p>
-        <div className={classes.list}>
-          <div>
-            <div>1. {translate('HOW_TO_PLAY_2_1')}</div>
-            <GameItemPreview preview="chanceToWin" />
-          </div>
-          <div>
-            <div>2. {translate('HOW_TO_PLAY_2_2')}</div>
-            <GameItemPreview preview="prize" />
-          </div>
-          <div>
-            <div>3. {translate('HOW_TO_PLAY_2_3')}</div>
-            <GameItemPreview preview="risk" />
-          </div>
-          <div>
-            <div>4. {translate('HOW_TO_PLAY_2_4')}</div>
-            <GameItemPreview preview="amountOfAttempts" />
-          </div>
-        </div>
-        <div>
-          <div>- {translate('HOW_TO_PLAY_3')}</div>
-          <br/>
-          <GameItemPreview preview="play" />
-          <p></p>
-        </div>
-        <p>
-          <span>
-            {translate('HOW_TO_PLAY_4')}
-          </span>
-          <br/>
-          <br/>
-          <img src="/game.png" className={classes.image} alt="Game image" />
-        </p>
-        <p>
-          <span>
-            {translate('HOW_TO_PLAY_5')}
-          </span>
-          <br/>
-          <br/>
-          <img src="/create-game.png" className={classes.image} alt="Create game image" />
-        </p>
+        <HowToPlayCommon />
       </div>
     </div>
   )

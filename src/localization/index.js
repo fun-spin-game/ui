@@ -266,7 +266,7 @@ export default {
   ],
   WITHDRAW: [
     'Withdraw',
-    'Вывести'
+    'Вывод средств'
   ],
   STATUS: [
     'Status',
@@ -407,5 +407,197 @@ export default {
   MANAGE_LUCK_AND_EARN_MONEY: [
     'Manage luck and earn money',
     'Управляй удачей и зарабатывай'
+  ],
+  TOP_UP: [
+    'Top up',
+    'Пополнить'
+  ],
+  WHY_IT_WORTH_TO_START: [
+    'Why it worth to start',
+    'Почему стоит начать'
+  ],
+  WHY_IT_WORTH_TO_START_REASON_1: [
+    'Unlike other similar games, you can control your chance of winning!',
+    'В отличае от других, подобных игр, вы сами можете контролировать свой шанс на победу!',
+  ],
+  WHY_IT_WORTH_TO_START_REASON_2: [
+    'If you have endurance and patience - you can have a good and stable profit!',
+    'Если вы обладаете выдержкой и терпением - вы можете иметь хороший и стабильный доход, превышающий стандартную зарплату в странах СНГ!',
+  ],
+  WHY_IT_WORTH_TO_START_REASON_3: [
+    'No scum! In our interests to attract new players giving them a real opportunity to earn money, without scum. From our side, we take a small commission on each withdrawal.',
+    'Все честно! В наших интересах привлечь новых игроков, дав им реальную возможность зароботка, без обмана. В свою очередь мы берем небольшую комиссию в при каждом выводе средств.',
+  ],
+  START_TO_PLAY: [
+    'Start to play',
+    'Начать играть'
+  ],
+  OUR_ACHIEVEMENTS: [
+    'Our achievements',
+    'Наши достижения'
+  ],
+  OUR_ACHIEVEMENTS_1_DESCRIPTION: [
+    'Paid to players for all time',
+    'Выплачено игокам за все время'
+  ],
+  OUR_ACHIEVEMENTS_2_TEXT: [
+    'New players',
+    'Новых игроков'
+  ],
+  OUR_ACHIEVEMENTS_2_DESCRIPTION: [
+    'Every day receive their first payment',
+    'Каждый день получают свою первую выплату'
+  ],
+  OUR_ACHIEVEMENTS_3_TEXT: [
+    'people',
+    'человек'
+  ],
+  OUR_ACHIEVEMENTS_3_DESCRIPTION: [
+    'Online in average every day',
+    'Онлайн в среднем за день'
+  ],
+  '$': [
+    '$',
+    '$'
+  ],
+  GAME_PROCESS: [
+    'Game process',
+    'Игровой процесс'
+  ],
+  STEP: [
+    'Step',
+    'Шаг'
+  ],
+  HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_1: [
+    'Go to the registration page from the main menu, then fill out a simple form containing 3 fields for entering data',
+    'Перейдите на страницу регистрации из главного меню, после чего, заполните простую форму, содержащую в себе 3 поля для ввода данных'
+  ],
+  HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_2: [
+    'Field "email" - your email address',
+    'Поле "email" - адресс вашей электронной почты'
+  ],
+  HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_3: [
+    'Field "password" - create a password that you will enter when entering the game',
+    'Поле "пароль" - придумайте пароль, который вы будете вводить при входе в игру'
+  ],
+  HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_4: [
+    'Field "repeat password" - repeat created password',
+    'Поле "повторите ваш пароль" - повторите придуманный вами пароль'
+  ],
+  HOW_TO_PLAY_REGISTRATION_STEP_2_ITEM_1: [
+    'After filling all the fields, click "Register" button',
+    'После заполнения всех полей, нажмите кнопку "Регистрация"',
+  ],
+  HOW_TO_PLAY_REGISTRATION_STEP_2_ITEM_2: [
+    'Registration will be completed and you will be redirected to the main page where you will see a notification about the activation of the demo mode',
+    'Регистрация будет завершена и вы будете перенаправлены на главную страницу, где увидите уведомление об активации демонстрационного режима'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_1: [
+    'After registration is completed, you will be redirected to the main page where you will see a notification about the activation of the demo mode',
+    'После завершения регистрации вы будете перенаправлены на главную страницу, где увидите уведомление об активации демонстрационного режима'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_2: [
+    'When demo mode will be activated, you will get a start bonus',
+    'При активации демонстрационного режима, вы получите стартовый бонус'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_3: [
+    'In demo mode, you can play without real money, using the start bonus',
+    'В демонстрационном режиме можно играть без пополнения счета, используя стартовый бонус'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_4: [
+    'In demo mode, it is impossible to withdraw money',
+    'В демонстрационном режиме невозможно выводить деньги'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_1: [
+    'To complete the demo mode, you need to replenish your account by minimum sum.',
+    'Для завершения демонстрационного режима, вам необходимо пополнить свой счет на минимальную сумму',
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_2: [
+    'To do this, go to the account replenishment page from the main menu and complete the account replenishment.',
+    'Для этого перейдите на страницу пополнения счета из главного меню и совершите пополнение счета'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_1: [
+    'After successfully crediting your account, you will see a notification that the demo mode is deactivated',
+    'После успешного пополнения счета, вы увидите уведомление о том, что демонстрационный режим деактивирован'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_2: [
+    'Your balance will be equal to the amount of your deposit',
+    'Ваш баланс станет равным сумме вашего пополнения'
+  ],
+  HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_3: [
+    'Now you can withdraw money',
+    'Теперь вы можете выводить деньги'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_1_ITEM_1: [
+    'To start playing - go to the lots page from the main menu',
+    'Для того, чтобы начать играть - перейдите на страницу лотов из главного меню'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_1: [
+    'Each lot has several parameters',
+    'У каждого лота есть несколько параметров'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_2: [
+    'Chance of winning. The greater this parameter, the greater your chances of winning',
+    'Шанс выигрыша. Чем больше этот параметр, тем больше у вас шансов на победу'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_3: [
+    'Prize. This is the amount which you will receive if you win',
+    'Приз. Это сумма, который вы получите в случае выигрыша'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_4: [
+    'Your risk. This is the amount that  you will lose in case of loss. The higher the chance of winning - the greater your risk',
+    'Ваш риск. Это сумма, которую вы потеряете в случае проигрыша. Чем выше шанс на победу - тем больше ваш риск'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_5: [
+    'The number of attempts used in this item. When this parameter reaches a maximum - the lot will become unavailable',
+    'Количество использованых попыток в этом лоте. Когда этот параметры достигнет максимума - лот станет недоступным'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_3_ITEM_1: [
+    'When you find a lot that you like, hover the mouse over it and click the "Play!" button',
+    'Когда вы нашли понравившийся вам лот - наведите на него мышкой и нажмите кнопку "Играть!"'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_1: [
+    'After this you will see a window with a tape consisting of red and green cells',
+    'После этого вы увидите окно с лентой, состоящей из красных и зеленых ячеек'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_2: [
+    'Green box means win',
+    'Зеленая ячейка означает выигрыш'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_3: [
+    'Red - loose',
+    'Красная - проигрыш'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_4: [
+    'Press the "Play" button and the tape will start moving',
+    'Нажмите кнопку "Играть" и лента начнет движение'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_5: [
+    'Your win or loss depends on the color of the cell where the tape stops',
+    'Ваш выигрыш либо проигрыш зависит от цвета ячейки, на которой остановится лента'
+  ],
+  HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_1: [
+    'To withdraw funds, go to the appropriate page from the main menu',
+    'Для вывода средств перейдите на соответствующую страницу из главного меню'
+  ],
+  HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_2: [
+    'Select the amount to withdraw',
+    'Выберете сумму для вывода'
+  ],
+  HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_3: [
+    'Select the desired withdraw method',
+    'Выберете желаемый способ вывода'
+  ],
+  HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_4: [
+    'Enter your wallet number',
+    'Укажите номер вашего кошелька'
+  ],
+  HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_5: [
+    'Click on "Withdraw" button',
+    'Нажмите на кнопку "Вывести"'
+  ],
+  HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_6: [
+    'Your application will be processed within 24 hours and the money will go to your wallet',
+    'Ваша заявка будет обработана в течении суток и деньги поступят на ваш кошелек'
   ],
 };
