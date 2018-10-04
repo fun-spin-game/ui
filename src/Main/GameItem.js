@@ -2,7 +2,7 @@ import React from 'react';
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { compose, withHandlers, pure } from 'recompose';
+import { compose, withHandlers, pure, withProps } from 'recompose';
 import { Circle, Line } from 'rc-progress';
 import { Button, Avatar } from 'antd';
 import { withLocalize } from 'react-localize-redux';
@@ -27,18 +27,14 @@ const GameItem = (props) => {
     maxAttempts,
     connectedUser,
     creatorUser,
-    won,
-    lost,
     risk,
     translate,
-    userId,
-    balance,
     play,
+    disabled,
+    amountOfAttempts,
+    amountOfAttemptsPercentage,
+    ownGame,
   } = props;
-  const amountOfAttempts = won + lost;
-  const amountOfAttemptsPercentage = amountOfAttempts / maxAttempts * 100;
-  const disabled = balance < risk || won + lost >= maxAttempts;
-  const ownGame = creatorUser && creatorUser.id === userId;
   return (
     <div
       style={style}
@@ -281,6 +277,12 @@ const styles = {
 export default compose(
   withLocalize,
   withGamesActions(),
+  withProps(({ creatorUser, amountOfAttempts, balance, risk, won, lost, maxAttempts, userId }) => ({
+    disabled: balance < risk || won + lost >= maxAttempts,
+    amountOfAttempts: won + lost,
+    amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
+    ownGame: !!creatorUser && creatorUser.id === userId,
+  })),
   withHandlers({
     play: ({ connectToGame, id, preview }) =>  () => {
       if (preview) return;
@@ -305,6 +307,7 @@ GameItem.propTypes = {
   preview: PropTypes.string,
   style: PropTypes.object,
   won: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
   lost: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,
@@ -318,4 +321,7 @@ GameItem.propTypes = {
   userId: PropTypes.number,
   balance: PropTypes.number,
   connectedUser: PropTypes.object,
+  amountOfAttempts: PropTypes.number.isRequired,
+  amountOfAttemptsPercentage: PropTypes.number.isRequired,
+  ownGame: PropTypes.bool.isRequired,
 };

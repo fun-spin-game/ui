@@ -292,9 +292,13 @@ export default {
     'Empty',
     'Пусто',
   ],
-  YOU_SHOULD_HAVE_AT_LEAST_N_DOLLARS_TO_WITHDRAW: [
+  YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW: [
     'You should have at least ${n} dollars to withdraw',
     'Вы должны иметь как минимум ${n} долларов для вывода средств',
+  ],
+  MIN_AMOUNT_TO_WITHDRAW_IS_N_COINS: [
+    'Minimal amount to withdraw is ${n} coins or ${m} dollars',
+    'Минимальная сумма для вывода - ${n} монет',
   ],
   TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS: [
     'To be able to withdraw you should top up the balance for ${n} dollars',
@@ -334,7 +338,7 @@ export default {
   ],
   TOP_UP_THE_BALANCE: [
     'Top up the balance',
-    'Пополнение баланса'
+    'Пополнение счета'
   ],
   OK: [
     'OK',
@@ -376,9 +380,9 @@ export default {
     'Demo mode',
     'Демонстрационный режим'
   ],
-  DEMO_MODE_ACTIVATED_YOU_RECEIVED_N_DOLLARS_AS_A_START_BONUS: [
-    'Demo mode activated. You received ${n}$ as a start bonus',
-    'Вы находитесть в демонстрационном режиме. Вы получили ${n}$ как старовый бонус'
+  YOU_RECEIVED_N_COINS_AS_A_START_BONUS: [
+    'You received ${n}$ coins as a start bonus',
+    'Вы получили ${n} монет как старовый бонус'
   ],
   WITHDRAW_MONEY_IN_DEMO_MODE_IS_IMPOSSIBLE: [
     'Withdraw money in demo mode is impossible',

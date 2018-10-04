@@ -6,7 +6,6 @@ import {
   Table,
   Icon,
   Button,
-  InputNumber,
   Slider,
   Form,
   Alert,
@@ -57,7 +56,7 @@ const COLUMNS = [
     title: <Translate id="AMOUNT" />,
     dataIndex: 'amount',
     key: 'amount',
-    render: text => <Fragment><Coins /> {text}</Fragment>
+    render: text => <Fragment>$ {text}</Fragment>
   },
   {
     title: <Translate id="DATE" />,
@@ -84,7 +83,7 @@ const Withdraw = ({
   withdraws,
   translate,
   classes,
-  userInfo: { balance, paid },
+  userInfo: { balance },
   setAmount,
   amount,
   method,
@@ -92,33 +91,21 @@ const Withdraw = ({
   setRequisite,
   form: { getFieldDecorator },
   handleSubmit,
-  gameConfig: { REQUIRED_PAID_TO_WITHDRAW, MIN_AMOUNT_OF_WITHDRAWING }
+  gameConfig: { MIN_AMOUNT_OF_WITHDRAWING, COINS_RATE }
 }) => {
   const sortedWithdraws = _.sortBy(withdraws, 'createdAt');
   const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
-  const paidNotEnough = paid < REQUIRED_PAID_TO_WITHDRAW;
   const maxValue = Math.floor(balance);
   return (
     <div className={classes.withdrawing}>
       <PageTitle>{translate('WITHDRAWING')}</PageTitle>
       <Form id="withdrawing" className={classes.withdrawingForm}>
         {
-          !paidNotEnough && lowBalance && (
+          lowBalance && (
             <FormItem>
               <Alert
                 showIcon
-                message={`${translate('LOW_BALANCE')}. ${translate('YOU_SHOULD_HAVE_AT_LEAST_N_DOLLARS_TO_WITHDRAW', { n: MIN_AMOUNT_OF_WITHDRAWING })}`}
-                type="error"
-              />
-            </FormItem>
-          )
-        }
-        {
-          paidNotEnough && (
-            <FormItem>
-              <Alert
-                showIcon
-                message={`${translate('YOU_ARE_IN_DEMO_MODE')}. ${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
+                message={`${translate('LOW_BALANCE')}. ${translate('MIN_AMOUNT_TO_WITHDRAW_IS_N_COINS', { n: MIN_AMOUNT_OF_WITHDRAWING })}`}
                 type="warning"
               />
             </FormItem>
@@ -126,26 +113,18 @@ const Withdraw = ({
         }
         <FormItem>
           <div>
-            <InputNumber
-              step={1}
-              defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
-              min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={maxValue}
-              onChange={setAmount}
-              value={amount}
-              disabled={paidNotEnough || lowBalance}
-            /> $
+            {amount} <Coins /> / { amount * COINS_RATE } $
           </div>
           <div>
             <Slider
-              step={1}
+              step={100}
               defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
               min={MIN_AMOUNT_OF_WITHDRAWING}
               max={maxValue}
               tipFormatter={(value) => (<span>{value} <Coins /></span>)}
               onChange={(val) => setAmount(val)}
               value={amount}
-              disabled={paidNotEnough || lowBalance}
+              disabled={lowBalance}
             />
           </div>
         </FormItem>
@@ -173,7 +152,7 @@ const Withdraw = ({
             type="primary"
             htmlType="submit"
             onClick={handleSubmit}
-            disabled={paidNotEnough || lowBalance}
+            disabled={lowBalance}
           >
             {translate('WITHDRAW')}
           </Button>
@@ -199,7 +178,7 @@ const Withdraw = ({
                 <div className={classes.card}>
                   <span className={classes.status}>{getStatusLabel(status)}</span>
                   <div className={classes.amount}>
-                    <div>{amount} <Coins /></div>
+                    <div>$ {amount}</div>
                   </div>
                 </div>
               </Card>
@@ -207,7 +186,7 @@ const Withdraw = ({
           )}
         />
     </div>
-  )
+  );
 };
 
 const styles = {

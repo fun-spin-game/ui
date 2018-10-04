@@ -1,6 +1,6 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { Layout, Modal, Button } from 'antd';
+import { Layout } from 'antd';
 import { renderToStaticMarkup } from 'react-dom/server';
 import classNames from 'classnames';
 import Cookie from 'js-cookie';
@@ -133,35 +133,35 @@ const App = compose(
     ({ userInfoRequestDone, gameConfig }) => !userInfoRequestDone || !gameConfig,
     renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
   ),
-  lifecycle({
-    componentDidMount() {
-      const {
-        userInfo,
-        gameConfig: {
-          REQUIRED_PAID_TO_WITHDRAW,
-        },
-        translate,
-        confirmDemoModeFinished,
-      } = this.props;
-      if (!userInfo) return;
-      if (userInfo.paid >= REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
-        Modal.info({
-          title: translate('DEMO_MODE_FINISHED'),
-          content: `${translate('NOW_YOU_CAN_PLAY_FOR_REAL_MONEY_AND_WITHDRAW_THEM')}!`,
-          onOk() {
-            confirmDemoModeFinished();
-          },
-          footer: [
-            <Button key="submit" type="primary" onClick={() => {
-              confirmDemoModeFinished();
-            }}>
-              {translate('CONFIRM')}
-            </Button>
-          ]
-        })
-      }
-    }
-  }),
+  // lifecycle({
+  //   componentDidMount() {
+  //     const {
+  //       userInfo,
+  //       gameConfig: {
+  //         REQUIRED_PAID_TO_WITHDRAW,
+  //       },
+  //       translate,
+  //       confirmDemoModeFinished,
+  //     } = this.props;
+  //     if (!userInfo) return;
+  //     if (userInfo.paid >= REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
+  //       Modal.info({
+  //         title: translate('DEMO_MODE_FINISHED'),
+  //         content: `${translate('NOW_YOU_CAN_PLAY_FOR_REAL_MONEY_AND_WITHDRAW_THEM')}!`,
+  //         onOk() {
+  //           confirmDemoModeFinished();
+  //         },
+  //         footer: [
+  //           <Button key="submit" type="primary" onClick={() => {
+  //             confirmDemoModeFinished();
+  //           }}>
+  //             {translate('CONFIRM')}
+  //           </Button>
+  //         ]
+  //       })
+  //     }
+  //   }
+  // }),
   pure,
 )(AppComp);
 

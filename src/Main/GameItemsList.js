@@ -10,6 +10,7 @@ import { AutoSizer, WindowScroller, List } from 'react-virtualized';
 import { compose, withState, withHandlers, lifecycle, pure, withProps } from 'recompose';
 import withMeta from '../containers/withMeta';
 import withUser from '../containers/withUser';
+import withGameConfig from '../containers/withGameConfig';
 import GameItem from './GameItem';
 import Coins from '../common/Coins';
 import Spinner from '../common/Spinner';
@@ -41,10 +42,6 @@ const getGameItemGameProps = ({
   balance,
 });
 
-const FILTERS = new Array(10)
-  .fill()
-  .map((o, index) => ({ min: index * 20 || 1, max: (index + 1) * 20 }));
-
 const GameItemsList = ({
   classes,
   appInFocus,
@@ -55,6 +52,7 @@ const GameItemsList = ({
   sortedFilteredGames,
   sortedGames,
   filter,
+  filters,
 }) => {
   return <Spinner show={!games.length} overlay={true} transparentOverlay={true}>
     {
@@ -64,7 +62,7 @@ const GameItemsList = ({
           className={classNames(classes.slider, { mobile: isMobile }) }
           defaultValue={0}
           min={0}
-          max={FILTERS.length - 1}
+          max={filters.length - 1}
           onAfterChange={sliderAfterChange}
           tipFormatter={tipFormatter}
         />
@@ -139,15 +137,22 @@ const styles = {
 
 export default compose(
   withUser(),
+  withGameConfig(),
   withMeta(),
   withState('rangeFilter', 'setRangeFilter', 0),
+  withProps(({ gameConfig: { GAME_MIN_PRIZE, GAME_MAX_PRIZE } }) => {
+    const filters = new Array(Math.ceil((GAME_MAX_PRIZE - GAME_MIN_PRIZE) / 250))
+      .fill()
+      .map((o, index) => ({ min: index * 250, max: (index + 1) * 250 }));
+    return { filters };
+  }),
   withHandlers({
     sortGames: ({ userInfo: { balance }}) => (games) => _.sortBy(games, [({ risk }) => balance <= risk, 'prize']),
     sliderAfterChange: ({ setRangeFilter }) => (value) => { setRangeFilter(value) },
-    tipFormatter: () => (value) => (<span>{FILTERS[value].min} <Coins /> - {FILTERS[value].max} <Coins /></span>)
+    tipFormatter: ({ filters }) => (value) => (<span>{filters[value].min} <Coins /> - {filters[value].max} <Coins /></span>)
   }),
-  withProps(({ rangeFilter, games, sortGames }) => {
-    const filter = FILTERS[rangeFilter];
+  withProps(({ rangeFilter, games, sortGames, filters }) => {
+    const filter = filters[rangeFilter];
     const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
     const sortedFilteredGames = sortGames(filteredGames);
     const sortedGames = sortGames(games);
@@ -169,10 +174,12 @@ GameItemsList.propTypes = {
   rangeFilter: PropTypes.number.isRequired,
   userInfo: PropTypes.object.isRequired,
   filter: PropTypes.object.isRequired,
+  gameConfig: PropTypes.object.isRequired,
   setRangeFilter: PropTypes.func.isRequired,
   sliderAfterChange: PropTypes.func.isRequired,
   sortGames: PropTypes.func.isRequired,
   tipFormatter: PropTypes.func.isRequired,
   sortedFilteredGames: PropTypes.array.isRequired,
   sortedGames: PropTypes.array.isRequired,
+  filters: PropTypes.array.isRequired,
 };

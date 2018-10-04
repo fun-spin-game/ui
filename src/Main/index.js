@@ -97,7 +97,6 @@ export default compose(
       const {
         userInfo,
         gameConfig: {
-          REQUIRED_PAID_TO_WITHDRAW,
           START_USER_BALANCE,
         },
         translate,
@@ -107,9 +106,7 @@ export default compose(
         Modal.info({
           title: `${translate('WELCOME')}!`,
           content: <div>
-            - {translate('DEMO_MODE_ACTIVATED_YOU_RECEIVED_N_DOLLARS_AS_A_START_BONUS', { n: START_USER_BALANCE })}.<br/><br/>
-            - {translate('WITHDRAW_MONEY_IN_DEMO_MODE_IS_IMPOSSIBLE')}.<br/><br/>
-            - {translate('TO_END_UP_DEMO_MODE_YOU_SHOULD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}.<br/><br/><br/>
+            {translate('YOU_RECEIVED_N_COINS_AS_A_START_BONUS', { n: START_USER_BALANCE })}.<br/><br/>
             {translate('HAVE_A_GOOD_GAME')}!
           </div>,
           onOk() {

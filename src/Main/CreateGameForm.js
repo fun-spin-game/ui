@@ -31,7 +31,7 @@ const CreateGameForm = ({
   maxAttempts,
   getCreatorRisk,
   form: { getFieldDecorator },
-  gameConfig: { MIN_PRIZE, MAX_PRIZE, MIN_CHANCE_TO_WIN, MAX_CHANCE_TO_WIN, MAX_ATTEMPTS }
+  gameConfig: { GAME_MIN_PRIZE, GAME_MAX_PRIZE, MIN_CHANCE_TO_WIN, MAX_CHANCE_TO_WIN, MAX_ATTEMPTS }
 }) => {
   const creatorRisk = getCreatorRisk({ prize, maxAttempts });
   const notEnoughCoins = creatorRisk > balance;
@@ -53,16 +53,16 @@ const CreateGameForm = ({
               <Row>
                 <Col span={COL_LEFT}>
                   <InputNumber
-                    min={MIN_PRIZE}
-                    max={MAX_PRIZE}
+                    min={GAME_MIN_PRIZE}
+                    max={GAME_MAX_PRIZE}
                     onChange={setPrize}
                     value={prize}
                   /> <Coins />
                 </Col>
                 <Col span={COL_RIGHT}>
                   <Slider
-                    min={MIN_PRIZE}
-                    max={MAX_PRIZE}
+                    min={GAME_MIN_PRIZE}
+                    max={GAME_MAX_PRIZE}
                     tipFormatter={prizeTipFormatter}
                     defaultValue={50}
                     onChange={setPrize}
@@ -172,7 +172,7 @@ export default compose(
   Form.create(),
   withState('chanceToWin', 'setChanceToWin', 50),
   withState('maxAttempts', 'setMaxAttempts', ({ gameConfig: { MAX_ATTEMPTS } }) => MAX_ATTEMPTS),
-  withState('prize', 'setPrize', ({ gameConfig: { MIN_PRIZE } }) => MIN_PRIZE),
+  withState('prize', 'setPrize', ({ gameConfig: { GAME_MIN_PRIZE } }) => GAME_MIN_PRIZE),
   withHandlers({
     getCreatorRisk: () => ({ prize, maxAttempts }) => {
       return toFixedIfNeed(prize * maxAttempts);

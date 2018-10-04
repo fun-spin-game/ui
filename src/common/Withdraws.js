@@ -7,7 +7,6 @@ import { compose, lifecycle, pure } from 'recompose';
 import { Translate } from 'react-localize-redux';
 import withWithdraws from '../containers/withWithdraws';
 import injectSheet from 'react-jss';
-import Coins from '../common/Coins';
 import Spinner from '../common/Spinner';
 import { DATE_FORMAT } from '../config';
 
@@ -23,7 +22,7 @@ const COLUMNS = [
     title: <Translate id="WITHDRAWN" />,
     dataIndex: 'amount',
     key: 'amount',
-    render: text => <Fragment><Coins /> {text}</Fragment>
+    render: text => <Fragment>$ {text}</Fragment>
   },
   {
     title: <Translate id="DATE" />,
@@ -37,38 +36,40 @@ const COLUMNS = [
 const Withdraws = ({ withdraws, classes }) => {
   const sortedWithdraws = _.sortBy(withdraws, 'createdAt').reverse().splice(0, 10);
   return (
-    <Spinner spinnerKey="REST_API.GET_WITHDRAWS_REQUEST" overlay={true} transparentOverlay={true}>
-      <Fragment>
-        {
-          window.innerWidth > 666 ? (
-            <Table
-              dataSource={sortedWithdraws}
-              columns={COLUMNS}
-              pagination={false}
-              rowKey={(o) => o.createdAt}
-            />
-          ) : (
-            <List
-              grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
-              dataSource={sortedWithdraws}
-              renderItem={({ createdAt, amount, user: { displayName, photo } }) => (
-                <List.Item>
-                  <Card title={moment(createdAt).format(DATE_FORMAT)}>
-                    <div className={classes.card}>
-                      <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
-                      <div>
-                        <p>{displayName}</p>
-                        <span>{amount} <Coins /></span>
+    <div className={classes.withdraws}>
+      <Spinner spinnerKey="REST_API.GET_WITHDRAWS_REQUEST" overlay={true} transparentOverlay={true}>
+        <Fragment>
+          {
+            window.innerWidth > 666 ? (
+              <Table
+                dataSource={sortedWithdraws}
+                columns={COLUMNS}
+                pagination={false}
+                rowKey={(o) => o.createdAt}
+              />
+            ) : (
+              <List
+                grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
+                dataSource={sortedWithdraws}
+                renderItem={({ createdAt, amount, user: { displayName, photo } }) => (
+                  <List.Item>
+                    <Card title={moment(createdAt).format(DATE_FORMAT)}>
+                      <div className={classes.card}>
+                        <Avatar icon="user" src={photo} className={classes.avatar} size="large" />
+                        <div>
+                          <p>{displayName}</p>
+                          <span>$ {amount}</span>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                </List.Item>
-              )}
-            />
-          )
-        }
-      </Fragment>
-    </Spinner>
+                    </Card>
+                  </List.Item>
+                )}
+              />
+            )
+          }
+        </Fragment>
+      </Spinner>
+    </div>
   );
 };
 
@@ -79,11 +80,13 @@ const styles = {
     },
     '& .ant-card-head-title': {
       fontSize: '12px',
+      textAlign: 'left',
     }
   },
   card: {
     display: 'flex',
     height: 80,
+    textAlign: 'left',
   },
   avatar: {
     marginRight: 15,

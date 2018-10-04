@@ -23,15 +23,14 @@ const Game = ({
     lost,
     spinInProgress,
   },
-  userInfo: { balance, paid },
-  gameConfig: { REQUIRED_PAID_TO_WITHDRAW },
+  userInfo: { balance },
   onClickPlay,
   closeGame,
 }) => {
   const amountOfAttempts = won + lost;
   const maxAttemptsReached = amountOfAttempts >= maxAttempts;
   const lowBalance = balance < risk;
-  const result = paid >= REQUIRED_PAID_TO_WITHDRAW ? Boolean(parseInt(decryptedSchema[amountOfAttempts])) : Math.random() <= chanceToWin / 100 + 0.1;
+  const result = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
   return (
     <div className={classes.rouletteOverlay}>
       {

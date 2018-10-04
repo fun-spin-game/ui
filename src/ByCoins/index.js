@@ -6,7 +6,6 @@ import {
   Table,
   Icon,
   Button,
-  InputNumber,
   Slider,
   Form,
 } from 'antd';
@@ -43,28 +42,6 @@ const getStatusLabel = (status) => {
   }
 };
 
-/* eslint-disable react/display-name */
-const COLUMNS = [
-  {
-    title: <Translate id="STATUS" />,
-    dataIndex: 'status',
-    key: 'status',
-    render: text => getStatusLabel(text)
-  },
-  {
-    title: <Translate id="AMOUNT" />,
-    dataIndex: 'amount',
-    key: 'amount',
-    render: text => <Fragment><Coins /> {text}</Fragment>
-  },
-  {
-    title: <Translate id="DATE" />,
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    render: text => <Fragment>{moment(text).format(DATE_FORMAT)}</Fragment>
-  },
-];/* eslint-enable react/display-name */
-
 const ByCoins = ({
   purchases,
   translate,
@@ -72,8 +49,29 @@ const ByCoins = ({
   setAmount,
   amount,
   purchaseUrl,
-  gameConfig: { MIN_AMOUNT_OF_PURCHASE, MAX_AMOUNT_OF_PURCHASE }
+  gameConfig: { MIN_AMOUNT_OF_PURCHASE, MAX_AMOUNT_OF_PURCHASE, COINS_RATE }
 }) => {
+  /* eslint-disable react/display-name */
+  const COLUMNS = [
+    {
+      title: <Translate id="STATUS" />,
+      dataIndex: 'status',
+      key: 'status',
+      render: text => getStatusLabel(text)
+    },
+    {
+      title: <Translate id="AMOUNT" />,
+      dataIndex: 'amount',
+      key: 'amount',
+      render: text => <Fragment><Coins /> {text / COINS_RATE}</Fragment>
+    },
+    {
+      title: <Translate id="DATE" />,
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: text => <Fragment>{moment(text).format(DATE_FORMAT)}</Fragment>
+    },
+  ];/* eslint-enable react/display-name */
   const sortedWithdraws = _.sortBy(purchases, 'createdAt');
   return (
     <div className={classes.purchase}>
@@ -81,17 +79,11 @@ const ByCoins = ({
       <Form id="purchase" className={classes.purchaseForm}>
         <FormItem>
           <div>
-            <InputNumber
-              step={1}
-              min={MIN_AMOUNT_OF_PURCHASE}
-              max={MAX_AMOUNT_OF_PURCHASE}
-              onChange={setAmount}
-              value={amount}
-            /> <Coins />
+            {amount} <Coins /> / { amount * COINS_RATE } $
           </div>
           <div>
             <Slider
-              step={1}
+              step={500}
               min={MIN_AMOUNT_OF_PURCHASE}
               max={MAX_AMOUNT_OF_PURCHASE}
               tipFormatter={(value) => (<span>{value} <Coins /></span>)}
@@ -130,7 +122,7 @@ const ByCoins = ({
                 <div className={classes.card}>
                   <span className={classes.status}>{getStatusLabel(status)}</span>
                   <div className={classes.amount}>
-                    <div>{amount} <Coins /></div>
+                    <div>{amount / COINS_RATE} <Coins /></div>
                   </div>
                 </div>
               </Card>
@@ -196,13 +188,16 @@ export default compose(
   withPurchases(),
   withUser(),
   withGameConfig(),
-  withState('amount', 'setAmount', ({ gameConfig: { MIN_AMOUNT_OF_PURCHASE } }) => MIN_AMOUNT_OF_PURCHASE),
-  withProps(({ amount, userInfo }) => {
+  withState(
+    'amount',
+    'setAmount',
+    ({ gameConfig: { MIN_AMOUNT_OF_PURCHASE } }) => MIN_AMOUNT_OF_PURCHASE),
+  withProps(({ amount, userInfo, gameConfig: { COINS_RATE } }) => {
     const purchaseId = `${userInfo.id}_${_.random(100000)}`;
     return {
       purchaseUrl: `http://www.free-kassa.ru/merchant/cash.php?
       m=87104&
-      oa=${amount}&
+      oa=${amount * COINS_RATE }&
       o=${purchaseId}&
       us_userId=${userInfo.id}&
       s=${cryptoJs.MD5(`87104:${amount}:${process.env.REACT_APP_FREE_KASSA_SECRET}:${purchaseId}`).toString()}`
