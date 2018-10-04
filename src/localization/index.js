@@ -334,7 +334,7 @@ export default {
   ],
   TOP_UP_THE_BALANCE: [
     'Top up the balance',
-    'Пополнить баланс'
+    'Пополнение баланса'
   ],
   OK: [
     'OK',
@@ -528,6 +528,34 @@ export default {
     'Now you can withdraw money',
     'Теперь вы можете выводить деньги'
   ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_1_ITEM_1: [
+    'To replenish the balance, go to the replenishment page from the main menu',
+    'Для пополнения счета перейдите на страницу пополнения из главного меню'
+  ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_1_ITEM_2: [
+    'Specify the amount of replenishment by dragging the slider or by entering the amount in the appropriate field',
+    'Укажите сумму пополнения перетянув ползунок либо введя сумму в соответствующее поле'
+  ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_2_ITEM_1: [
+    'After you specified the amount, click the "Top up" button and you will be redirected to the partner site',
+    'После того как вы указали сумму, нажмите кнопку "Пополнить" и вы будете пренаправлены на сайт партнера'
+  ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_2_ITEM_2: [
+    'Choose a convenient payment method for you',
+    'Выберите удобный для вас способ оплаты'
+  ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_3_ITEM_1: [
+    'Next, fill in the required fields and click on the "Pay" button',
+    'Далее, заполните необходимые поля и нажмите на кнопку "Оплатить"'
+  ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_3_ITEM_2: [
+    'After that, depending on the payment method you choose, you will be redirected to the site of the payment service provider, where you should make a payment',
+    'После этого, в зависимости от выбранного вами способа оплаты, вы будете перенаправлены на сайт оператора предоставляющего услугу оплаты, где необхоимо совершить платеж'
+  ],
+  HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_4_ITEM_1: [
+    'After successful payment, you will be redirected to our site, and your balance will be credited to the appropriate amount',
+    'После успешной олпаты выбудете перенаправлены на наш сайт, а ваш баланс будет пополнен на соответствующую сумму'
+  ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_1_ITEM_1: [
     'To start playing - go to the lots page from the main menu',
     'Для того, чтобы начать играть - перейдите на страницу лотов из главного меню'
@@ -574,7 +602,7 @@ export default {
   ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_5: [
     'Your win or loss depends on the color of the cell where the tape stops',
-    'Ваш выигрыш либо проигрыш зависит от цвета ячейки, на которой остановится лента'
+    'Выиграете вы, либо проиграете зависит от цвета ячейки, на которой остановится лента'
   ],
   HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_1: [
     'To withdraw funds, go to the appropriate page from the main menu',

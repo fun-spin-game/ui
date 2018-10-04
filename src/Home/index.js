@@ -63,7 +63,7 @@ const Home = ({ classes, translate }) => {
       <div className={classNames(classes.block, classes.advantagesBlock)}>
         <h2>{translate('MANAGE_LUCK_AND_EARN_MONEY')}!</h2>
         <Row gutter={16}>
-          <Col span={12}>
+          <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <div className={classes.advantages}>
               <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
               <div className={classes.advantagesList}>
@@ -78,7 +78,7 @@ const Home = ({ classes, translate }) => {
               </div>
             </div>
           </Col>
-          <Col span={12}>
+          <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <iframe
               width="100%"
               height="315"
@@ -169,6 +169,10 @@ const styles = {
   achievementsList: {
     display: 'flex',
     justifyContent: 'space-around',
+    '@media(max-width: 666px)': {
+      flexDirection: 'column',
+      alignItems: 'center',
+    }
   },
   achievementsItem: {
     width: 200,
@@ -176,6 +180,12 @@ const styles = {
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
+    '@media(max-width: 666px)': {
+      marginTop: 40,
+      '&:first-child': {
+        marginTop: 0,
+      }
+    },
   },
   achievementIcon: {
     fontSize: 40,

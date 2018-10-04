@@ -16,17 +16,17 @@ const HOW_TO_PLAY = [
       {
         imageUrl: '/registration-screen.png',
         stepItemsKeys: [
-          'Перейдите на страницу регистрации из главного меню, после чего, заполните простую форму, содержащую в себе 3 поля для ввода данных',
-          'Поле "email" - адресс вашей электронной почты',
-          'Поле "пароль" - придумайте пароль, который вы будете вводить при входе в игру',
-          'Поле "повторите ваш пароль" - повторите придуманный вами пароль',
+          'HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_1',
+          'HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_2',
+          'HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_3',
+          'HOW_TO_PLAY_REGISTRATION_STEP_1_ITEM_4',
         ]
       },
       {
         imageUrl: '/demo-mode-activated.png',
         stepItemsKeys: [
-          'После заполнения всех полей нажмите кнопку "Регистрация".',
-          'Регистрация будет завершена и вы будете перенаправлены на главную страницу, где увидите уведомление об активации демонстрационного режима'
+          'HOW_TO_PLAY_REGISTRATION_STEP_2_ITEM_1',
+          'HOW_TO_PLAY_REGISTRATION_STEP_2_ITEM_2'
         ]
       },
     ],
@@ -37,25 +37,25 @@ const HOW_TO_PLAY = [
       {
         imageUrl: '/demo-mode-activated.png',
         stepItemsKeys: [
-          'После завершения регистрации вы будете перенаправлены на главную страницу, где увидите уведомление об активации демонстрационного режима',
-          'При активации демонстрационного режима вы получаете стартовый бонус',
-          'В демонстрационном режиме можно играть без пополнения счета, используя стартовый бонус',
-          'В демонстрационном режиме невозможно выводить деньги',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_1',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_2',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_3',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_4',
         ]
       },
       {
         imageUrl: '/top-up-balance-screen.png',
         stepItemsKeys: [
-          'Для завершения демонстрационного режима, вам необходимо пополнить свой счет на 5$',
-          'Для этого перейдите на страницу пополнения счета из главного меню и совершите пополнение счета'
+          'HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_1',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_2'
         ]
       },
       {
         imageUrl: '/demo-mode-finished.png',
         stepItemsKeys: [
-          'После успешного пополнения счета, вы увидите уведомление о том, что демонстрационный режим деактивирован',
-          'Ваш баланс станет равным сумме вашего пополнения',
-          'Теперь вы можете выводить деньги!',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_1',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_2',
+          'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_3',
         ]
       },
     ],
@@ -66,29 +66,29 @@ const HOW_TO_PLAY = [
       {
         imageUrl: '/top-up-balance-screen.png',
         stepItemsKeys: [
-          'Для пополнения счета перейдите на страницу пополнения из главного меню',
-          'Укажите сумму пополнения перетянув ползунок либо введя сумму в соответствующее поле',
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_1_ITEM_1',
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_1_ITEM_2',
 
         ]
       },
       {
         imageUrl: '/free-kassa-1.png',
         stepItemsKeys: [
-          'После того как вы указали сумму, нажмите кнопку "Пополнить" и вы будете пренаправлены на сайт партнера',
-          'Веберете удобный для вас способ оплаты'
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_2_ITEM_1',
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_2_ITEM_2'
         ]
       },
       {
         imageUrl: '/free-kassa-2.png',
         stepItemsKeys: [
-          'Далее, заполните необходимые поля и нажмите на кнопку "Оплатить"',
-          'После этого, в зависимости от выбранного вами способа оплаты, вы будете перенаправлены на сайт оператора предоставляющего услугу оплаты',
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_3_ITEM_1',
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_3_ITEM_2',
         ]
       },
       {
         imageUrl: '/top-up-balance-screen.png',
         stepItemsKeys: [
-          'После успешной олпаты выбудете перенаправлены на наш сайт, а ваш баланс будет пополнен на соответствующую сумму',
+          'HOW_TO_PLAY_TOP_UP_THE_BALANCE_STEP_4_ITEM_1',
         ]
       },
     ],
@@ -99,33 +99,33 @@ const HOW_TO_PLAY = [
       {
         imageUrl: '/lots-screen.png',
         stepItemsKeys: [
-          'Для того, чтобы начать играть - перейдите на страницу лотов из главного меню',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_1_ITEM_1',
         ]
       },
       {
         imageUrl: '/lot.png',
         stepItemsKeys: [
-          'У каждого лота есть несколько параметров',
-          'Шанс выигрыша. Чем больше этот параметр, тем больше у вас шансов на победу!',
-          'Приз. Это сумма, который вы получите в случае выигрыша',
-          'Ваш риск. Это сумма, которую вы потеряете в случае проигрыша. Чем выше шанс на победу - тем больше ваш риск',
-          'Количество использованых попыток в этом лоте. Когда этот параметры достигнет максимума - лот станет недоступным',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_1',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_2',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_3',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_4',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_5',
         ]
       },
       {
         imageUrl: '/lot-hover.png',
         stepItemsKeys: [
-          'Когда вы нашли понравившийся вам лот - наведите на него мышкой и нажмите кнопку "Играть!"',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_3_ITEM_1',
         ]
       },
       {
         imageUrl: '/gameplay-screen.png',
         stepItemsKeys: [
-          'После этого вы увидите окно с лентой, состоящей из красных и зеленых ячеек',
-          'Зеленая ячейка означает выигрыш',
-          'Красная - проигрыш',
-          'Нажмите кнопку "Играть" и лента начнет движение',
-          'Ваш выигрыш либо проигрыш зависит от цвета ячейки, на которой остановится лента'
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_1',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_2',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_3',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_4',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_4_ITEM_5'
         ]
       },
     ],
@@ -136,12 +136,12 @@ const HOW_TO_PLAY = [
       {
         imageUrl: '/withdraw-screen.png',
         stepItemsKeys: [
-          'Для вывода средств перейдите на соответсвующую страницу из главного меню',
-          'Выберете сумму для вывода',
-          'Выберете желаемый способ вывода',
-          'Укажите номер вашего кошелька',
-          'Нажмите на кнопку "Вывести"',
-          'Ваша заявка будет обработана в течении суток и деньги поступят на ваш кошелек!'
+          'HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_1',
+          'HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_2',
+          'HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_3',
+          'HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_4',
+          'HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_5',
+          'HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_6'
         ]
       },
     ]
@@ -174,10 +174,10 @@ const HowToPlay = ({ classes, translate }) => {
                     <img src={step.imageUrl} />
                   </div>
                   <div className={classes.howToPlayText}>
-                    <div className={classes.stepNumber}>Шаг {stepIndex + 1}</div>
+                    <div className={classes.stepNumber}>{translate('STEP')} {stepIndex + 1}</div>
                     {
                       step.stepItemsKeys.map(text => (
-                        <div key={text}>- {text}</div>
+                        <div key={text}>- {translate(text)}</div>
                       ))
                     }
                   </div>
@@ -210,6 +210,16 @@ const styles = {
     display: 'flex',
     marginTop: 50,
     padding: '50px 20px',
+    '@media(max-width: 800px)': {
+      alignItems: 'center',
+      flexDirection: 'column !important',
+      marginTop: 0,
+      '& .howToPlayImage': {
+        marginLeft: '0 !important',
+        marginRight: '0 !important',
+        marginBottom: '40px !important'
+      }
+    },
   },
   howToPlayText: {
     textAlign: 'left'

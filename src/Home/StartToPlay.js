@@ -5,12 +5,19 @@ import { withLocalize } from 'react-localize-redux';
 import classNames from 'classnames';
 import { Button } from 'antd';
 import { pure, compose } from 'recompose';
+import { Link } from 'react-router-dom'
 
 
 const StartToPlay = ({ classes, translate }) => {
   return (
     <div className={classNames(classes.block, classes.startPlayBlock)}>
-      <Button type="primary" className={classes.startPlayBtn} size="large">{translate('START_TO_PLAY')}!</Button>
+      <Button
+        type="primary"
+        className={classes.startPlayBtn}
+        size="large"
+      >
+        <Link to="/login">{translate('START_TO_PLAY')}!</Link>
+      </Button>
     </div>
   );
 };
