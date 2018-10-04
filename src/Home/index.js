@@ -130,6 +130,9 @@ const styles = {
     fontSize: 90,
     color: blueColor,
     position: 'relative',
+    '@media(max-width: 666px)': {
+      fontSize: 80,
+    }
   },
   block: {
     position: 'relative',
