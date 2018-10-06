@@ -41,13 +41,6 @@ const Main = ({
 };
 
 const styles = {
-  gameItems: {
-    '& > *': {
-      display: 'flex',
-      'flex-wrap': 'wrap',
-      'justify-content': 'space-around',
-    }
-  },
   chanceToWin: {
     'margin-bottom': '5px',
   },

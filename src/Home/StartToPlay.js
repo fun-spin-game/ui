@@ -6,15 +6,13 @@ import classNames from 'classnames';
 import { Button } from 'antd';
 import { pure, compose } from 'recompose';
 import { Link } from 'react-router-dom'
-import { blueColor } from '../variables'
 
-
-const StartToPlay = ({ classes, translate }) => {
+const StartToPlay = ({ classes, translate, ghostBtn }) => {
   return (
     <div className={classNames(classes.block, classes.startPlayBlock)}>
       <Button
         type="primary"
-        className={classes.startPlayBtn}
+        className={classNames(classes.startPlayBtn, { ghostBtn })}
         size="large"
       >
         <Link to="/login">{translate('START_TO_PLAY')}!</Link>
@@ -27,15 +25,7 @@ const styles = {
   startPlayBlock: {
     textAlign: 'center',
     padding: '40px 0',
-  },
-  startPlayBtn: ({ ghostBtn }) => ghostBtn ? {
-    background: 'transparent',
-    color: blueColor,
-    transition: 'color 0s',
-    '&:hover': {
-      color: 'white',
-    }
-  } : {},
+  }
 };
 
 export default compose(
@@ -44,8 +34,11 @@ export default compose(
   pure
 )(StartToPlay);
 
+StartToPlay.defaultProps = {
+  ghostBtn: false,
+};
 StartToPlay.propTypes = {
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
-  ghostBtn: PropTypes.bool.isRequired,
+  ghostBtn: PropTypes.bool,
 };

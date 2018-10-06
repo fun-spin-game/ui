@@ -636,4 +636,8 @@ export default {
     'Wait you in this list',
     'Ждем вас в этом списке'
   ],
+  TABLES: [
+    'Tables',
+    'Столы',
+  ],
 };

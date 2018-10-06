@@ -47,3 +47,12 @@ iframe {
   background: #f2f0f0;
   border: 0;
 }
+.ghostBtn {
+  background: transparent;
+  color: #1890ff;
+  transition: color 0s;
+  text-shadow: none;
+}
+.ghostBtn:hover {
+  color: white;
+}

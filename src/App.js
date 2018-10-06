@@ -14,6 +14,7 @@ import Providers, { history } from './redux/Providers';
 import AuthenticatedRoute from './common/AuthenticatedRoute';
 import Home from './Home';
 import Main from './Main';
+import Tables from './Tables';
 import Withdraw from './Withdraw';
 import ByCoins from './ByCoins';
 import Statistic from './Statistic';
@@ -59,7 +60,8 @@ const AppComp = ({
         >
           <Content>
             <Switch>
-              <AuthenticatedRoute exact path="/" component={Main} />
+              <AuthenticatedRoute exact path="/" component={Tables} />
+              <AuthenticatedRoute exact path="/lots/:lotId" component={Main} />
               <Route exact path="/home" component={Home} />
               <AuthenticatedRoute exact path="/withdraw" component={Withdraw} />
               <AuthenticatedRoute exact path="/by-coins" component={ByCoins} />
@@ -133,35 +135,6 @@ const App = compose(
     ({ userInfoRequestDone, gameConfig }) => !userInfoRequestDone || !gameConfig,
     renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
   ),
-  // lifecycle({
-  //   componentDidMount() {
-  //     const {
-  //       userInfo,
-  //       gameConfig: {
-  //         REQUIRED_PAID_TO_WITHDRAW,
-  //       },
-  //       translate,
-  //       confirmDemoModeFinished,
-  //     } = this.props;
-  //     if (!userInfo) return;
-  //     if (userInfo.paid >= REQUIRED_PAID_TO_WITHDRAW && !userInfo.demoModeFinishedConfirmation) {
-  //       Modal.info({
-  //         title: translate('DEMO_MODE_FINISHED'),
-  //         content: `${translate('NOW_YOU_CAN_PLAY_FOR_REAL_MONEY_AND_WITHDRAW_THEM')}!`,
-  //         onOk() {
-  //           confirmDemoModeFinished();
-  //         },
-  //         footer: [
-  //           <Button key="submit" type="primary" onClick={() => {
-  //             confirmDemoModeFinished();
-  //           }}>
-  //             {translate('CONFIRM')}
-  //           </Button>
-  //         ]
-  //       })
-  //     }
-  //   }
-  // }),
   pure,
 )(AppComp);
 
