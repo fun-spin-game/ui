@@ -426,7 +426,7 @@ export default {
   ],
   WHY_IT_WORTH_TO_START_REASON_2: [
     'If you have endurance and patience - you can have a good and stable profit!',
-    'Если вы обладаете выдержкой и терпением - вы можете иметь хороший и стабильный доход, превышающий стандартную зарплату в странах СНГ!',
+    'Если вы обладаете выдержкой и терпением - вы можете иметь хороший и стабильный доход',
   ],
   WHY_IT_WORTH_TO_START_REASON_3: [
     'No scum! In our interests to attract new players giving them a real opportunity to earn money, without scum. From our side, we take a small commission on each withdrawal.',
@@ -631,5 +631,9 @@ export default {
   HOW_TO_PLAY_WITHDRAW_STEP_1_ITEM_6: [
     'Your application will be processed within 24 hours and the money will go to your wallet',
     'Ваша заявка будет обработана в течении суток и деньги поступят на ваш кошелек'
+  ],
+  WAIT_YOU_IN_THIS_LIST: [
+    'Wait you in this list',
+    'Ждем вас в этом списке'
   ],
 };

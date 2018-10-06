@@ -60,6 +60,7 @@ const Home = ({ classes, translate }) => {
         params={particles()}
       />
       <h1 className={classes.title}>FunSpin</h1>
+      <StartToPlay ghostBtn={true} />
       <div className={classNames(classes.block, classes.advantagesBlock)}>
         <h2>{translate('MANAGE_LUCK_AND_EARN_MONEY')}!</h2>
         <Row gutter={16}>
@@ -111,7 +112,7 @@ const Home = ({ classes, translate }) => {
       </div>
       <StartToPlay />
       <div className={classNames(classes.block, classes.withdrawsBlock)}>
-        <h2>{translate('LAST_WITHDRAWS')}</h2>
+        <h2>{translate('LAST_WITHDRAWS')}. {translate('WAIT_YOU_IN_THIS_LIST')}!</h2>
         <WithdrawsCommon />
       </div>
       <StartToPlay />
@@ -130,6 +131,7 @@ const styles = {
     fontSize: 90,
     color: blueColor,
     position: 'relative',
+    marginBottom: 20,
     '@media(max-width: 666px)': {
       fontSize: 80,
     }

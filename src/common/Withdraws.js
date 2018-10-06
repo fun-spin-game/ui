@@ -4,7 +4,7 @@ import { Avatar, Card, List, Table } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import { compose, lifecycle, pure } from 'recompose';
-import { Translate } from 'react-localize-redux';
+import { Translate, withLocalize } from 'react-localize-redux';
 import withWithdraws from '../containers/withWithdraws';
 import injectSheet from 'react-jss';
 import Spinner from '../common/Spinner';
@@ -90,6 +90,9 @@ const styles = {
   },
   avatar: {
     marginRight: 15,
+  },
+  slogan: {
+    textAlign: 'center',
   }
 };
 
@@ -101,6 +104,7 @@ export default compose(
     },
   }),
   injectSheet(styles),
+  withLocalize,
   pure,
 )(Withdraws);
 
@@ -111,4 +115,5 @@ Withdraws.propTypes = {
   withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   getWithdraws: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
 };

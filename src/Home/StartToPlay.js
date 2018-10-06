@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Button } from 'antd';
 import { pure, compose } from 'recompose';
 import { Link } from 'react-router-dom'
+import { blueColor } from '../variables'
 
 
 const StartToPlay = ({ classes, translate }) => {
@@ -27,9 +28,14 @@ const styles = {
     textAlign: 'center',
     padding: '40px 0',
   },
-  startPlayBtn: {
-
-  },
+  startPlayBtn: ({ ghostBtn }) => ghostBtn ? {
+    background: 'transparent',
+    color: blueColor,
+    transition: 'color 0s',
+    '&:hover': {
+      color: 'white',
+    }
+  } : {},
 };
 
 export default compose(
@@ -41,4 +47,5 @@ export default compose(
 StartToPlay.propTypes = {
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
+  ghostBtn: PropTypes.bool.isRequired,
 };

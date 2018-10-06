@@ -31,35 +31,35 @@ const HOW_TO_PLAY = [
       },
     ],
   },
-  {
-    tabTitileKey: 'DEMO_MODE',
-    tabSteps: [
-      {
-        imageUrl: '/demo-mode-activated.png',
-        stepItemsKeys: [
-          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_1',
-          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_2',
-          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_3',
-          'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_4',
-        ]
-      },
-      {
-        imageUrl: '/top-up-balance-screen.png',
-        stepItemsKeys: [
-          'HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_1',
-          'HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_2'
-        ]
-      },
-      {
-        imageUrl: '/demo-mode-finished.png',
-        stepItemsKeys: [
-          'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_1',
-          'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_2',
-          'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_3',
-        ]
-      },
-    ],
-  },
+  // {
+  //   tabTitileKey: 'DEMO_MODE',
+  //   tabSteps: [
+  //     {
+  //       imageUrl: '/demo-mode-activated.png',
+  //       stepItemsKeys: [
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_1',
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_2',
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_3',
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_4',
+  //       ]
+  //     },
+  //     {
+  //       imageUrl: '/top-up-balance-screen.png',
+  //       stepItemsKeys: [
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_1',
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_2'
+  //       ]
+  //     },
+  //     {
+  //       imageUrl: '/demo-mode-finished.png',
+  //       stepItemsKeys: [
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_1',
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_2',
+  //         'HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_3',
+  //       ]
+  //     },
+  //   ],
+  // },
   {
     tabTitileKey: 'TOP_UP_THE_BALANCE',
     tabSteps: [

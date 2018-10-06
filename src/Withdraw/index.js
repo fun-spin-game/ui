@@ -68,13 +68,18 @@ const COLUMNS = [
 
 const WITHDRAW_METHODS = [
   {
-    value: 'visa/mastercard',
-    label: 'Visa/Mastercard',
-    fieldPlaceholderTranslateId: 'CARD_NUMBER',
+    value: 'payeer',
+    label: 'Payeer',
+    fieldPlaceholderTranslateId: 'WALLET_NUMBER',
   },
   {
-    value: 'webMoney',
-    label: 'WebMoney',
+    value: 'qiwi',
+    label: 'QIWI',
+    fieldPlaceholderTranslateId: 'WALLET_NUMBER',
+  },
+  {
+    value: 'perfectMoney',
+    label: 'PerfectMoney',
     fieldPlaceholderTranslateId: 'WALLET_NUMBER',
   },
 ];

@@ -117,7 +117,11 @@ const GameItem = (props) => {
           {
             connectedUser &&
             <div className={classNames(classes.playerAvatarContainer, 'playerAvatarContainer')}>
-              <Avatar className={classNames(classes.playerAvatar, 'playerAvatar')} icon="user" src={connectedUser.photo} />
+              <Avatar
+                className={classNames(classes.playerAvatar, 'playerAvatar')}
+                icon="user"
+                src={connectedUser.photo}
+              />
             </div>
           }
           {
