@@ -48,7 +48,7 @@ export default {
     'Пароли не совпадают',
   ],
   CONNECTION_WITH_SERVER_LOST_TRY_REFRESH_THE_PAGE: [
-    'Conection with server is lost. Trying refresh the page',
+    'Conection with server is lost. Try to refresh the page',
     'Пропала связь с сервером. Попробуйте обновить страницу',
   ],
   USER_LOSE_IN_YOU_LOT: [
