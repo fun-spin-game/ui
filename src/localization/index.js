@@ -640,4 +640,16 @@ export default {
     'Tables',
     'Столы',
   ],
+  GO: [
+    'Go',
+    'Перейти',
+  ],
+  PRIZES: [
+    'Prizes',
+    'Призы',
+  ],
+  GAME: [
+    'Game',
+    'Игра',
+  ]
 };

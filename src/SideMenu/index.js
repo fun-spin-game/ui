@@ -17,7 +17,7 @@ const { Sider } = Layout;
 const SIDE_MENU_ITEMS = [
   {
     route: '/',
-    translateId: 'LOTS',
+    translateId: 'GAME',
     iconType: 'smile-o',
   },
   {

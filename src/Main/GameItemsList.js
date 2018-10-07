@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import injectSheet from 'react-jss';
 import { isMobile } from 'react-device-detect';
-import { Slider } from 'antd';
+import { withRouter } from 'react-router'
 import FlipMove from 'react-flip-move';
-import classNames from 'classnames';
 import { AutoSizer, WindowScroller, List } from 'react-virtualized';
-import { compose, withState, withHandlers, lifecycle, pure, withProps } from 'recompose';
+import { compose, withHandlers, lifecycle, pure, withProps } from 'recompose';
 import withMeta from '../containers/withMeta';
 import withUser from '../containers/withUser';
 import withGameConfig from '../containers/withGameConfig';
+import withTables from '../containers/withTables';
 import GameItem from './GameItem';
-import Coins from '../common/Coins';
 import Spinner from '../common/Spinner';
 
 const getGameItemGameProps = ({
@@ -46,26 +45,12 @@ const GameItemsList = ({
   classes,
   appInFocus,
   games,
-  sliderAfterChange,
-  tipFormatter,
   userInfo,
   sortedFilteredGames,
-  sortedGames,
-  filter,
-  filters,
 }) => {
   return <Spinner show={!games.length} overlay={true} transparentOverlay={true}>
     {
       window.innerWidth > 666 ? (<Fragment>
-        <div className={classes.filterLabel}>{filter.min} <Coins /> - {filter.max} <Coins /></div>
-        <Slider
-          className={classNames(classes.slider, { mobile: isMobile }) }
-          defaultValue={0}
-          min={0}
-          max={filters.length - 1}
-          onAfterChange={sliderAfterChange}
-          tipFormatter={tipFormatter}
-        />
         <div className={`${classes.gameItems}`}>
           <FlipMove leaveAnimation="accordionVertical" disableAllAnimations={!appInFocus || isMobile}>
             {
@@ -85,13 +70,13 @@ const GameItemsList = ({
                   height={height}
                   isScrolling={isScrolling}
                   onScroll={onChildScroll}
-                  rowCount={sortedGames.length}
+                  rowCount={sortedFilteredGames.length}
                   rowHeight={180}
                   scrollTop={scrollTop}
                   width={width}
                   rowRenderer={({ index, key, style }) => <div style={style} key={key}>
                     <GameItem
-                      { ...getGameItemGameProps({ game: sortedGames[index], userInfo }) }
+                      { ...getGameItemGameProps({ game: sortedFilteredGames[index], userInfo }) }
                       userId={userInfo.id}
                       balance={userInfo.balance}
                     />
@@ -136,27 +121,19 @@ const styles = {
 };
 
 export default compose(
+  withRouter,
   withUser(),
   withGameConfig(),
   withMeta(),
-  withState('rangeFilter', 'setRangeFilter', 0),
-  withProps(({ gameConfig: { GAME_MIN_PRIZE, GAME_MAX_PRIZE } }) => {
-    const filters = new Array(Math.ceil((GAME_MAX_PRIZE - GAME_MIN_PRIZE) / 250))
-      .fill()
-      .map((o, index) => ({ min: index * 250, max: (index + 1) * 250 }));
-    return { filters };
-  }),
+  withTables(),
   withHandlers({
     sortGames: ({ userInfo: { balance }}) => (games) => _.sortBy(games, [({ risk }) => balance <= risk, 'prize']),
-    sliderAfterChange: ({ setRangeFilter }) => (value) => { setRangeFilter(value) },
-    tipFormatter: ({ filters }) => (value) => (<span>{filters[value].min} <Coins /> - {filters[value].max} <Coins /></span>)
   }),
-  withProps(({ rangeFilter, games, sortGames, filters }) => {
-    const filter = filters[rangeFilter];
-    const filteredGames = games.filter(o => o.prize >= filter.min && o.prize <= filter.max);
+  withProps(({ games, tablesList, sortGames, match: { params: { tableId } } }) => {
+    const activeTable = tablesList.find(table => table.id == parseInt(tableId));
+    const filteredGames = games.filter(o => o.prize >= activeTable.min && o.prize <= activeTable.max);
     const sortedFilteredGames = sortGames(filteredGames);
-    const sortedGames = sortGames(games);
-    return { sortedFilteredGames, sortedGames, filter };
+    return { sortedFilteredGames };
   }),
   lifecycle({
     componentDidMount() {
@@ -171,15 +148,8 @@ GameItemsList.propTypes = {
   classes: PropTypes.object.isRequired,
   games: PropTypes.array.isRequired,
   appInFocus: PropTypes.bool.isRequired,
-  rangeFilter: PropTypes.number.isRequired,
   userInfo: PropTypes.object.isRequired,
-  filter: PropTypes.object.isRequired,
   gameConfig: PropTypes.object.isRequired,
-  setRangeFilter: PropTypes.func.isRequired,
-  sliderAfterChange: PropTypes.func.isRequired,
   sortGames: PropTypes.func.isRequired,
-  tipFormatter: PropTypes.func.isRequired,
   sortedFilteredGames: PropTypes.array.isRequired,
-  sortedGames: PropTypes.array.isRequired,
-  filters: PropTypes.array.isRequired,
 };

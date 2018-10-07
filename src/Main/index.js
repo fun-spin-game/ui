@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Icon, Button, Modal } from 'antd';
+import { Icon } from 'antd';
 import { withLocalize } from 'react-localize-redux';
-import { compose, withState, withHandlers, pure, lifecycle } from 'recompose';
+import { compose, withState, withHandlers, pure } from 'recompose';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
 import withGamesActions from '../containers/withGamesActions';
@@ -84,38 +84,6 @@ export default compose(
     },
   }),
   withGameConfig(),
-  lifecycle({
-    componentDidMount() {
-      const {
-        userInfo,
-        gameConfig: {
-          START_USER_BALANCE,
-        },
-        translate,
-        confirmDemoModeActivated,
-      } = this.props;
-      if (!userInfo.demoModeActivatedConfirmation) {
-        Modal.info({
-          title: `${translate('WELCOME')}!`,
-          content: <div>
-            {translate('YOU_RECEIVED_N_COINS_AS_A_START_BONUS', { n: START_USER_BALANCE })}.<br/><br/>
-            {translate('HAVE_A_GOOD_GAME')}!
-          </div>,
-          onOk() {
-            confirmDemoModeActivated()
-          },
-          footer: [
-            <Button
-              key="submit"
-              type="primary"
-            >
-              {translate('OK')}
-            </Button>
-          ]
-        })
-      }
-    }
-  }),
   pure,
 )(Main);
 

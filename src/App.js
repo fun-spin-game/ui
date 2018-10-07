@@ -29,6 +29,7 @@ import Footer from './Footer';
 import withUser from './containers/withUser';
 import withMeta from './containers/withMeta';
 import withGameConfig from './containers/withGameConfig';
+import withTables from './containers/withTables';
 import localization from './localization';
 import Spinner from './common/Spinner';
 
@@ -61,7 +62,7 @@ const AppComp = ({
           <Content>
             <Switch>
               <AuthenticatedRoute exact path="/" component={Tables} />
-              <AuthenticatedRoute exact path="/lots/:lotId" component={Main} />
+              <AuthenticatedRoute exact path="/tables/:tableId/lots" component={Main} />
               <Route exact path="/home" component={Home} />
               <AuthenticatedRoute exact path="/withdraw" component={Withdraw} />
               <AuthenticatedRoute exact path="/by-coins" component={ByCoins} />
@@ -102,6 +103,7 @@ const styles = {
 const App = compose(
   withRouter,
   withLocalize,
+  withTables(),
   withUser(),
   withMeta(),
   withGameConfig(),
@@ -112,6 +114,7 @@ const App = compose(
       if (browserLanguage !== 'ru') browserLanguage = 'gb';
       this.props.getUserInfo();
       this.props.getGameConfig();
+      this.props.getTables();
       window.onblur = () => this.props.setAppInFocus(false);
       window.onfocus = () => this.props.setAppInFocus(true);
       this.props.initialize({
@@ -132,7 +135,7 @@ const App = compose(
     }
   }),
   branch(
-    ({ userInfoRequestDone, gameConfig }) => !userInfoRequestDone || !gameConfig,
+    ({ userInfoRequestDone, gameConfig, tablesList }) => !userInfoRequestDone || !gameConfig || !tablesList.length,
     renderComponent(() => <Spinner overlay={true} transparentOverlay={true} />),
   ),
   pure,
