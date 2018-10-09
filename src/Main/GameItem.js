@@ -281,12 +281,15 @@ const styles = {
 export default compose(
   withLocalize,
   withGamesActions(),
-  withProps(({ creatorUser, amountOfAttempts, balance, risk, won, lost, maxAttempts, userId }) => ({
-    disabled: balance < risk || won + lost >= maxAttempts,
-    amountOfAttempts: won + lost,
-    amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
-    ownGame: !!creatorUser && creatorUser.id === userId,
-  })),
+  withProps(({ creatorUser, balance, risk, won, lost, maxAttempts, userId }) => {
+    const amountOfAttempts = won + lost;
+    return {
+      disabled: balance < risk || amountOfAttempts >= maxAttempts,
+      amountOfAttempts,
+      amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
+      ownGame: !!creatorUser && creatorUser.id === userId,
+    };
+  }),
   withHandlers({
     play: ({ connectToGame, id, preview }) =>  () => {
       if (preview) return;

@@ -381,7 +381,7 @@ export default {
     'Демонстрационный режим'
   ],
   YOU_RECEIVED_N_COINS_AS_A_START_BONUS: [
-    'You received ${n}$ coins as a start bonus',
+    'You received ${n} coins as a start bonus',
     'Вы получили ${n} монет как старовый бонус'
   ],
   WITHDRAW_MONEY_IN_DEMO_MODE_IS_IMPOSSIBLE: [

@@ -129,9 +129,8 @@ export default compose(
   withHandlers({
     sortGames: ({ userInfo: { balance }}) => (games) => _.sortBy(games, [({ risk }) => balance <= risk, 'prize']),
   }),
-  withProps(({ games, tablesList, sortGames, match: { params: { tableId } } }) => {
-    const activeTable = tablesList.find(table => table.id == parseInt(tableId));
-    const filteredGames = games.filter(o => o.prize >= activeTable.min && o.prize <= activeTable.max);
+  withProps(({ games, sortGames, match: { params: { tableId } } }) => {
+    const filteredGames = games.filter(o => o.tableId === parseInt(tableId));
     const sortedFilteredGames = sortGames(filteredGames);
     return { sortedFilteredGames };
   }),
