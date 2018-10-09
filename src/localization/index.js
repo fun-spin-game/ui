@@ -297,7 +297,7 @@ export default {
     'Вы должны иметь как минимум ${n} долларов для вывода средств',
   ],
   MIN_AMOUNT_TO_WITHDRAW_IS_N_COINS: [
-    'Minimal amount to withdraw is ${n} coins or ${m} dollars',
+    'Minimal amount to withdraw is ${n} coins',
     'Минимальная сумма для вывода - ${n} монет',
   ],
   TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS: [
