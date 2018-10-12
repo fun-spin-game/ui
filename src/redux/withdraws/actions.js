@@ -3,7 +3,7 @@ import { RSAA } from 'redux-api-middleware';
 export const getWithdraws = ({ filter }) => {
   return {
     [RSAA]: {
-      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/payments?filter=${JSON.stringify(filter)}`,
+      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/withdraws?filter=${JSON.stringify(filter)}`,
       credentials: 'include',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -19,7 +19,7 @@ export const getWithdraws = ({ filter }) => {
 export const createWithdraw = ({ amount, method, requisite }) => {
   return {
     [RSAA]: {
-      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/payments`,
+      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/withdraws`,
       credentials: 'include',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,4 +32,3 @@ export const createWithdraw = ({ amount, method, requisite }) => {
     }
   };
 };
-

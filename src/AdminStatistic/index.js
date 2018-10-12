@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Card } from 'antd';
 import { compose, pure, lifecycle, branch, renderNothing } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
 import withAdminStatistic from '../containers/withAdminStatistic';
+import StatisticField from './StatisticField';
 
 const AdminStatistic = ({ classes, translate, adminStatistic }) => {
   return (
@@ -13,22 +13,7 @@ const AdminStatistic = ({ classes, translate, adminStatistic }) => {
       <PageTitle>{translate('ADMIN_STATISTIC')}</PageTitle>
       <div>
         {
-          adminStatistic.fields.map(o => (<div key={`field-${o.label}`}>
-            <p>{o.label}: {o.value}</p>
-            {
-              o.fields && o.fields.map(oo => (<div key={`field-${o.label}-${oo.label}`}>
-                <Card title={`${oo.label}`}>
-                  {
-                    oo.fields && oo.fields.map(ooo => (<div key={`field-${o.label}-${oo.label}-${ooo.label}`}>
-                      <p>
-                        {ooo.label}: {ooo.value}
-                      </p>
-                    </div>))
-                  }
-                </Card>
-              </div>))
-            }
-          </div>))
+          adminStatistic.fields.map(o => (<StatisticField key={`field-${o.label}`} field={o} />))
         }
       </div>
     </div>
@@ -44,7 +29,6 @@ export default compose(
   withAdminStatistic(),
   withLocalize,
   injectSheet(styles),
-  pure,
   lifecycle({
     componentDidMount() {
       this.props.getAdminStatistic()
@@ -54,6 +38,7 @@ export default compose(
     ({ adminStatistic }) => adminStatistic === null,
     renderNothing,
   ),
+  pure,
 )(AdminStatistic);
 
 AdminStatistic.defaultProps = {
