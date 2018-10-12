@@ -12,6 +12,7 @@ import withdraws from './withdraws';
 import purchases from './purchases';
 import spinners from './spinners';
 import gameConfig from './gameConfig';
+import adminStatistic from './adminStatistic';
 
 import userEpic from './user/epics';
 import gameEpic from './games/epics';
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
   spinners,
   gameConfig,
   tables,
+  adminStatistic,
   localize: localizeReducer,
 });
 

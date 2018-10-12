@@ -651,5 +651,9 @@ export default {
   GAME: [
     'Game',
     'Игра',
+  ],
+  ADMIN_STATISTIC: [
+    'Admin statistic',
+    'Админимтративная статистика',
   ]
 };

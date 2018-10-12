@@ -23,6 +23,7 @@ import Contacts from './Contacts';
 import HowToPlay from './HowToPlay';
 import SideMenu from './SideMenu';
 import Header from './Header';
+import AdminStatistic from './AdminStatistic';
 import NotAuthenticatedRoute from './common/NotAuthenticatedRoute';
 import Login from './Login';
 import Footer from './Footer';
@@ -70,6 +71,7 @@ const AppComp = ({
               <Route exact path="/withdraws" component={Withdraws} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/how-to-play" component={HowToPlay} />
+              <Route exact path="/admin-statistic" component={AdminStatistic} />
               <NotAuthenticatedRoute path="/login" component={Login} />
             </Switch>
           </Content>
