@@ -11,10 +11,10 @@ const StatisticField = ({ field: o }) => {
         o.fields && o.fields.map(oo => (<div key={`field-${o.label}-${oo.label}`}>
           <p>{oo.label}: {oo.value}</p>
           {
-            oo.fields && oo.fields.map(ooo => (<div key={`field-${o.label}-${oo.label}`}>
+            oo.fields && oo.fields.map(ooo => (<div key={`field-${oo.label}-${ooo.label}`}>
               <Card title={`${ooo.label}`}>
                 {
-                  ooo.fields && ooo.fields.map(oooo => (<div key={`field-${o.label}-${oo.label}-${ooo.label}`}>
+                  ooo.fields && ooo.fields.map(oooo => (<div key={`field-${oo.label}-${ooo.label}-${oooo.label}`}>
                     <p>
                       {oooo.label}: {oooo.value}
                     </p>

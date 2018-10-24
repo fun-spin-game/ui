@@ -11,8 +11,8 @@ export default () => connect(
   }),
   (dispatch) => {
     return {
-      getWithdraws({ filter } = {}) {
-        return dispatch(getWithdraws({ filter }));
+      getWithdraws({ filter, withFakes } = {}) {
+        return dispatch(getWithdraws({ filter, withFakes }));
       },
       createWithdraw({ amount, method, requisite }) {
         return dispatch(createWithdraw({ amount, method, requisite }))

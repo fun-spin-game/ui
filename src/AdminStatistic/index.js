@@ -5,6 +5,7 @@ import { compose, pure, lifecycle, branch, renderNothing } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
 import withAdminStatistic from '../containers/withAdminStatistic';
+import { default as WithdrawsCommon } from '../common/Withdraws';
 import StatisticField from './StatisticField';
 
 const AdminStatistic = ({ classes, translate, adminStatistic }) => {
@@ -15,6 +16,7 @@ const AdminStatistic = ({ classes, translate, adminStatistic }) => {
         {
           adminStatistic.fields.map(o => (<StatisticField key={`field-${o.label}`} field={o} />))
         }
+        <WithdrawsCommon maxItems={9999999} />
       </div>
     </div>
   )

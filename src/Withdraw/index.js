@@ -1,10 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Card,
-  List,
-  Table,
-  Icon,
   Button,
   Slider,
   Form,
@@ -12,59 +8,17 @@ import {
   Select,
   Input,
 } from 'antd';
-import _ from 'lodash';
-import moment from 'moment';
-import { compose, lifecycle, withState, withProps, pure } from 'recompose';
-import { withLocalize, Translate } from 'react-localize-redux';
+import { compose, withState, withProps, pure } from 'recompose';
+import { withLocalize } from 'react-localize-redux';
 import withWithdraws from '../containers/withWithdraws';
 import withUser from '../containers/withUser';
 import withGameConfig from '../containers/withGameConfig';
 import injectSheet from 'react-jss';
 import PageTitle from '../common/PageTitle';
 import Coins from '../common/Coins';
-import { redColor, greenColor } from '../variables';
-import { DATE_FORMAT } from '../config';
+import WithdrawsCommon from '../common/Withdraws';
 
 const FormItem = Form.Item;
-
-const getStatusLabel = (status) => {
-  switch (status) {
-    case 'done':
-      return <div style={{ color: greenColor }}>
-        <Icon type="check-circle-o" /> <span className="statusLabel"><Translate id="DONE" /></span>
-      </div>;
-    case 'inProgress':
-      return <div>
-        <Icon type="hourglass" /> <span className="statusLabel"><Translate id="IN_PROGRESS" /></span>
-      </div>;
-    case 'rejected':
-      return <div style={{ color: redColor }}>
-        <Icon type="close-circle-o" /> <span className="statusLabel"><Translate id="REJECTED" /></span>
-      </div>;
-  }
-};
-
-/* eslint-disable react/display-name */
-const COLUMNS = [
-  {
-    title: <Translate id="STATUS" />,
-    dataIndex: 'status',
-    key: 'status',
-    render: text => getStatusLabel(text)
-  },
-  {
-    title: <Translate id="AMOUNT" />,
-    dataIndex: 'amount',
-    key: 'amount',
-    render: text => <Fragment>$ {text}</Fragment>
-  },
-  {
-    title: <Translate id="DATE" />,
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    render: text => <Fragment>{moment(text).format(DATE_FORMAT)}</Fragment>
-  },
-];/* eslint-enable react/display-name */
 
 const WITHDRAW_METHODS = [
   {
@@ -85,10 +39,9 @@ const WITHDRAW_METHODS = [
 ];
 
 const Withdraw = ({
-  withdraws,
   translate,
   classes,
-  userInfo: { balance },
+  userInfo: { balance, id: userId },
   setAmount,
   amount,
   method,
@@ -98,7 +51,6 @@ const Withdraw = ({
   handleSubmit,
   gameConfig: { MIN_AMOUNT_OF_WITHDRAWING, COINS_RATE }
 }) => {
-  const sortedWithdraws = _.sortBy(withdraws, 'createdAt');
   const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
   const maxValue = Math.floor(balance);
   return (
@@ -164,32 +116,7 @@ const Withdraw = ({
         </FormItem>
       </Form>
         <h3>{translate('WITHDRAWN_HISTORY')}:</h3>
-        <Table
-          dataSource={sortedWithdraws}
-          columns={COLUMNS}
-          pagination={false}
-          rowKey={(o) => o.createdAt}
-          className={classes.table}
-          locale={{ emptyText: translate('EMPTY') }}
-        />
-        <List
-          locale={{ emptyText: translate('EMPTY') }}
-          className={classes.list}
-          grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
-          dataSource={sortedWithdraws}
-          renderItem={({ createdAt, amount, status }) => (
-            <List.Item>
-              <Card title={moment(createdAt).format(DATE_FORMAT)}>
-                <div className={classes.card}>
-                  <span className={classes.status}>{getStatusLabel(status)}</span>
-                  <div className={classes.amount}>
-                    <div>$ {amount}</div>
-                  </div>
-                </div>
-              </Card>
-            </List.Item>
-          )}
-        />
+        <WithdrawsCommon filter={{ userId }} />
     </div>
   );
 };
@@ -262,11 +189,6 @@ export default compose(
       });
     },
   })),
-  lifecycle({
-    componentDidMount () {
-      this.props.getWithdraws({ filter: { userId: this.props.userInfo.id } });
-    },
-  }),
   injectSheet(styles),
   pure,
 )(Withdraw);
@@ -275,7 +197,6 @@ Withdraw.defaultProps = {
 };
 
 Withdraw.propTypes = {
-  withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   translate: PropTypes.func.isRequired,
   getWithdraws: PropTypes.func.isRequired,

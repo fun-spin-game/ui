@@ -10,7 +10,7 @@ const Withdraws = ({ translate, classes }) => {
   return (
     <div className={classes.withdraws}>
       <PageTitle>{translate('LAST_WITHDRAWS')}</PageTitle>
-      <WithdrawsCommon />
+      <WithdrawsCommon filter={{ status: 'done' }} withFakes={true} />
     </div>
   )
 };

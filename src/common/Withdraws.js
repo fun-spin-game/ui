@@ -1,17 +1,41 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Card, List, Table } from 'antd';
+import { Avatar, Card, List, Table, Icon, } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
-import { compose, lifecycle, pure } from 'recompose';
+import { compose, lifecycle, pure, defaultProps } from 'recompose';
 import { Translate, withLocalize } from 'react-localize-redux';
 import withWithdraws from '../containers/withWithdraws';
 import injectSheet from 'react-jss';
 import Spinner from '../common/Spinner';
+import { redColor, greenColor } from '../variables';
 import { DATE_FORMAT } from '../config';
+
+const getStatusLabel = (status) => {
+  switch (status) {
+    case 'done':
+      return <div style={{ color: greenColor }}>
+        <Icon type="check-circle-o" /> <span className="statusLabel"><Translate id="DONE" /></span>
+      </div>;
+    case 'inProgress':
+      return <div>
+        <Icon type="hourglass" /> <span className="statusLabel"><Translate id="IN_PROGRESS" /></span>
+      </div>;
+    case 'rejected':
+      return <div style={{ color: redColor }}>
+        <Icon type="close-circle-o" /> <span className="statusLabel"><Translate id="REJECTED" /></span>
+      </div>;
+  }
+};
 
 /* eslint-disable react/display-name */
 const COLUMNS = [
+  {
+    title: <Translate id="STATUS" />,
+    dataIndex: 'status',
+    key: 'status',
+    render: text => getStatusLabel(text)
+  },
   {
     title: <Translate id="USER" />,
     dataIndex: 'user',
@@ -33,8 +57,8 @@ const COLUMNS = [
 ];
 /* eslint-enable react/display-name */
 
-const Withdraws = ({ withdraws, classes }) => {
-  const sortedWithdraws = _.sortBy(withdraws, 'createdAt').reverse().splice(0, 10);
+const Withdraws = ({ withdraws, classes, maxItems }) => {
+  const sortedWithdraws = _.sortBy(withdraws, 'createdAt').reverse().splice(0, maxItems);
   return (
     <div className={classes.withdraws}>
       <Spinner spinnerKey="REST_API.GET_WITHDRAWS_REQUEST" overlay={true} transparentOverlay={true}>
@@ -96,24 +120,28 @@ const styles = {
   }
 };
 
+Withdraws.propTypes = {
+  withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
+  classes: PropTypes.object.isRequired,
+  getWithdraws: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired,
+  withFakes: PropTypes.bool,
+  filter: PropTypes.object,
+  maxItems: PropTypes.number,
+};
 export default compose(
+  defaultProps({
+    maxItems: 10,
+    withFakes: false,
+    filter: {},
+  }),
   withWithdraws(),
   lifecycle({
     componentDidMount () {
-      this.props.getWithdraws({ filter: { status: 'done' } });
+      this.props.getWithdraws({ filter: this.props.filter, withFakes: this.props.withFakes });
     },
   }),
   injectSheet(styles),
   withLocalize,
   pure,
 )(Withdraws);
-
-Withdraws.defaultProps = {
-};
-
-Withdraws.propTypes = {
-  withdraws: PropTypes.arrayOf(PropTypes.object).isRequired,
-  classes: PropTypes.object.isRequired,
-  getWithdraws: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired,
-};

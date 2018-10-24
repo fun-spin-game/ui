@@ -113,7 +113,7 @@ const Home = ({ classes, translate }) => {
       <StartToPlay />
       <div className={classNames(classes.block, classes.withdrawsBlock)}>
         <h2>{translate('LAST_WITHDRAWS')}. {translate('WAIT_YOU_IN_THIS_LIST')}!</h2>
-        <WithdrawsCommon />
+        <WithdrawsCommon filter={{ status: 'done' }} withFakes={true} />
       </div>
       <StartToPlay />
     </div>
