@@ -99,6 +99,7 @@ const Withdraws = ({ withdraws, classes, maxItems }) => {
 
 const styles = {
   withdraws: {
+    marginBottom: 20,
     '& .ant-card-body': {
       paddingLeft: 15,
     },

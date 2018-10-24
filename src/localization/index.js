@@ -655,5 +655,5 @@ export default {
   ADMIN_STATISTIC: [
     'Admin statistic',
     'Админимтративная статистика',
-  ]
+  ],
 };

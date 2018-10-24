@@ -13,10 +13,11 @@ const AdminStatistic = ({ classes, translate, adminStatistic }) => {
     <div className={classes.adminStatistic}>
       <PageTitle>{translate('ADMIN_STATISTIC')}</PageTitle>
       <div>
+        <h2>{translate('WITHDRAWS')}</h2>
+        <WithdrawsCommon maxItems={9999999} />
         {
           adminStatistic.fields.map(o => (<StatisticField key={`field-${o.label}`} field={o} />))
         }
-        <WithdrawsCommon maxItems={9999999} />
       </div>
     </div>
   )
