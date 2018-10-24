@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
 import { Row, Col } from 'antd';
@@ -29,16 +30,19 @@ const ADVANTAGES = [
 
 const ACHIEVEMENTS = [
   {
+    value: moment().diff(moment('2018-06-01'), 'days') * 325,
     textKey: 'OUR_ACHIEVEMENTS_1_DESCRIPTION',
     unitKey: '$',
     iconClass: 'fas fa-hand-holding-usd',
   },
   {
+    value: 125,
     textKey: 'OUR_ACHIEVEMENTS_2_DESCRIPTION',
     unitKey: 'OUR_ACHIEVEMENTS_2_TEXT',
     iconClass: 'fas fas fa-money-bill',
   },
   {
+    value: 837,
     textKey: 'OUR_ACHIEVEMENTS_3_DESCRIPTION',
     unitKey: 'OUR_ACHIEVEMENTS_3_TEXT',
     iconClass: 'fas fas fa-users',
@@ -98,7 +102,7 @@ const Home = ({ classes, translate }) => {
               <div key={o.textKey} className={classes.achievementsItem}>
                 <i className={classNames(o.iconClass, classes.achievementIcon)}></i>
                 <div className={classes.achievementText}>
-                  56213 <span className={classes.achievementUnit}>{translate(o.unitKey)}</span>
+                  {o.value} <span className={classes.achievementUnit}>{translate(o.unitKey)}</span>
                 </div>
                 <div className={classes.achievementDescription}>{translate(o.textKey)}</div>
               </div>
