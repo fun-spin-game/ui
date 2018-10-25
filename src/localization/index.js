@@ -560,9 +560,17 @@ export default {
     'After successful payment, you will be redirected to our site, and your balance will be credited to the appropriate amount',
     'После успешной олпаты выбудете перенаправлены на наш сайт, а ваш баланс будет пополнен на соответствующую сумму'
   ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_0_ITEM_1: [
+    'To start playing - go to the tables page from the main menu',
+    'Для того, чтобы начать играть - перейдите на страницу столов из главного меню'
+  ],
+  HOW_TO_PLAY_GAME_PROCESS_STEP_0_ITEM_2: [
+    'Choose a table that matches your balance',
+    'Выберите стол, который соответсвует вашему балансу'
+  ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_1_ITEM_1: [
-    'To start playing - go to the lots page from the main menu',
-    'Для того, чтобы начать играть - перейдите на страницу лотов из главного меню'
+    'Then a list of lots will appear',
+    'Затем появиться список лотов'
   ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_1: [
     'Each lot has several parameters',

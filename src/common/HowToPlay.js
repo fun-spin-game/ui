@@ -97,6 +97,13 @@ const HOW_TO_PLAY = [
     tabTitileKey: 'GAME_PROCESS',
     tabSteps: [
       {
+        imageUrl: '/tables.png',
+        stepItemsKeys: [
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_0_ITEM_1',
+          'HOW_TO_PLAY_GAME_PROCESS_STEP_0_ITEM_2',
+        ]
+      },
+      {
         imageUrl: '/lots-screen.png',
         stepItemsKeys: [
           'HOW_TO_PLAY_GAME_PROCESS_STEP_1_ITEM_1',
