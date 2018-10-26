@@ -660,8 +660,12 @@ export default {
     'Game',
     'Игра',
   ],
-  ADMIN_STATISTIC: [
-    'Admin statistic',
-    'Админимтративная статистика',
+  WHAT_IS_THIS: [
+    'What is this',
+    'Что это',
   ],
+  ABOUT_THE_GAME_TEXT: [
+    'FunSpin this is the game like a roulette in which you can earn real money, and you can manage chance of your wining!',
+    'FunSpin это игра по типу рулетки, в который вы можете выигрывать реальные деньги, при этом вы сами управляете шансом вашей победы!',
+  ]
 };

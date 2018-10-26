@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import injectSheet from 'react-jss';
@@ -50,6 +50,7 @@ const ACHIEVEMENTS = [
 ];
 
 const Home = ({ classes, translate }) => {
+  /* eslint-disable no-constant-condition */
   return (
     <div className={classes.home}>
       <Particles
@@ -69,27 +70,36 @@ const Home = ({ classes, translate }) => {
         <h2>{translate('MANAGE_LUCK_AND_EARN_MONEY')}!</h2>
         <Row gutter={16}>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-            <div className={classes.advantages}>
-              <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
-              <div className={classes.advantagesList}>
-                {
-                  ADVANTAGES.map(o => (
-                    <div key={o.textKey} className={classes.advantagesItem}>
-                      <i className={classNames(o.iconClass, classes.advantageIcon)}></i>
-                      <div className={classes.advantageText}>{translate(o.textKey)}</div>
-                    </div>
-                  ))
-                }
-              </div>
+            <h2>{translate('WHAT_IS_THIS')}:</h2>
+            <div className={classes.advantagesList}>
+              {translate('ABOUT_THE_GAME_TEXT')}
             </div>
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-            <iframe
-              width="100%"
-              height="315"
-              src="https://www.youtube.com/embed/tgbNymZ7vqY"
-            >
-            </iframe>
+            {
+              false ? (
+                <iframe
+                    width="100%"
+                    height="315"
+                    src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                  >
+                </iframe>
+              ) : (
+                <Fragment>
+                    <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
+                    <div className={classes.advantagesList}>
+                      {
+                        ADVANTAGES.map(o => (
+                          <div key={o.textKey} className={classes.advantagesItem}>
+                            <i className={classNames(o.iconClass, classes.advantageIcon)}></i>
+                            <div className={classes.advantageText}>{translate(o.textKey)}</div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                </Fragment>
+              )
+            }
           </Col>
         </Row>
       </div>
@@ -152,6 +162,7 @@ const styles = {
     textAlign: 'left',
     fontStyle: 'italic',
     fontSize: 14,
+    marginBottom: 30,
   },
   advantageIcon: {
     color: blueColor,
