@@ -683,5 +683,9 @@ export default {
   NICKNAME: [
     'Nickname',
     'Никнейм',
+  ],
+  ADMIN_STATISTIC: [
+    'Admin statistic',
+    'Админ статистика'
   ]
 };
