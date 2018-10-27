@@ -28,7 +28,7 @@ const SignIn = ({
               { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
             ],
           })(
-            <Input prefix={<Icon type="user" />} placeholder="Email" />
+            <Input prefix={<Icon type="mail" />} placeholder="Email" />
           )}
         </FormItem>
         <FormItem>

@@ -7,6 +7,7 @@ import { compose, withState, withHandlers, pure } from 'recompose';
 import Game from './Game';
 import CreateGameForm from './CreateGameForm';
 import withGamesActions from '../containers/withGamesActions';
+import PageDescription from '../common/PageDescription';
 import withUser from '../containers/withUser';
 import withGames from '../containers/withGames';
 import withGameConfig from '../containers/withGameConfig';
@@ -29,6 +30,7 @@ const Main = ({
         {translate('LOTS')}
         { false && <a className={classes.createGameBtn} onClick={createGame}><Icon size="large" type="plus-circle-o" /></a> }
       </PageTitle>
+      <PageDescription>{translate('CHOSE_A_LOT_AND_CLICK_PLAY')}</PageDescription>
       <GameItemsList games={games} />
       <Game activeGame={activeGame} />
       <CreateGameForm

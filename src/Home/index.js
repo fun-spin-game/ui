@@ -68,38 +68,42 @@ const Home = ({ classes, translate }) => {
       <StartToPlay ghostBtn={true} />
       <div className={classNames(classes.block, classes.advantagesBlock)}>
         <h2>{translate('MANAGE_LUCK_AND_EARN_MONEY')}!</h2>
-        <Row gutter={16}>
+        <Row gutter={40}>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <h2>{translate('WHAT_IS_THIS')}:</h2>
             <div className={classes.advantagesList}>
-              {translate('ABOUT_THE_GAME_TEXT')}
+              <div className={classes.advantagesItem}>
+                <i className={classNames('fas fa-question', classes.advantageIcon)}></i>
+                <div className={classes.advantageText}>{translate('ABOUT_THE_GAME_TEXT')}</div>
+                {
+                  false && (
+                    <div className={classes.video}>
+                      <iframe
+                          width="100%"
+                          height="315"
+                          src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                        >
+                      </iframe>
+                    </div>
+                  )
+                }
+              </div>
             </div>
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-            {
-              false ? (
-                <iframe
-                    width="100%"
-                    height="315"
-                    src="https://www.youtube.com/embed/tgbNymZ7vqY"
-                  >
-                </iframe>
-              ) : (
-                <Fragment>
-                    <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
-                    <div className={classes.advantagesList}>
-                      {
-                        ADVANTAGES.map(o => (
-                          <div key={o.textKey} className={classes.advantagesItem}>
-                            <i className={classNames(o.iconClass, classes.advantageIcon)}></i>
-                            <div className={classes.advantageText}>{translate(o.textKey)}</div>
-                          </div>
-                        ))
-                      }
-                    </div>
-                </Fragment>
-              )
-            }
+            <Fragment>
+                <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
+                <div className={classes.advantagesList}>
+                  {
+                    ADVANTAGES.map(o => (
+                      <div key={o.textKey} className={classes.advantagesItem}>
+                        <i className={classNames(o.iconClass, classes.advantageIcon)}></i>
+                        <div className={classes.advantageText}>{translate(o.textKey)}</div>
+                      </div>
+                    ))
+                  }
+                </div>
+            </Fragment>
           </Col>
         </Row>
       </div>
@@ -157,6 +161,9 @@ const styles = {
     '& > h2': {
       marginBottom: 40,
     }
+  },
+  video: {
+    marginTop: 20,
   },
   advantagesList: {
     textAlign: 'left',

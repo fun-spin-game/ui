@@ -8,6 +8,7 @@ import { compose, pure, lifecycle } from 'recompose';
 import { Button, Modal } from 'antd';
 import { withLocalize } from 'react-localize-redux';
 import PageTitle from '../common/PageTitle';
+import PageDescription from '../common/PageDescription';
 import withGameConfig from '../containers/withGameConfig';
 import withUser from '../containers/withUser';
 import withTables from '../containers/withTables';
@@ -17,6 +18,7 @@ const Tables = ({ classes, translate, tablesList }) => {
   return (
     <div>
       <PageTitle>{translate('TABLES')}</PageTitle>
+      <PageDescription>{translate('CHOSE_A_TABLE_THAT_MATCH_YOUR_BALANCE')}</PageDescription>
       <div className={classes.tables}>
         {
           tablesList.map((table, index) => (

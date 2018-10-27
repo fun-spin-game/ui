@@ -31,7 +31,16 @@ class SignUp extends Component {
                 { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
               ],
             })(
-              <Input prefix={<Icon type="user" />} placeholder="Email" />
+              <Input prefix={<Icon type="mail" />} placeholder="Email" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('nickname', {
+              rules: [
+                { required: true, message: <Translate id={'PLEASE_ENTER_YOU_NICKNAME'} />},
+              ],
+            })(
+              <Input prefix={<Icon type="user" />} placeholder={translate('NICKNAME')} />
             )}
           </FormItem>
           <FormItem>

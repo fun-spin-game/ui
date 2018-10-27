@@ -667,5 +667,21 @@ export default {
   ABOUT_THE_GAME_TEXT: [
     'FunSpin this is the game like a roulette in which you can earn real money, and you can manage chance of your wining!',
     'FunSpin это игра по типу рулетки, в который вы можете выигрывать реальные деньги, при этом вы сами управляете шансом вашей победы!',
+  ],
+  CHOSE_A_TABLE_THAT_MATCH_YOUR_BALANCE: [
+    'Choose a table that match your balance',
+    'Выберите стол соответсвующий вашему балансу'
+  ],
+  CHOSE_A_LOT_AND_CLICK_PLAY: [
+    'Choose a lot and click "Play!"',
+    'Выберите лот и нажмите "Играть!"'
+  ],
+  PLEASE_ENTER_YOU_NICKNAME: [
+    'Please enter your nickname',
+    'Пожалуйста, введите ваш никнейм',
+  ],
+  NICKNAME: [
+    'Nickname',
+    'Никнейм',
   ]
 };
