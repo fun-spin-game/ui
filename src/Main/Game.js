@@ -121,14 +121,22 @@ export default compose(
     renderComponent(() => null)
   ),
   withProps(({
+    activeGame: {
+      won,
+      lost,
+    },
+  }) => {
+    return {
+      amountOfAttempts: won + lost,
+    };
+  }),
+  withProps(({
     amountOfAttempts,
     userInfo: { balance, isDemoMode },
     activeGame: {
       risk,
       decryptedSchema,
       maxAttempts,
-      won,
-      lost,
     },
     gameConfig: { START_USER_BALANCE }
   }) => {
@@ -137,7 +145,6 @@ export default compose(
       true :
       serverResult;
     return {
-      amountOfAttempts: won + lost,
       maxAttemptsReached: amountOfAttempts >= maxAttempts,
       lowBalance: balance < risk,
       result,
