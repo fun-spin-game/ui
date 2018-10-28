@@ -4,8 +4,7 @@ import {
   logout,
   signIn,
   signUp,
-  confirmDemoModeFinished,
-  confirmDemoModeActivated,
+  confirmWelcome,
 } from '../redux/user/actions';
 
 export default () => connect(
@@ -32,12 +31,9 @@ export default () => connect(
       signUp(values) {
         return dispatch(signUp(values));
       },
-      confirmDemoModeFinished() {
-        return dispatch(confirmDemoModeFinished());
+      confirmWelcome() {
+        return dispatch(confirmWelcome());
       },
-      confirmDemoModeActivated() {
-        return dispatch(confirmDemoModeActivated());
-      }
     };
   }
 );

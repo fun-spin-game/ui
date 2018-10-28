@@ -52,31 +52,16 @@ export const logout = () => ({
   }
 });
 
-export const confirmDemoModeFinished = () => {
+export const confirmWelcome = () => {
   return {
     [RSAA]: {
-      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/demo-mode-finished-confirmation`,
+      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/confirm-welcome`,
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       types: [
-        'CONFIRM_DEMO_MODE_FINISHED_REQUEST',
-        'CONFIRM_DEMO_MODE_FINISHED_SUCCESS',
-        'CONFIRM_DEMO_MODE_FINISHED_FAILURE'
-      ]
-    }
-  };
-};
-
-export const confirmDemoModeActivated = () => {
-  return {
-    [RSAA]: {
-      endpoint: `${process.env.REACT_APP_BASE_REST_URL}/demo-mode-activated-confirmation`,
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      types: [
-        'CONFIRM_DEMO_MODE_ACTIVATED_REQUEST',
-        'CONFIRM_DEMO_MODE_ACTIVATED_SUCCESS',
-        'CONFIRM_DEMO_MODE_ACTIVATED_FAILURE'
+        'CONFIRM_WELCOME_REQUEST',
+        'CONFIRM_WELCOME_SUCCESS',
+        'CONFIRM_WELCOME_FAILURE'
       ]
     }
   };

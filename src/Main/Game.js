@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss'
 import { Progress, Icon } from 'antd';
-import { compose, branch, renderComponent, withHandlers, pure, lifecycle } from 'recompose';
+import { compose, branch, renderComponent, withHandlers, pure, lifecycle, withProps } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
 import Roulette from './Roulette';
 import withGamesActions from '../containers/withGamesActions';
@@ -18,44 +18,38 @@ const Game = ({
     prize,
     maxAttempts,
     risk,
-    decryptedSchema,
-    won,
-    lost,
     spinInProgress,
   },
-  userInfo: { balance },
   onClickPlay,
   closeGame,
-}) => {
-  const amountOfAttempts = won + lost;
-  const maxAttemptsReached = amountOfAttempts >= maxAttempts;
-  const lowBalance = balance < risk;
-  const result = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
-  return (
-    <div className={classes.rouletteOverlay}>
-      {
-        !spinInProgress && <a onClick={closeGame}>
-          <Icon type="close" className={classes.close} />
-        </a>
-      }
-      <div className={classes.chancePercentage}>{chanceToWin}% {translate('CHANCE_TO_WIN')}!</div>
-      <Roulette
-        prize={prize}
-        chanceToWin={chanceToWin}
-        risk={risk}
-        result={result}
-        onClickPlay={onClickPlay}
-        maxAttemptsReached={maxAttemptsReached}
-        lowBalance={lowBalance}
-        spinInProgress={spinInProgress}
-      />
-      <div className={classes.attemptsBlock}>
-        <Progress size="small" percent={amountOfAttempts / maxAttempts * 100} />
-        <span>{amountOfAttempts}/{maxAttempts} {translate('ATTEMPTS_USED')}</span>
-      </div>
+  amountOfAttempts,
+  maxAttemptsReached,
+  lowBalance,
+  result
+}) => (
+  <div className={classes.rouletteOverlay}>
+    {
+      !spinInProgress && <a onClick={closeGame}>
+        <Icon type="close" className={classes.close} />
+      </a>
+    }
+    <div className={classes.chancePercentage}>{chanceToWin}% {translate('CHANCE_TO_WIN')}!</div>
+    <Roulette
+      prize={prize}
+      chanceToWin={chanceToWin}
+      risk={risk}
+      result={result}
+      onClickPlay={onClickPlay}
+      maxAttemptsReached={maxAttemptsReached}
+      lowBalance={lowBalance}
+      spinInProgress={spinInProgress}
+    />
+    <div className={classes.attemptsBlock}>
+      <Progress size="small" percent={amountOfAttempts / maxAttempts * 100} />
+      <span>{amountOfAttempts}/{maxAttempts} {translate('ATTEMPTS_USED')}</span>
     </div>
-  )
-};
+  </div>
+);
 
 const styles = {
   rouletteOverlay: {
@@ -126,6 +120,29 @@ export default compose(
     ({ activeGame }) => !activeGame,
     renderComponent(() => null)
   ),
+  withProps(({
+    amountOfAttempts,
+    userInfo: { balance, isDemoMode },
+    activeGame: {
+      risk,
+      decryptedSchema,
+      maxAttempts,
+      won,
+      lost,
+    },
+    gameConfig: { START_USER_BALANCE }
+  }) => {
+    const serverResult = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
+    const result = isDemoMode && !serverResult && balance - risk <= START_USER_BALANCE / 2 ?
+      true :
+      serverResult;
+    return {
+      amountOfAttempts: won + lost,
+      maxAttemptsReached: amountOfAttempts >= maxAttempts,
+      lowBalance: balance < risk,
+      result,
+    };
+  }),
   withHandlers({
     closeGame: ({ disconnectFromGame, activeGame: { id: gameId } }) => () => disconnectFromGame({ gameId }),
     onClickPlay: ({ notifyGameSpinStart, activeGame: { id: gameId } }) => ({ result }) => {
@@ -161,4 +178,8 @@ Game.propTypes = {
   closeGame: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
   gameConfig: PropTypes.object.isRequired,
+  amountOfAttempts: PropTypes.number.isRequired,
+  maxAttemptsReached: PropTypes.bool.isRequired,
+  lowBalance: PropTypes.bool.isRequired,
+  result: PropTypes.bool.isRequired,
 };

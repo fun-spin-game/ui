@@ -109,9 +109,9 @@ export default compose(
           START_USER_BALANCE,
         },
         translate,
-        confirmDemoModeActivated,
+        confirmWelcome,
       } = this.props;
-      if (!userInfo.demoModeActivatedConfirmation) {
+      if (!userInfo.welcomeConfirmed) {
         Modal.info({
           title: `${translate('WELCOME')}!`,
           content: <div>
@@ -119,7 +119,7 @@ export default compose(
             {translate('HAVE_A_GOOD_GAME')}!
           </div>,
           onOk() {
-            confirmDemoModeActivated()
+            confirmWelcome()
           },
           footer: [
             <Button
