@@ -34,7 +34,7 @@ export default combineEpics(
         duration: 10,
         description: <Providers>
           <Fragment>
-            <Translate id={ action.payload.status === 400 ? 'EMAIL_OR_PASSWORD_IS_INCORRECT' : 'SERVER_ERROR'} />
+            <Translate id={ action.payload.status === 401 ? 'EMAIL_OR_PASSWORD_IS_INCORRECT' : 'SERVER_ERROR'} />
           </Fragment>
         </Providers>
       });
