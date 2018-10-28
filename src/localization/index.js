@@ -690,7 +690,7 @@ export default {
   ],
   ENTER_DATA_OF_YOU_ACCOUNT: [
     'Enter data of you account',
-    'Введите ваши данные вашего аккаунта',
+    'Введите данные вашего аккаунта',
   ],
   CREATE_NEW_ACCOUNT_TO_START_PLAY_AND_EARN_MONEY: [
     'Create new account to start play and earn money',
@@ -700,4 +700,12 @@ export default {
     'About the game',
     'Об игре',
   ],
+  GET_BOUS: [
+    'Get bonus',
+    'Получить бонус'
+  ],
+  HOME_GET_BOUS_TEXT: [
+    'Register now and get a bonus of 50 coins, which allows you to immediately earn money without investing',
+    'Регистрируйся сейчас и получи бонус в размере 50 монет, что позволит сразу зарабатывать деньги без вложений'
+  ]
 };

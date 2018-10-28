@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
-import { Row, Col } from 'antd';
+import { Link } from 'react-router-dom'
+import { Row, Col, Button } from 'antd';
 import Particles from 'react-particles-js';
 import { compose, pure } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
@@ -70,7 +71,7 @@ const Home = ({ classes, translate }) => {
         <h2>{translate('MANAGE_LUCK_AND_EARN_MONEY')}!</h2>
         <Row gutter={40}>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-            <h2>{translate('WHAT_IS_THIS')}:</h2>
+            <h3>{translate('WHAT_IS_THIS')}:</h3>
             <div className={classes.advantagesList}>
               <div className={classes.advantagesItem}>
                 <i className={classNames('fas fa-question', classes.advantageIcon)}></i>
@@ -92,7 +93,7 @@ const Home = ({ classes, translate }) => {
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <Fragment>
-                <h2>{translate('WHY_IT_WORTH_TO_START')}:</h2>
+                <h3>{translate('WHY_IT_WORTH_TO_START')}:</h3>
                 <div className={classes.advantagesList}>
                   {
                     ADVANTAGES.map(o => (
@@ -133,7 +134,16 @@ const Home = ({ classes, translate }) => {
         <h2>{translate('LAST_WITHDRAWS')}. {translate('WAIT_YOU_IN_THIS_LIST')}!</h2>
         <WithdrawsCommon filter={{ status: 'done' }} withFakes={true} />
       </div>
-      <StartToPlay />
+      <div className={classNames(classes.block, classes.getBonusBlock)}>
+        <h3 className={classes.getBonusText}>{translate('HOME_GET_BOUS_TEXT')}!</h3>
+        <Button
+          type="primary"
+          className={classNames(classes.getBonusBtn)}
+          size="large"
+        >
+          <Link to="/login">{translate('GET_BOUS')}!</Link>
+        </Button>
+      </div>
     </div>
   )
 };
@@ -160,6 +170,7 @@ const styles = {
     padding: '40px 20px',
     '& > h2': {
       marginBottom: 40,
+      fontFamily: 'Lobster',
     }
   },
   video: {
@@ -242,6 +253,15 @@ const styles = {
       padding: '16px 40px',
     },
   },
+  getBonusBlock: {
+    textAlign: 'center',
+    padding: '40px 20px',
+  },
+  getBonusBtn: {
+    marginTop: 20,
+  },
+  getBonusText: {
+  }
 };
 
 export default compose(

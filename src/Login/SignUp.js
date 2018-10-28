@@ -24,7 +24,7 @@ class SignUp extends Component {
     } = this.props;
     return (
       <Fragment>
-        <PageDescription>{translate('CREATE_NEW_ACCOUNT_TO_START_PLAY_AND_EARN_MONEY')}!</PageDescription>
+        <PageDescription>{translate('HOME_GET_BOUS_TEXT')}!</PageDescription>
         <FormContainer>
           <Form>
             <FormItem>

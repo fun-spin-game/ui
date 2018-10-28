@@ -13,6 +13,10 @@ const PageDescription = ({
 const styles = {
   pageDescription: {
     'text-align': 'center',
+    fontSize: 17,
+    '@media(max-width: 666px)': {
+      fontSize: 15,
+    }
   },
 };
 

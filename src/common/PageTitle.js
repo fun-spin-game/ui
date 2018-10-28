@@ -12,10 +12,12 @@ const Title = ({
 
 const styles = {
   title: {
+    fontFamily: 'lobster',
     'text-align': 'center',
     marginBottom: 30,
+    fontSize: 35,
     '@media(max-width: 666px)': {
-      fontSize: '20px',
+      fontSize: 28,
     }
   },
 };
