@@ -7,6 +7,8 @@ const reducer = (
   { type, payload },
 ) => {
   switch (type) {
+    case 'GET_STATISTIC_REQUEST':
+      return initialState;
     case 'GET_STATISTIC_SUCCESS':
       return { ...state, top: payload };
     default:

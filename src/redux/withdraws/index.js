@@ -7,6 +7,8 @@ const reducer = (
   { type, payload },
 ) => {
   switch (type) {
+    case 'GET_WITHDRAWS_REQUEST':
+      return initialState;
     case 'GET_WITHDRAWS_SUCCESS':
       return { ...state, history: payload };
     case 'CREATE_WITHDRAW_SUCCESS':
