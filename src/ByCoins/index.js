@@ -194,13 +194,6 @@ export default compose(
     ({ gameConfig: { MIN_AMOUNT_OF_PURCHASE } }) => MIN_AMOUNT_OF_PURCHASE),
   withProps(({ amount, userInfo, gameConfig: { COINS_RATE } }) => {
     const purchaseId = `${userInfo.id}_${_.random(100000)}`;
-    console.log(1, `87104:${amount}:${process.env.REACT_APP_FREE_KASSA_SECRET}:${purchaseId}`);
-    console.log(2, `http://www.free-kassa.ru/merchant/cash.php?
-      m=87104&
-      oa=${amount * COINS_RATE }&
-      o=${purchaseId}&
-      us_userId=${userInfo.id}&
-      s=${cryptoJs.MD5(`87104:${amount}:${process.env.REACT_APP_FREE_KASSA_SECRET}:${purchaseId}`).toString()}`);
     return {
       purchaseUrl: `http://www.free-kassa.ru/merchant/cash.php?
       m=87104&
