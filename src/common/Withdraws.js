@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { isMobile } from 'react-device-detect';
 import { Avatar, Card, List, Table, Icon, } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
@@ -64,7 +65,7 @@ const Withdraws = ({ withdraws, classes, maxItems }) => {
       <Spinner spinnerKey="REST_API.GET_WITHDRAWS_REQUEST" overlay={true} transparentOverlay={true}>
         <Fragment>
           {
-            window.innerWidth > 750 ? (
+            !isMobile ? (
               <Table
                 dataSource={sortedWithdraws}
                 columns={COLUMNS}
@@ -73,6 +74,7 @@ const Withdraws = ({ withdraws, classes, maxItems }) => {
               />
             ) : (
               <List
+                className={classes.widthrawsList}
                 grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
                 dataSource={sortedWithdraws}
                 renderItem={({ createdAt, amount, user: { displayName, photo } }) => (
@@ -118,6 +120,9 @@ const styles = {
   },
   slogan: {
     textAlign: 'center',
+  },
+  widthrawsList: {
+    margin: '0 20px',
   }
 };
 
