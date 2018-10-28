@@ -41,7 +41,8 @@ const styles = {
   },
   formWrapper: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
   }
 };
 

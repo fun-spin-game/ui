@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Icon, Button, Form } from 'antd';
 import injectSheet from 'react-jss'
 import { compose, withHandlers, withProps, pure } from 'recompose'
 import FormContainer from './FormContainer'
+import PageDescription from '../common/PageDescription';
 import Social from './Social';
 import withUser from '../containers/withUser';
 import { Translate, withLocalize } from 'react-localize-redux';
@@ -22,59 +23,62 @@ class SignUp extends Component {
       translate
     } = this.props;
     return (
-      <FormContainer>
-        <Form>
-          <FormItem>
-            {getFieldDecorator('email', {
-              rules: [
-                { required: true, message: <Translate id={'PLEASE_ENTER_YOU_EMAIL'} /> },
-                { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
-              ],
-            })(
-              <Input prefix={<Icon type="mail" />} placeholder="Email" />
-            )}
-          </FormItem>
-          <FormItem>
-            {getFieldDecorator('nickname', {
-              rules: [
-                { required: true, message: <Translate id={'PLEASE_ENTER_YOU_NICKNAME'} />},
-              ],
-            })(
-              <Input prefix={<Icon type="user" />} placeholder={translate('NICKNAME')} />
-            )}
-          </FormItem>
-          <FormItem>
-            {getFieldDecorator('password', {
-            rules: [{ required: true, message: <Translate id={'PLEASE_ENTER_YOU_PASSWORD'} /> }],
-            })(
-              <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PASSWORD')} />
-            )}
-          </FormItem>
-          <FormItem>
-            {getFieldDecorator('repeatPassword', {
-              rules: [
-                {
-                  required: true, message: <Translate id={'PLEASE_REPEAT_PASSWORD'} />
-                },
-                {
-                  validator: compareToFirstPassword,
-                }
-              ],
-            })(
-              <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PLEASE_REPEAT_PASSWORD')} />
-            )}
-          </FormItem>
-          <Social/>
-          <Spinner spinnerKey="LOGIN">
-            <Button type="primary" onClick={handleSubmit}>
-              {<Translate id={'REGISTER'} />}
-            </Button>
-          </Spinner>
-          <div className={classes.linksBlock}>
-            {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'LOG_IN'} />}</a> {<Translate id={'WITH_EXISTED_USER'} />}
-          </div>
-        </Form>
-      </FormContainer>
+      <Fragment>
+        <PageDescription>{translate('CREATE_NEW_ACCOUNT_TO_START_PLAY_AND_EARN_MONEY')}!</PageDescription>
+        <FormContainer>
+          <Form>
+            <FormItem>
+              {getFieldDecorator('email', {
+                rules: [
+                  { required: true, message: <Translate id={'PLEASE_ENTER_YOU_EMAIL'} /> },
+                  { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
+                ],
+              })(
+                <Input prefix={<Icon type="mail" />} placeholder="Email" />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('nickname', {
+                rules: [
+                  { required: true, message: <Translate id={'PLEASE_ENTER_YOU_NICKNAME'} />},
+                ],
+              })(
+                <Input prefix={<Icon type="user" />} placeholder={translate('NICKNAME')} />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('password', {
+              rules: [{ required: true, message: <Translate id={'PLEASE_ENTER_YOU_PASSWORD'} /> }],
+              })(
+                <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PASSWORD')} />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('repeatPassword', {
+                rules: [
+                  {
+                    required: true, message: <Translate id={'PLEASE_REPEAT_PASSWORD'} />
+                  },
+                  {
+                    validator: compareToFirstPassword,
+                  }
+                ],
+              })(
+                <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PLEASE_REPEAT_PASSWORD')} />
+              )}
+            </FormItem>
+            <Social/>
+            <Spinner spinnerKey="LOGIN">
+              <Button type="primary" onClick={handleSubmit}>
+                {<Translate id={'REGISTER'} />}
+              </Button>
+            </Spinner>
+            <div className={classes.linksBlock}>
+              {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'LOG_IN'} />}</a> {<Translate id={'WITH_EXISTED_USER'} />}
+            </div>
+          </Form>
+        </FormContainer>
+      </Fragment>
     )
   }
 }

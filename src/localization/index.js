@@ -687,5 +687,17 @@ export default {
   ADMIN_STATISTIC: [
     'Admin statistic',
     'Админ статистика',
-  ]
+  ],
+  ENTER_DATA_OF_YOU_ACCOUNT: [
+    'Enter data of you account',
+    'Введите ваши данные вашего аккаунта',
+  ],
+  CREATE_NEW_ACCOUNT_TO_START_PLAY_AND_EARN_MONEY: [
+    'Create new account to start play and earn money',
+    'Создайте новый аккаунт для того, чтобы начать играть и зарабатывать деньги',
+  ],
+  ABOUT_THE_GAME: [
+    'About the game',
+    'Об игре',
+  ],
 };

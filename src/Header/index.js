@@ -12,7 +12,7 @@ import RightBlock from './RightBlock';
 export const TOP_MENU_ITEMS = [
   {
     route: '/home',
-    translateId: 'HOME',
+    translateId: 'ABOUT_THE_GAME',
     iconType: 'home',
   },
   {

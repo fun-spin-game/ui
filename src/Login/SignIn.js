@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Icon, Button, Form } from 'antd';
 import injectSheet from 'react-jss'
 import { compose, withHandlers, pure } from 'recompose'
 import FormContainer from './FormContainer'
+import PageDescription from '../common/PageDescription';
 import Social from './Social';
 import withUser from '../containers/withUser';
 import { Translate, withLocalize } from 'react-localize-redux';
@@ -19,36 +20,39 @@ const SignIn = ({
   form: { getFieldDecorator },
 }) => {
   return (
-    <FormContainer>
-      <Form>
-        <FormItem>
-          {getFieldDecorator('email', {
-            rules: [
-              { required: true, message: <Translate id={'PLEASE_ENTER_YOU_EMAIL'} />},
-              { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
-            ],
-          })(
-            <Input prefix={<Icon type="mail" />} placeholder="Email" />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: <Translate id={'PLEASE_ENTER_YOU_PASSWORD'} />}],
-          })(
-            <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PASSWORD')} />
-          )}
-        </FormItem>
-        <Social />
-        <Spinner spinnerKey="LOGIN">
-          <Button type="primary" onClick={handleSubmit}>
-            {<Translate id={'LOG_IN'} />}
-          </Button>
-        </Spinner>
-        <div className={classes.linksBlock}>
-          {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'REGISTER'} />}</a> {<Translate id={'NEW_USER'} />}
-        </div>
-      </Form>
-    </FormContainer>
+    <Fragment>
+      <PageDescription>{translate('ENTER_DATA_OF_YOU_ACCOUNT')}</PageDescription>
+      <FormContainer>
+        <Form>
+          <FormItem>
+            {getFieldDecorator('email', {
+              rules: [
+                { required: true, message: <Translate id={'PLEASE_ENTER_YOU_EMAIL'} />},
+                { type: 'email', message: <Translate id={'EMAIL_IS_NOT_VALID'} /> },
+              ],
+            })(
+              <Input prefix={<Icon type="mail" />} placeholder="Email" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: <Translate id={'PLEASE_ENTER_YOU_PASSWORD'} />}],
+            })(
+              <Input prefix={<Icon type="lock" />} type="password" placeholder={translate('PASSWORD')} />
+            )}
+          </FormItem>
+          <Social />
+          <Spinner spinnerKey="LOGIN">
+            <Button type="primary" onClick={handleSubmit}>
+              {<Translate id={'LOG_IN'} />}
+            </Button>
+          </Spinner>
+          <div className={classes.linksBlock}>
+            {<Translate id={'OR'} />} <a onClick={toggleSignInMode}>{<Translate id={'REGISTER'} />}</a> {<Translate id={'NEW_USER'} />}
+          </div>
+        </Form>
+      </FormContainer>
+    </Fragment>
   );
 }
 

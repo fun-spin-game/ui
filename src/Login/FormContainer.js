@@ -13,6 +13,7 @@ const FormContainer = ({ children , classes}) => {
 
 const styles = {
   form: {
+    marginTop: 20,
     'width': '250px',
     '& button': {
       width: '100%',
