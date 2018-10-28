@@ -132,18 +132,28 @@ export default compose(
   }),
   withProps(({
     amountOfAttempts,
-    userInfo: { balance, isDemoMode },
+    userInfo: { balance, isDemoMode, paid },
     activeGame: {
       risk,
+      prize,
       decryptedSchema,
       maxAttempts,
     },
-    gameConfig: { START_USER_BALANCE }
+    gameConfig: { START_USER_BALANCE, MAX_BALANCE_WITHOUT_PAID }
   }) => {
-    const serverResult = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
-    const result = isDemoMode && !serverResult && balance - risk <= START_USER_BALANCE / 2 ?
-      true :
-      serverResult;
+    const schemaResult = Boolean(parseInt(decryptedSchema[amountOfAttempts]));
+    let result;
+    if (isDemoMode && !schemaResult && balance - risk <= START_USER_BALANCE / 2) {
+      result = true;
+    } else if (
+      paid <= 0 &&
+      schemaResult &&
+      balance + prize > MAX_BALANCE_WITHOUT_PAID
+    ) {
+      result = false;
+    } else {
+      result = schemaResult;
+    }
     return {
       maxAttemptsReached: amountOfAttempts >= maxAttempts,
       lowBalance: balance < risk,
