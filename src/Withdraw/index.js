@@ -52,7 +52,7 @@ const Withdraw = ({
   gameConfig: { MIN_AMOUNT_OF_WITHDRAWING, COINS_RATE }
 }) => {
   const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
-  const maxValue = Math.floor(balance);
+  const maxValue = Math.floor(balance / 100) * 100;
   return (
     <div className={classes.withdrawing}>
       <PageTitle>{translate('WITHDRAWING')}</PageTitle>

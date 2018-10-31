@@ -166,7 +166,7 @@ const styles = {
         opacity: 1,
       },
     },
-    '&.disabled': {
+    '&.disabled > *': {
       opacity: .4
     },
     '&.ownGame': {
@@ -275,7 +275,7 @@ const styles = {
   },
   attemptsline: {
     width: '100%',
-  }
+  },
 };
 
 export default compose(
