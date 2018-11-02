@@ -127,7 +127,7 @@ export default compose(
   withMeta(),
   withTables(),
   withHandlers({
-    sortGames: ({ userInfo: { balance }}) => (games) => _.sortBy(games, [({ risk }) => balance <= risk, 'prize']),
+    sortGames: ({ userInfo: { balance }}) => (games) => _.sortBy(games, [({ risk, maxAttempts, won, lost }) => balance <= risk || won + lost >= maxAttempts, 'prize']),
   }),
   withProps(({ games, sortGames, match: { params: { tableId } } }) => {
     const filteredGames = games.filter(o => o.tableId === parseInt(tableId));

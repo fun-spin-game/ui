@@ -30,7 +30,8 @@ const GameItem = (props) => {
     risk,
     translate,
     play,
-    disabled,
+    lowBalance,
+    maxAttemptsReached,
     amountOfAttempts,
     amountOfAttemptsPercentage,
     ownGame,
@@ -51,7 +52,7 @@ const GameItem = (props) => {
             classes.gameItemContent,
             {
               inProgress: connectedUser,
-              disabled,
+              disabled: lowBalance || maxAttemptsReached,
               ownGame,
               preview,
               previewChanceToWin: preview === 'chanceToWin',
@@ -95,7 +96,7 @@ const GameItem = (props) => {
           <span className={classNames(classes.risk, 'risk')}>
             <Tooltip
               title={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}`}
-              disable={!disabled}
+              disable={!lowBalance}
             >
               {translate('YOU_RISK')}: {toFixedIfNeed(risk)} <Coins />
             </Tooltip>
@@ -111,7 +112,12 @@ const GameItem = (props) => {
           </div>
           <div className={classNames(classes.amountOfAttempts, 'amountOfAttempts')}>
              <Line className={classes.attemptsline} percent={amountOfAttemptsPercentage} strokeWidth="2" trailWidth="2" trailColor="#f5f5f5" strokeColor={blueColor} />
-             <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>{translate('ATTEMPTS_USED')}</small></span></div>
+             <Tooltip
+               title={`${translate('MAX_ATTEMPTS_REACHED')}`}
+               disable={!maxAttemptsReached}
+             >
+               <div>{amountOfAttempts}/{maxAttempts} <span className={`info`}><small>{translate('ATTEMPTS_USED')}</small></span></div>
+              </Tooltip>
              <div>{(connectedUser) && `${translate('IN_PROGRESS')}...`}</div>
           </div>
           {
@@ -219,22 +225,23 @@ const styles = {
     'z-index': 1,
     'white-space': 'nowrap'
   },
-  risk: ({ disabled }) => ({
+  risk: ({ lowBalance }) => ({
     position: 'absolute',
     left: 0,
     right: 0,
     top: 125,
     'font-size': 10,
-    color: disabled ? redColor : 'inherited',
+    color: lowBalance ? redColor : 'inherited',
   }),
-  amountOfAttempts: {
+  amountOfAttempts: ({ maxAttemptsReached }) => ({
     position: 'absolute',
     left: 0,
     right: 0,
     top: 140,
     'font-size': '14px',
     whiteSpace: 'nowrap',
-  },
+    color: maxAttemptsReached ? redColor : 'inherited',
+  }),
   playButtonContainer: {
     position: 'absolute',
     left: 0,
@@ -284,7 +291,8 @@ export default compose(
   withProps(({ creatorUser, balance, risk, won, lost, maxAttempts, userId }) => {
     const amountOfAttempts = won + lost;
     return {
-      disabled: balance < risk || amountOfAttempts >= maxAttempts,
+      lowBalance: balance < risk,
+      maxAttemptsReached: amountOfAttempts >= maxAttempts,
       amountOfAttempts,
       amountOfAttemptsPercentage: amountOfAttempts / maxAttempts * 100,
       ownGame: !!creatorUser && creatorUser.id === userId,
@@ -314,7 +322,8 @@ GameItem.propTypes = {
   preview: PropTypes.string,
   style: PropTypes.object,
   won: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  lowBalance: PropTypes.bool.isRequired,
+  maxAttemptsReached: PropTypes.bool.isRequired,
   lost: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   chanceToWin: PropTypes.number.isRequired,

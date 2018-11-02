@@ -707,5 +707,9 @@ export default {
   HOME_GET_BOUS_TEXT: [
     'Register now and get a bonus of 50 coins, which allows you to immediately earn money without investing',
     'Регистрируйся сейчас и получи бонус в размере 50 монет, что позволит сразу зарабатывать деньги без вложений'
-  ]
+  ],
+  MAX_ATTEMPTS_REACHED: [
+    'Max attempts reached',
+    'Все попытки использованы'
+  ],
 };
