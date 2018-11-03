@@ -22,7 +22,8 @@ export default combineEpics(
   ),
   (action$) => action$.pipe(
     ofType('GET_USER_INFO_SUCCESS'),
-    tap(() => {
+    tap(({ payload: { id: userId } }) => {
+      gtag('set', { 'user_id': userId }); // Задание идентификатора пользователя с помощью параметра user_id (текущий пользователь).
       ws.init();
     }),
     ignoreElements(),
