@@ -97,11 +97,11 @@ export default {
   ],
   CAN_NOT_COVER_THE_RISK: [
     'Can not cover the risk',
-    'Вы не можете покрыть риск'
+    'Вы не можете покрыть ставку'
   ],
   YOU_RISK: [
-    'You risk',
-    'Риск'
+    'You bid',
+    'Ставка'
   ],
   PLAY: [
     'Play',
@@ -228,10 +228,6 @@ export default {
   HOW_TO_PLAY_2_2: [
     'Prize that you can win',
     'Приз который разыгрывается'
-  ],
-  HOW_TO_PLAY_2_3: [
-    'Risk in case of you lose (high chance to win means high risk and vice versa)',
-    'Ваш риск, в случае вашего проигрыша (чем выше шанс на победу - тем больше риск и наоборот)'
   ],
   HOW_TO_PLAY_2_4: [
     'Available amount of attempts',
@@ -585,8 +581,8 @@ export default {
     'Приз. Это сумма, который вы получите в случае выигрыша'
   ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_4: [
-    'Your risk. This is the amount that  you will lose in case of loss. The higher the chance of winning - the greater your risk',
-    'Ваш риск. Это сумма, которую вы потеряете в случае проигрыша. Чем выше шанс на победу - тем больше ваш риск'
+    'Your bid. This is the amount that  you will lose in case of loss. The higher the chance of winning - the greater your risk',
+    'Ваша ставка. Это сумма, которую вы потеряете в случае проигрыша. Чем выше шанс на победу - тем больше ваша ставка'
   ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_5: [
     'The number of attempts used in this item. When this parameter reaches a maximum - the lot will become unavailable',
