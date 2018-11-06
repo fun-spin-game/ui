@@ -421,16 +421,16 @@ export default {
     'Почему стоит начать'
   ],
   WHY_IT_WORTH_TO_START_REASON_1: [
-    'Unlike other similar games, you can control your chance of winning!',
-    'В отличае от других, подобных игр, вы сами можете контролировать свой шанс на победу!',
+    'Unlike other similar games, you can control your chance of winning',
+    'В отличае от других, подобных игр, вы сами можете контролировать свой шанс на победу',
   ],
   WHY_IT_WORTH_TO_START_REASON_2: [
-    'If you have endurance and patience - you can have a good and stable profit!',
+    'If you have endurance and patience - you can have a good and stable profit',
     'Если вы обладаете выдержкой и терпением - вы можете иметь хороший и стабильный доход',
   ],
   WHY_IT_WORTH_TO_START_REASON_3: [
-    'No scum! In our interests to attract new players giving them a real opportunity to earn money, without scum. From our side, we take a small commission on each withdrawal.',
-    'Все честно! В наших интересах привлечь новых игроков, дав им реальную возможность зароботка, без обмана. В свою очередь мы берем небольшую комиссию в при каждом выводе средств.',
+    'No scum! In our interests to attract new players giving them a real opportunity to play without scum',
+    'Все честно! В наших интересах привлечь новых игроков, дав им реальную возможность играть без обмана',
   ],
   START_TO_PLAY: [
     'Start to play',
@@ -513,11 +513,11 @@ export default {
     'В демонстрационном режиме невозможно выводить деньги'
   ],
   HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_1: [
-    'To complete the demo mode, you need to replenish your account by minimum sum.',
+    'To complete the demo mode, you need to replenish your account by minimum sum',
     'Для завершения демонстрационного режима, вам необходимо пополнить свой счет на минимальную сумму',
   ],
   HOW_TO_PLAY_DEMO_MODE_STEP_2_ITEM_2: [
-    'To do this, go to the account replenishment page from the main menu and complete the account replenishment.',
+    'To do this, go to the account replenishment page from the main menu and complete the account replenishment',
     'Для этого перейдите на страницу пополнения счета из главного меню и совершите пополнение счета'
   ],
   HOW_TO_PLAY_DEMO_MODE_STEP_3_ITEM_1: [
@@ -665,8 +665,8 @@ export default {
     'Что это',
   ],
   ABOUT_THE_GAME_TEXT: [
-    'FunSpin this is the game like a roulette in which you can earn real money, and you can manage chance of your wining!',
-    'FunSpin это игра по типу рулетки, в который вы можете выигрывать реальные деньги, при этом вы сами управляете шансом вашей победы!',
+    'FunSpin this is the game like a roulette in which you can earn real money, and you can manage chance of your wining',
+    'FunSpin это игра по типу рулетки, в который вы можете выигрывать реальные деньги, при этом вы сами управляете шансом вашей победы',
   ],
   CHOSE_A_TABLE_THAT_MATCH_YOUR_BALANCE: [
     'Choose a table that match your balance',

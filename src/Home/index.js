@@ -75,7 +75,7 @@ const Home = ({ classes, translate }) => {
             <div className={classes.advantagesList}>
               <div className={classes.advantagesItem}>
                 <i className={classNames('fas fa-question', classes.advantageIcon)}></i>
-                <div className={classes.advantageText}>{translate('ABOUT_THE_GAME_TEXT')}</div>
+                <div className={classes.advantageText}>{translate('ABOUT_THE_GAME_TEXT')}!</div>
                 {
                   false && (
                     <div className={classes.video}>
@@ -99,7 +99,7 @@ const Home = ({ classes, translate }) => {
                     ADVANTAGES.map(o => (
                       <div key={o.textKey} className={classes.advantagesItem}>
                         <i className={classNames(o.iconClass, classes.advantageIcon)}></i>
-                        <div className={classes.advantageText}>{translate(o.textKey)}</div>
+                        <div className={classes.advantageText}>{translate(o.textKey)}!</div>
                       </div>
                     ))
                   }
@@ -119,7 +119,7 @@ const Home = ({ classes, translate }) => {
                 <div className={classes.achievementText}>
                   {o.value} <span className={classes.achievementUnit}>{translate(o.unitKey)}</span>
                 </div>
-                <div className={classes.achievementDescription}>{translate(o.textKey)}</div>
+                <div className={classes.achievementDescription}>{translate(o.textKey)}!</div>
               </div>
             ))
           }

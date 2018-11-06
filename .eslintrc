@@ -21,5 +21,7 @@
     "no-console": 0,
     "react/display-name": 0
   },
-  "globals": { "gtag": true },
+  "globals": {
+    "gtag": true
+  },
 }
