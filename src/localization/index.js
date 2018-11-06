@@ -96,8 +96,8 @@ export default {
     'Низкий баланс'
   ],
   CAN_NOT_COVER_THE_RISK: [
-    'Can not cover the risk',
-    'Вы не можете покрыть ставку'
+    'Low balance for bid',
+    'Низкий баланс для ставки'
   ],
   YOU_RISK: [
     'You bid',
@@ -581,7 +581,7 @@ export default {
     'Приз. Это сумма, который вы получите в случае выигрыша'
   ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_4: [
-    'Your bid. This is the amount that  you will lose in case of loss. The higher the chance of winning - the greater your risk',
+    'Your bid. This is the amount that  you will lose in case of loss. The higher the chance of winning - the greater your bid',
     'Ваша ставка. Это сумма, которую вы потеряете в случае проигрыша. Чем выше шанс на победу - тем больше ваша ставка'
   ],
   HOW_TO_PLAY_GAME_PROCESS_STEP_2_ITEM_5: [

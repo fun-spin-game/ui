@@ -134,7 +134,7 @@ const CreateGameForm = ({
                       <Alert
                         showIcon
                         className={classes.alert}
-                        message={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}. ${translate('REDUCE_PRIZE_OR_AMOUNT_OF_ATTEMPTS')}`}
+                        message={`${translate('CAN_NOT_COVER_THE_RISK')}. ${translate('REDUCE_PRIZE_OR_AMOUNT_OF_ATTEMPTS')}`}
                         type="error"
                       />
                     )

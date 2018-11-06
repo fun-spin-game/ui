@@ -95,7 +95,7 @@ const GameItem = (props) => {
           </span>
           <span className={classNames(classes.risk, 'risk')}>
             <Tooltip
-              title={`${translate('LOW_BALANCE')}. ${translate('CAN_NOT_COVER_THE_RISK')}`}
+              title={`${translate('CAN_NOT_COVER_THE_RISK')}`}
               disable={!lowBalance}
             >
               {translate('YOU_RISK')}: {toFixedIfNeed(risk)} <Coins />
