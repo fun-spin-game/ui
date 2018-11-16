@@ -71,7 +71,7 @@ const Home = ({ classes, translate }) => {
         <h2>{translate('MANAGE_LUCK_AND_EARN_MONEY')}!</h2>
         <Row gutter={40}>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-            <h3>{translate('WHAT_IS_THIS')}:</h3>
+            <h3>{translate('WHAT_IS_THIS')}?</h3>
             <div className={classes.advantagesList}>
               <div className={classes.advantagesItem}>
                 <i className={classNames('fas fa-question', classes.advantageIcon)}></i>
@@ -93,7 +93,7 @@ const Home = ({ classes, translate }) => {
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <Fragment>
-                <h3>{translate('WHY_IT_WORTH_TO_START')}:</h3>
+                <h3>{translate('WHY_IT_WORTH_TO_START')}?</h3>
                 <div className={classes.advantagesList}>
                   {
                     ADVANTAGES.map(o => (
@@ -110,7 +110,7 @@ const Home = ({ classes, translate }) => {
       </div>
       <StartToPlay />
       <div className={classNames(classes.block, classes.achievementsBlock)}>
-        <h2>{translate('OUR_ACHIEVEMENTS')}:</h2>
+        <h2>{translate('OUR_ACHIEVEMENTS')}</h2>
         <div className={classes.achievementsList}>
           {
             ACHIEVEMENTS.map(o => (
@@ -126,7 +126,7 @@ const Home = ({ classes, translate }) => {
         </div>
       </div>
       <div className={classNames(classes.block, classes.howToPlayBlock)}>
-        <h2>{translate('HOW_TO_PLAY')}:</h2>
+        <h2>{translate('HOW_TO_PLAY')}?</h2>
         <HowToPlayCommon />
       </div>
       <StartToPlay />
