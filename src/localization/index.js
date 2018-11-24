@@ -489,8 +489,8 @@ export default {
     'После заполнения всех полей, нажмите кнопку "Регистрация"',
   ],
   HOW_TO_PLAY_REGISTRATION_STEP_2_ITEM_2: [
-    'Registration will be completed and you will be redirected to the main page where you will see a notification about the activation of the demo mode',
-    'Регистрация будет завершена и вы будете перенаправлены на главную страницу, где увидите уведомление об активации демонстрационного режима'
+    'Registration will be completed and you will be redirected to the main page',
+    'Регистрация будет завершена и вы будете перенаправлены на главную страницу'
   ],
   HOW_TO_PLAY_DEMO_MODE_STEP_1_ITEM_1: [
     'After registration is completed, you will be redirected to the main page where you will see a notification about the activation of the demo mode',
@@ -661,8 +661,8 @@ export default {
     'Что это',
   ],
   ABOUT_THE_GAME_TEXT: [
-    'FunSpin this is the game like a roulette in which you can earn real money, and you can manage chance of your wining',
-    'FunSpin это игра по типу рулетки, в который вы можете выигрывать реальные деньги, при этом вы сами управляете шансом вашей победы',
+    'FunSpin is the money game in which you manage chance of your wining!',
+    'FunSpin - игра на деньги, в которой вы сами управляете шансом победы!',
   ],
   CHOSE_A_TABLE_THAT_MATCH_YOUR_BALANCE: [
     'Choose a table that match your balance',
