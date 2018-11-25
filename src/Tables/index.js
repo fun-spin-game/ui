@@ -41,13 +41,15 @@ const Tables = ({ classes, translate, tablesList }) => {
                 />
               </div>
               <div className={classNames(classes.openButtonContainer, 'playButtonContainer')}>
-                <Button
-                  type="primary"
-                  className={classNames(classes.openButton, 'openButton', 'ghostBtn')}
-                  onClick={() => {}}
-                >
-                  <Link to={`/tables/${table.id}/lots`}>{translate('GO')}!</Link>
-                </Button>
+                <Link to={`/tables/${table.id}/lots`}>
+                  <Button
+                    type="primary"
+                    className={classNames(classes.openButton, 'openButton', 'ghostBtn')}
+                    onClick={() => {}}
+                  >
+                    {translate('GO')}!
+                  </Button>
+                </Link>
               </div>
 
               <div className={classes.ratesContainer}>

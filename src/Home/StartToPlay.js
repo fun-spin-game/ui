@@ -10,13 +10,17 @@ import { Link } from 'react-router-dom'
 const StartToPlay = ({ classes, translate, ghostBtn }) => {
   return (
     <div className={classNames(classes.block, classes.startPlayBlock)}>
-      <Button
-        type="primary"
-        className={classNames(classes.startPlayBtn, { ghostBtn })}
-        size="large"
-      >
-        <Link to="/login">{translate('START_TO_PLAY')}!</Link>
-      </Button>
+
+        <Link to="/login">
+          <Button
+            type="primary"
+            className={classNames(classes.startPlayBtn, { ghostBtn })}
+            size="large"
+          >
+            {translate('START_TO_PLAY')}!
+          </Button>
+        </Link>
+
     </div>
   );
 };
