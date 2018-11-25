@@ -296,9 +296,9 @@ export default {
     'Minimal amount to withdraw is ${n} coins',
     'Минимальная сумма для вывода - ${n} монет',
   ],
-  TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS: [
-    'To be able to withdraw you should top up the balance for ${n} dollars',
-    'Что бы получить возможность выводить деньги, вам необходимо пополнить баланс на ${n} долларов',
+  TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_AT_LEAST_FOR_N_DOLLARS: [
+    'To be able to withdraw you should top up the balance at least for ${n} dollars',
+    'Что бы получить возможность выводить деньги, вам необходимо пополнить баланс как минимум на ${n} долларов',
   ],
   THIS_FIELD_IS_REQUIRED: [
     'This field is required',

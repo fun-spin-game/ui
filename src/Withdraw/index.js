@@ -41,7 +41,7 @@ const WITHDRAW_METHODS = [
 const Withdraw = ({
   translate,
   classes,
-  userInfo: { balance, id: userId },
+  userInfo: { balance, id: userId, paid },
   setAmount,
   amount,
   method,
@@ -49,16 +49,28 @@ const Withdraw = ({
   setRequisite,
   form: { getFieldDecorator },
   handleSubmit,
-  gameConfig: { MIN_AMOUNT_OF_WITHDRAWING, COINS_RATE }
+  gameConfig: { MIN_AMOUNT_OF_WITHDRAWING, COINS_RATE, REQUIRED_PAID_TO_WITHDRAW }
 }) => {
   const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
   const maxValue = Math.floor(balance / 100) * 100;
+  const paidNotEnough = paid < REQUIRED_PAID_TO_WITHDRAW;
   return (
     <div className={classes.withdrawing}>
       <PageTitle>{translate('WITHDRAWING')}</PageTitle>
       <Form id="withdrawing" className={classes.withdrawingForm}>
         {
-          lowBalance && (
+          paidNotEnough && (
+            <FormItem>
+              <Alert
+                showIcon
+                message={` ${translate('TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_AT_LEAST_FOR_N_DOLLARS', { n: REQUIRED_PAID_TO_WITHDRAW })}`}
+                type="warning"
+              />
+            </FormItem>
+          )
+        }
+        {
+          !paidNotEnough && lowBalance && (
             <FormItem>
               <Alert
                 showIcon
