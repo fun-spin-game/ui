@@ -102,33 +102,33 @@ const ByCoins = ({
           </a>
         </FormItem>
       </Form>
-        <h3>{translate('PURCHASES_HISTORY')}:</h3>
-        <Table
-          dataSource={sortedWithdraws}
-          columns={COLUMNS}
-          pagination={false}
-          rowKey={(o) => o.createdAt}
-          className={classes.table}
-          locale={{ emptyText: translate('EMPTY') }}
-        />
-        <List
-          locale={{ emptyText: translate('EMPTY') }}
-          className={classes.list}
-          grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
-          dataSource={sortedWithdraws}
-          renderItem={({ createdAt, amount, status }) => (
-            <List.Item>
-              <Card title={moment(createdAt).format(DATE_FORMAT)}>
-                <div className={classes.card}>
-                  <span className={classes.status}>{getStatusLabel(status)}</span>
-                  <div className={classes.amount}>
-                    <div>{amount / COINS_RATE} <Coins /></div>
-                  </div>
+      <h3>{translate('PURCHASES_HISTORY')}:</h3>
+      <Table
+        dataSource={sortedWithdraws}
+        columns={COLUMNS}
+        pagination={false}
+        rowKey={(o) => o.createdAt}
+        className={classes.table}
+        locale={{ emptyText: translate('EMPTY') }}
+      />
+      <List
+        locale={{ emptyText: translate('EMPTY') }}
+        className={classes.list}
+        grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 5, xxl: 5 }}
+        dataSource={sortedWithdraws}
+        renderItem={({ createdAt, amount, status }) => (
+          <List.Item>
+            <Card title={moment(createdAt).format(DATE_FORMAT)}>
+              <div className={classes.card}>
+                <span className={classes.status}>{getStatusLabel(status)}</span>
+                <div className={classes.amount}>
+                  <div>{amount / COINS_RATE} <Coins /></div>
                 </div>
-              </Card>
-            </List.Item>
-          )}
-        />
+              </div>
+            </Card>
+          </List.Item>
+        )}
+      />
     </div>
   )
 };

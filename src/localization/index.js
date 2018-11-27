@@ -290,7 +290,7 @@ export default {
   ],
   YOU_SHOULD_HAVE_AT_LEAST_N_COINS_TO_WITHDRAW: [
     'You should have at least ${n} dollars to withdraw',
-    'Вы должны иметь как минимум ${n} долларов для вывода средств',
+    'Вы должны иметь как минимум ${n}$ для вывода средств',
   ],
   MIN_AMOUNT_TO_WITHDRAW_IS_N_COINS: [
     'Minimal amount to withdraw is ${n} coins',
@@ -298,7 +298,7 @@ export default {
   ],
   TO_BE_ABLE_TO_WITHDRAW_YOU_SHOUD_TOP_UP_THE_BALANCE_AT_LEAST_FOR_N_DOLLARS: [
     'To be able to withdraw you should top up the balance at least for ${n} dollars',
-    'Что бы получить возможность выводить деньги, вам необходимо пополнить баланс как минимум на ${n} долларов',
+    'Что бы получить возможность выводить деньги, вам необходимо пополнить баланс как минимум на ${n}$',
   ],
   THIS_FIELD_IS_REQUIRED: [
     'This field is required',
@@ -330,11 +330,11 @@ export default {
   ],
   PURCHASES_HISTORY: [
     'Purchases history',
-    'История покупок'
+    'История пополнений'
   ],
   TOP_UP_THE_BALANCE: [
     'Top up the balance',
-    'Пополнение счета'
+    'Пополнить счет'
   ],
   OK: [
     'OK',
@@ -386,7 +386,7 @@ export default {
   ],
   TO_END_UP_DEMO_MODE_YOU_SHOULD_TOP_UP_THE_BALANCE_FOR_N_DOLLARS: [
     'To end up demo mode you should top up the balance at leask for ${n} dollars',
-    'Что бы завершить демонстрационный режим, необходимо пополнить баланс как минимум на ${n} долларов'
+    'Что бы завершить демонстрационный режим, необходимо пополнить баланс как минимум на ${n}$'
   ],
   WELCOME: [
     'Welcome',
@@ -701,8 +701,8 @@ export default {
     'Получить бонус'
   ],
   HOME_GET_BOUS_TEXT: [
-    'Register now and get a bonus of 50 coins, which allows you to immediately earn money without investing',
-    'Регистрируйся сейчас и получи бонус в размере 50 монет, что позволит сразу зарабатывать деньги без вложений'
+    'Register now and get a bonus of 50 coins, which allows you immediately start to play',
+    'Регистрируйся сейчас и получи бонус в размере 50 монет, что позволит сразу начать играть'
   ],
   MAX_ATTEMPTS_REACHED: [
     'Max attempts reached',

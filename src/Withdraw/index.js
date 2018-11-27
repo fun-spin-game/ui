@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -10,6 +10,7 @@ import {
 } from 'antd';
 import { compose, withState, withProps, pure } from 'recompose';
 import { withLocalize } from 'react-localize-redux';
+import { Link } from 'react-router-dom';
 import withWithdraws from '../containers/withWithdraws';
 import withUser from '../containers/withUser';
 import withGameConfig from '../containers/withGameConfig';
@@ -51,8 +52,8 @@ const Withdraw = ({
   handleSubmit,
   gameConfig: { MIN_AMOUNT_OF_WITHDRAWING, COINS_RATE, REQUIRED_PAID_TO_WITHDRAW }
 }) => {
-  const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
   const maxValue = Math.floor(balance / 100) * 100;
+  const lowBalance = balance < MIN_AMOUNT_OF_WITHDRAWING;
   const paidNotEnough = paid < REQUIRED_PAID_TO_WITHDRAW;
   return (
     <div className={classes.withdrawing}>
@@ -80,55 +81,74 @@ const Withdraw = ({
             </FormItem>
           )
         }
-        <FormItem>
-          <div>
-            {amount} <Coins /> / { amount * COINS_RATE } $
-          </div>
-          <div>
-            <Slider
-              step={100}
-              defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
-              min={MIN_AMOUNT_OF_WITHDRAWING}
-              max={maxValue}
-              tipFormatter={(value) => (<span>{value} <Coins /></span>)}
-              onChange={(val) => setAmount(val)}
-              value={amount}
-              disabled={lowBalance}
-            />
-          </div>
-        </FormItem>
-        <FormItem>
-          <Select value={method} onChange={(val) => setMethod(val)}>
-            {
-              WITHDRAW_METHODS.map(o => (
-                <Select.Option key={JSON.stringify(o)} value={o.value}>{o.label}</Select.Option>
-              ))
-            }
-          </Select>
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('requisite', {
-            rules: [{ required: true, message: <span>{translate('THIS_FIELD_IS_REQUIRED')}</span> }],
-          })(
-            <Input
-              placeholder={translate(WITHDRAW_METHODS.find(o => o.value === method).fieldPlaceholderTranslateId)}
-              onChange={(e) => setRequisite(e.target.value)}
-            />
-          )}
-        </FormItem>
-        <FormItem className={classes.btnBlock}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={handleSubmit}
-            disabled={lowBalance}
-          >
-            {translate('WITHDRAW')}
-          </Button>
-        </FormItem>
+        {
+          !paidNotEnough && !lowBalance && (
+            <Fragment>
+              <FormItem>
+                <div>
+                  {amount} <Coins /> / { amount * COINS_RATE } $
+                </div>
+                <div>
+                  <Slider
+                    step={100}
+                    defaultValue={MIN_AMOUNT_OF_WITHDRAWING}
+                    min={MIN_AMOUNT_OF_WITHDRAWING}
+                    max={maxValue}
+                    tipFormatter={(value) => (<span>{value} <Coins /></span>)}
+                    onChange={(val) => setAmount(val)}
+                    value={amount}
+                    disabled={lowBalance}
+                  />
+                </div>
+              </FormItem>
+              <FormItem>
+                <Select value={method} onChange={(val) => setMethod(val)}>
+                  {
+                    WITHDRAW_METHODS.map(o => (
+                      <Select.Option key={JSON.stringify(o)} value={o.value}>{o.label}</Select.Option>
+                    ))
+                  }
+                </Select>
+              </FormItem>
+              <FormItem>
+                {getFieldDecorator('requisite', {
+                  rules: [{ required: true, message: <span>{translate('THIS_FIELD_IS_REQUIRED')}</span> }],
+                })(
+                  <Input
+                    placeholder={translate(WITHDRAW_METHODS.find(o => o.value === method).fieldPlaceholderTranslateId)}
+                    onChange={(e) => setRequisite(e.target.value)}
+                  />
+                )}
+              </FormItem>
+              <FormItem className={classes.btnBlock}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={handleSubmit}
+                  disabled={lowBalance}
+                >
+                  {translate('WITHDRAW')}
+                </Button>
+              </FormItem>
+            </Fragment>
+          )
+        }
+        {
+          (paidNotEnough || lowBalance) && (
+            <div className={classes.topUpLink}>
+              <Link to="/by-coins">{translate('TOP_UP_THE_BALANCE')}</Link>
+            </div>
+          )
+        }
       </Form>
-        <h3>{translate('WITHDRAWN_HISTORY')}:</h3>
-        <WithdrawsCommon filter={{ userId }} />
+      {
+        !paidNotEnough && !lowBalance && (
+          <Fragment>
+            <h3>{translate('WITHDRAWN_HISTORY')}:</h3>
+            <WithdrawsCommon filter={{ userId }} />
+          </Fragment>
+        )
+      }
     </div>
   );
 };
@@ -177,10 +197,13 @@ const styles = {
   },
   rate: {
     float: 'right'
-  }
-  ,
+  },
   btnBlock: {
     textAlign: 'right'
+  },
+  topUpLink: {
+    textAlign: 'right',
+    marginBottom: 20,
   }
 };
 export default compose(
