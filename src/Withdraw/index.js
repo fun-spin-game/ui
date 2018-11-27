@@ -141,14 +141,8 @@ const Withdraw = ({
           )
         }
       </Form>
-      {
-        !paidNotEnough && !lowBalance && (
-          <Fragment>
-            <h3>{translate('WITHDRAWN_HISTORY')}:</h3>
-            <WithdrawsCommon filter={{ userId }} />
-          </Fragment>
-        )
-      }
+      <h3>{translate('WITHDRAWN_HISTORY')}:</h3>
+      <WithdrawsCommon filter={{ userId }} />
     </div>
   );
 };
