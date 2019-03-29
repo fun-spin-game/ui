@@ -707,5 +707,5 @@ export default {
   MAX_ATTEMPTS_REACHED: [
     'Max attempts reached',
     'Все попытки использованы'
-  ],
+  ]
 };
