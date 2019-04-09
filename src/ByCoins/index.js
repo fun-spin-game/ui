@@ -200,7 +200,7 @@ export default compose(
       `oa=${amount * COINS_RATE}&` +
       `o=${purchaseId}&` +
       `us_userId=${userInfo.id}&` +
-      `s=${cryptoJs.MD5(`87104:${amount * COINS_RATE}:${process.env.REACT_APP_FREE_KASSA_SECRET}:${purchaseId}`).toString()}`
+      `s=${cryptoJs.MD5(`87104:${amount * COINS_RATE}:${process.env.c8wct3kt}:${purchaseId}`).toString()}`
     }
   }),
   Form.create(),
